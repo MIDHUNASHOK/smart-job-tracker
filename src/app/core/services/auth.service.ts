@@ -35,6 +35,12 @@ export class AuthService {
       payload
     );
   }
+  register(payload:any):Observable<any>{
+return this.http.post(
+  `${this.apiUrl}/auth/register`,
+  payload
+)
+  }
 
   saveToken(token: string): void {
     localStorage.setItem('token', token);

@@ -25,7 +25,8 @@ MatInputModule,
 MatButtonModule,
 MatCheckboxModule,
 FormsModule,
-ReactiveFormsModule
+ReactiveFormsModule,
+MatFormFieldModule
   ]
 })
 export class AuthModule { }

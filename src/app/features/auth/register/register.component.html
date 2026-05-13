@@ -1,71 +1,139 @@
 <div class="register-container">
 
-    <div class="register-card">
-  
-      <div class="logo-section">
-  
-        <img
-          src="assets/logo/logo.png"
-          alt="Smart Job Tracker Logo"
-          class="app-logo"
-        />
-  
-        <h1>Create Account</h1>
-  
-        <p class="subtitle">
-          Start tracking your job applications professionally
-        </p>
-  
-      </div>
-  
-      <form>
-  
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Full Name</mat-label>
-          <input matInput type="text">
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Email Address</mat-label>
-          <input matInput type="email">
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Password</mat-label>
-          <input matInput type="password">
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Confirm Password</mat-label>
-          <input matInput type="password">
-        </mat-form-field>
-  
-        <button
-          mat-raised-button
-          color="primary"
-          class="register-btn"
-        >
-          Create Account
-        </button>
-  
-        <div class="divider">
-          OR
-        </div>
-  
-        <button
-          mat-stroked-button
-          class="google-btn"
-        >
-          Continue with Google
-        </button>
-  
-        <div class="login-link">
-          Already have an account?
-          <a routerLink="/login">Login</a>
-        </div>
-  
-      </form>
-  
+  <div class="register-card">
+
+    <div class="logo-section">
+
+      <img
+        src="assets/logo/logo.png"
+        alt="Smart Job Tracker Logo"
+        class="app-logo"
+      />
+
+      <h1>Create Account</h1>
+
+      <p class="subtitle">
+        Start tracking your job applications professionally
+      </p>
+
     </div>
-  
+
+    <form
+      [formGroup]="registerForm"
+      (ngSubmit)="onRegister()"
+    >
+
+      <!-- NAME -->
+
+      <mat-form-field
+        appearance="outline"
+        class="full-width"
+      >
+
+        <mat-label>Full Name</mat-label>
+
+        <input
+          matInput
+          type="text"
+          formControlName="fullName"
+        >
+
+      </mat-form-field>
+
+      <!-- EMAIL -->
+
+      <mat-form-field
+        appearance="outline"
+        class="full-width"
+      >
+
+        <mat-label>Email Address</mat-label>
+
+        <input
+          matInput
+          type="email"
+          formControlName="email"
+        >
+
+      </mat-form-field>
+
+      <!-- PASSWORD -->
+
+      <mat-form-field
+        appearance="outline"
+        class="full-width"
+      >
+
+        <mat-label>Password</mat-label>
+
+        <input
+          matInput
+          type="password"
+          formControlName="password"
+        >
+
+      </mat-form-field>
+
+      <!-- CONFIRM PASSWORD -->
+
+      <mat-form-field
+        appearance="outline"
+        class="full-width"
+      >
+
+        <mat-label>Confirm Password</mat-label>
+
+        <input
+          matInput
+          type="password"
+          formControlName="confirmPassword"
+        >
+
+      </mat-form-field>
+
+      <!-- REGISTER BUTTON -->
+
+      <button
+        mat-raised-button
+        color="primary"
+        class="register-btn"
+        type="submit"
+      >
+
+        {{ isLoading ? 'Loading...' : 'Create Account' }}
+
+      </button>
+
+      <!-- DIVIDER -->
+
+      <!-- <div class="divider">
+        OR
+      </div> -->
+
+      <!-- GOOGLE BUTTON -->
+
+      <!-- <button
+        mat-stroked-button
+        class="google-btn"
+        type="button"
+      >
+        Continue with Google
+      </button> -->
+
+      <!-- LOGIN LINK -->
+
+      <div class="login-link">
+
+        Already have an account?
+
+        <a routerLink="/login">
+          Login
+        </a>
+
+      </div>
+
+    </form>
+
   </div>
+
+</div>
