@@ -1,68 +1,304 @@
+<!-- HOME PAGE -->
+
 <section class="py-4">
 
+    <!-- =========================
+         STATS CARDS
+    ========================= -->
+
     <div class="stats-scroll-container">
-  
-      <!-- CARD -->
-  
-      <div
-        class="stats-card"
-        *ngFor="let card of statsCards"
-      >
-  
-        <div class="card-top">
-  
-          <!-- LEFT -->
-  
-          <div>
-  
-            <p class="card-title">
-              {{ card.title }}
-            </p>
-  
-            <h2>
-              {{ card.value }}
-            </h2>
-  
-            <!-- GROWTH -->
-  
-            <span
-              [ngClass]="card.type"
-            >
-  
-              {{
-                card.type === 'negative'
-                  ? '▼'
-                  : card.type === 'warning'
-                  ? '●'
-                  : '▲'
-              }}
-  
-              {{ card.growth }}
-              vs last month
-  
-            </span>
-  
-          </div>
-  
-          <!-- ICON -->
-  
-          <div
-            class="card-icon"
-            [ngClass]="card.color"
-          >
-  
-            <i
-              class="bi"
-              [ngClass]="'bi-' + card.icon"
-            >
-            </i>
-  
-          </div>
-  
+
+        <!-- CARD -->
+
+        <div class="stats-card" *ngFor="let card of statsCards">
+
+            <div class="card-top">
+
+                <!-- LEFT -->
+
+                <div>
+
+                    <p class="card-title">
+                        {{ card.title }}
+                    </p>
+
+                    <h2>
+                        {{ card.value }}
+                    </h2>
+
+                    <!-- GROWTH -->
+
+                    <span [ngClass]="card.type">
+
+                        {{
+                        card.type === 'negative'
+                        ? '▼'
+                        : card.type === 'warning'
+                        ? '●'
+                        : '▲'
+                        }}
+
+                        {{ card.growth }}
+                        vs last month
+
+                    </span>
+
+                </div>
+
+                <!-- ICON -->
+
+                <div class="card-icon" [ngClass]="card.color">
+
+                    <i class="bi" [ngClass]="'bi-' + card.icon">
+                    </i>
+
+                </div>
+
+            </div>
+
         </div>
-  
-      </div>
-  
+
     </div>
-  
-  </section>
+
+</section>
+
+
+<!-- =========================
+     CHART SECTION
+========================= -->
+
+<section class="py-2">
+
+    <div class="row g-4">
+
+        <!-- LINE CHART -->
+
+        <div class="col-lg-6">
+
+            <div class="chart-card">
+
+                <!-- HEADER -->
+
+                <div class="chart-header">
+
+                    <h5>
+                        Applications Over Time
+                    </h5>
+
+                    <select class="form-select custom-select">
+
+                        <option>
+                            Last 30 days
+                        </option>
+
+                        <option>
+                            Last 6 Months
+                        </option>
+
+                        <option>
+                            Last Year
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <!-- CHART -->
+
+                <div class="chart-container">
+
+                    <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'">
+                    </canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+
+        <!-- APPLICATION STATUS -->
+
+        <div class="col-lg-6">
+
+            <div class="chart-card status-card">
+
+                <!-- HEADER -->
+
+                <div class="chart-header">
+
+                    <h5>
+                        Application Status
+                    </h5>
+
+                    <select class="form-select custom-select">
+
+                        <option>
+                            Last 30 days
+                        </option>
+
+                        <option>
+                            Last 6 Months
+                        </option>
+
+                        <option>
+                            Last Year
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+
+
+                <!-- BODY -->
+
+                <div class="row align-items-center">
+
+                    <!-- PIE CHART -->
+
+                    <div class="col-lg-6 col-md-6">
+
+                        <div class="pie-chart-container">
+
+                            <canvas baseChart [data]="pieChartData" [options]="pieChartOptions" [type]="'doughnut'">
+                            </canvas>
+
+                        </div>
+
+                    </div>
+
+
+
+
+
+                    <!-- STATUS LIST -->
+
+                    <div class="col-lg-6 col-md-6">
+
+                        <div class="status-list">
+
+                            <!-- APPLIED -->
+
+                            <div class="status-item">
+
+                                <div class="status-left">
+
+                                    <span class="dot blue-dot"></span>
+
+                                    Applied
+
+                                </div>
+
+                                <strong>
+                                    128 (51%)
+                                </strong>
+
+                            </div>
+
+
+
+
+
+                            <!-- INTERVIEWS -->
+
+                            <div class="status-item">
+
+                                <div class="status-left">
+
+                                    <span class="dot purple-dot"></span>
+
+                                    Interviews
+
+                                </div>
+
+                                <strong>
+                                    32 (13%)
+                                </strong>
+
+                            </div>
+
+
+
+
+
+                            <!-- OFFERS -->
+
+                            <div class="status-item">
+
+                                <div class="status-left">
+
+                                    <span class="dot green-dot"></span>
+
+                                    Offers
+
+                                </div>
+
+                                <strong>
+                                    6 (2%)
+                                </strong>
+
+                            </div>
+
+
+
+
+
+                            <!-- REJECTED -->
+
+                            <div class="status-item">
+
+                                <div class="status-left">
+
+                                    <span class="dot red-dot"></span>
+
+                                    Rejected
+
+                                </div>
+
+                                <strong>
+                                    90 (34%)
+                                </strong>
+
+                            </div>
+
+
+
+
+
+                            <!-- PENDING -->
+
+                            <div class="status-item">
+
+                                <div class="status-left">
+
+                                    <span class="dot yellow-dot"></span>
+
+                                    Pending
+
+                                </div>
+
+                                <strong>
+                                    60 (20%)
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

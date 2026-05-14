@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import {
+  ChartConfiguration,
+  ChartOptions
+} from 'chart.js';
 
 @Component({
   selector: 'app-home',
@@ -55,4 +59,208 @@ export class HomeComponent {
     }
   
   ];
+
+
+   /* =========================
+     CHART DATA
+  ========================= */
+
+  public lineChartData: ChartConfiguration<'line'>['data'] = {
+
+    labels: [
+
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul'
+
+    ],
+
+    datasets: [
+
+      {
+
+        label: 'Applications',
+
+        data: [
+
+          12,
+          19,
+          14,
+          28,
+          24,
+          36,
+          42
+
+        ],
+
+        borderColor: '#2563eb',
+
+        backgroundColor:
+          'rgba(37, 99, 235, 0.15)',
+
+        fill: true,
+
+        tension: 0.4,
+
+        pointRadius: 5,
+
+        pointHoverRadius: 7,
+
+        pointBackgroundColor: '#2563eb',
+
+        pointBorderColor: '#ffffff',
+
+        pointHoverBackgroundColor: '#ffffff',
+
+        pointHoverBorderColor: '#2563eb'
+
+      }
+
+    ]
+
+  };
+
+
+
+  /* =========================
+     CHART OPTIONS
+  ========================= */
+
+  public lineChartOptions: ChartOptions<'line'> = {
+
+    responsive: true,
+
+    maintainAspectRatio: false,
+
+    plugins: {
+
+      legend: {
+
+        display: false
+
+      }
+
+    },
+
+    scales: {
+
+      x: {
+
+        grid: {
+
+          display: false
+
+        },
+
+        ticks: {
+
+          color: '#64748b'
+
+        }
+
+      },
+
+      y: {
+
+        beginAtZero: true,
+
+        grid: {
+
+          color: '#f1f5f9'
+
+        },
+
+        ticks: {
+
+          color: '#64748b'
+
+        }
+
+      }
+
+    }
+
+  };
+
+
+  /* =========================
+   PIE CHART OPTIONS
+========================= */
+
+public pieChartOptions: ChartOptions<'doughnut'> = {
+
+  responsive: true,
+
+  maintainAspectRatio: false,
+
+  cutout: '72%',
+
+  plugins: {
+
+    legend: {
+
+      display: false
+
+    }
+
+  }
+
+};
+
+
+  /* =========================
+   PIE CHART DATA
+========================= */
+
+public pieChartData: ChartConfiguration<'doughnut'>['data'] = {
+
+  labels: [
+
+    'Applied',
+    'Interviews',
+    'Offers',
+    'Rejected',
+    'Pending'
+
+  ],
+
+  datasets: [
+
+    {
+
+      data: [
+
+        128,
+        32,
+        6,
+        90,
+        60
+
+      ],
+
+      backgroundColor: [
+
+        '#2563eb',
+        '#7c3aed',
+        '#16a34a',
+        '#dc2626',
+        '#f59e0b'
+
+      ],
+
+      borderWidth: 0,
+
+      hoverOffset: 8
+
+    }
+
+  ]
+
+};
+
+
 }

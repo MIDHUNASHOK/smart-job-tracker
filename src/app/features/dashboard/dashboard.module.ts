@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { HomeComponent } from './home/home.component';
+import { NgChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { HomeComponent } from './home/home.component';
   ],
   imports: [
     CommonModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    NgChartsModule
   ]
 })
 export class DashboardModule { }
