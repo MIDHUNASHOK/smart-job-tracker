@@ -41,34 +41,29 @@
 .logo {
 
   display: flex;
+
   align-items: center;
 
-  gap: 12px;
+  justify-content: center;
 
-  padding: 12px;
+  padding: 16px 10px;
 
-  font-size: 24px;
-  font-weight: 700;
-
-  margin-bottom: 40px;
-
-  white-space: nowrap;
+  height: 80px;
 
 }
 
-.logo i {
+.logo-img {
+  filter:
+  brightness(1.1)
+  contrast(1.1);
 
-  min-width: 24px;
+  width: 180px;
 
-  font-size: 24px;
+  height: auto;
 
-}
+  object-fit: contain;
 
-/* HIDE TEXT */
-
-.sidebar.collapsed .logo span {
-
-  display: none;
+  display: block;
 
 }
 

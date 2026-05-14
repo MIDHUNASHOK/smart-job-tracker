@@ -6,15 +6,31 @@
 
   <!-- LOGO -->
 
-  <div class="logo">
+<div class="logo">
 
-    <i class="bi bi-briefcase-fill"></i>
+  <!-- ICON -->
 
-    <span *ngIf="!collapsed">
-      Smart Job Tracker
-    </span>
+  <!-- <i
+    *ngIf="collapsed"
+    class="bi bi-briefcase-fill"
+  ></i> -->
 
-  </div>
+  <!-- IMAGE LOGO -->
+  <img
+  *ngIf="collapsed"
+  src="assets/global_Icon/jobPilot_Icon.png"
+  alt="JobPilot Logo"
+  class="logo-img"
+  >
+
+  <img
+    *ngIf="!collapsed"
+    src="assets/global logo/job_pilot_logo.png"
+    alt="JobPilot Logo"
+    class="logo-img"
+  >
+
+</div>
 
   <!-- MENU -->
 
