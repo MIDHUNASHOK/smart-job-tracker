@@ -1,18 +1,43 @@
+<div class="layout-wrapper">
 
-<div class="layout-container">
+  <!-- MOBILE OVERLAY -->
 
-    <app-sidebar></app-sidebar>
-  
-    <div class="main-content">
-  
-      <app-navbar></app-navbar>
-  
-      <div class="page-content">
-        <router-outlet></router-outlet>
-      </div>
-  
+  <div
+    class="sidebar-overlay"
+    [class.show]="mobileSidebarOpen"
+    (click)="closeMobileSidebar()"
+  ></div>
+
+  <!-- SIDEBAR -->
+
+  <app-sidebar
+    [collapsed]="sidebarCollapsed"
+    [mobileOpen]="mobileSidebarOpen"
+  >
+  </app-sidebar>
+
+  <!-- MAIN -->
+
+  <div
+  class="main-content"
+  [class.sidebar-collapsed]="sidebarCollapsed"
+>
+
+    <!-- NAVBAR -->
+
+    <app-navbar
+      (toggleSidebar)="toggleSidebar()"
+    >
+    </app-navbar>
+
+    <!-- PAGE -->
+
+    <div class="page-content">
+
+      <router-outlet></router-outlet>
+
     </div>
-  
+
   </div>
 
-
+</div>

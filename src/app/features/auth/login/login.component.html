@@ -2,6 +2,8 @@
 
   <div class="login-card">
 
+    <!-- LOGO -->
+
     <div class="logo">
       Smart Job Tracker
     </div>
@@ -10,6 +12,8 @@
       Track your applications professionally
     </p>
 
+    <!-- FORM -->
+
     <form
       [formGroup]="loginForm"
       (ngSubmit)="onLogin()"
@@ -17,45 +21,58 @@
 
       <!-- EMAIL -->
 
-      <mat-form-field
-        appearance="outline"
-        class="full-width"
-      >
+      <div class="form-group">
 
-        <mat-label>Email Address</mat-label>
+        <label>
+          Email Address
+        </label>
 
         <input
-          matInput
           type="email"
+          class="form-control custom-input"
           formControlName="email"
+          placeholder="Enter your email"
         >
 
-      </mat-form-field>
+      </div>
 
       <!-- PASSWORD -->
 
-      <mat-form-field
-        appearance="outline"
-        class="full-width"
-      >
+      <div class="form-group">
 
-        <mat-label>Password</mat-label>
+        <label>
+          Password
+        </label>
 
         <input
-          matInput
           type="password"
+          class="form-control custom-input"
           formControlName="password"
+          placeholder="Enter your password"
         >
 
-      </mat-form-field>
+      </div>
 
       <!-- OPTIONS -->
 
       <div class="login-options">
 
-        <mat-checkbox>
-          Remember me
-        </mat-checkbox>
+        <div class="form-check">
+
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="rememberMe"
+          >
+
+          <label
+            class="form-check-label"
+            for="rememberMe"
+          >
+            Remember me
+          </label>
+
+        </div>
 
         <a href="#">
           Forgot Password?
@@ -63,13 +80,11 @@
 
       </div>
 
-      <!-- LOGIN BUTTON -->
+      <!-- BUTTON -->
 
       <button
-        mat-raised-button
-        color="primary"
-        class="login-btn"
         type="submit"
+        class="btn login-btn"
       >
 
         {{ isLoading ? 'Loading...' : 'Login' }}
@@ -77,21 +92,6 @@
       </button>
 
     </form>
-
-    <!-- DIVIDER -->
-
-    <!-- <div class="divider">
-      OR
-    </div> -->
-
-    <!-- GOOGLE BUTTON -->
-
-    <!-- <button
-      mat-stroked-button
-      class="google-btn"
-    >
-      Continue with Google
-    </button> -->
 
     <!-- REGISTER -->
 

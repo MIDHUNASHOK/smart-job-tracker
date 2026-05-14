@@ -2,6 +2,8 @@
 
   <div class="register-card">
 
+    <!-- LOGO SECTION -->
+
     <div class="logo-section">
 
       <img
@@ -10,7 +12,9 @@
         class="app-logo"
       />
 
-      <h1>Create Account</h1>
+      <h1>
+        Create Account
+      </h1>
 
       <p class="subtitle">
         Start tracking your job applications professionally
@@ -18,107 +22,95 @@
 
     </div>
 
+    <!-- FORM -->
+
     <form
       [formGroup]="registerForm"
       (ngSubmit)="onRegister()"
     >
 
-      <!-- NAME -->
+      <!-- FULL NAME -->
 
-      <mat-form-field
-        appearance="outline"
-        class="full-width"
-      >
+      <div class="form-group">
 
-        <mat-label>Full Name</mat-label>
+        <label>
+          Full Name
+        </label>
 
         <input
-          matInput
           type="text"
+          class="form-control custom-input"
           formControlName="fullName"
+          placeholder="Enter your full name"
         >
 
-      </mat-form-field>
+      </div>
 
       <!-- EMAIL -->
 
-      <mat-form-field
-        appearance="outline"
-        class="full-width"
-      >
+      <div class="form-group">
 
-        <mat-label>Email Address</mat-label>
+        <label>
+          Email Address
+        </label>
 
         <input
-          matInput
           type="email"
+          class="form-control custom-input"
           formControlName="email"
+          placeholder="Enter your email"
         >
 
-      </mat-form-field>
+      </div>
 
       <!-- PASSWORD -->
 
-      <mat-form-field
-        appearance="outline"
-        class="full-width"
-      >
+      <div class="form-group">
 
-        <mat-label>Password</mat-label>
+        <label>
+          Password
+        </label>
 
         <input
-          matInput
           type="password"
+          class="form-control custom-input"
           formControlName="password"
+          placeholder="Enter your password"
         >
 
-      </mat-form-field>
+      </div>
 
       <!-- CONFIRM PASSWORD -->
 
-      <mat-form-field
-        appearance="outline"
-        class="full-width"
-      >
+      <div class="form-group">
 
-        <mat-label>Confirm Password</mat-label>
+        <label>
+          Confirm Password
+        </label>
 
         <input
-          matInput
           type="password"
+          class="form-control custom-input"
           formControlName="confirmPassword"
+          placeholder="Confirm your password"
         >
 
-      </mat-form-field>
+      </div>
 
-      <!-- REGISTER BUTTON -->
+      <!-- BUTTON -->
 
       <button
-        mat-raised-button
-        color="primary"
-        class="register-btn"
         type="submit"
+        class="btn register-btn"
       >
 
-        {{ isLoading ? 'Loading...' : 'Create Account' }}
+        {{
+          isLoading
+            ? 'Loading...'
+            : 'Create Account'
+        }}
 
       </button>
-
-      <!-- DIVIDER -->
-
-      <!-- <div class="divider">
-        OR
-      </div> -->
-
-      <!-- GOOGLE BUTTON -->
-
-      <!-- <button
-        mat-stroked-button
-        class="google-btn"
-        type="button"
-      >
-        Continue with Google
-      </button> -->
 
       <!-- LOGIN LINK -->
 

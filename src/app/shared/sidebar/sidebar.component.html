@@ -1,27 +1,81 @@
-<div class="sidebar">
+<div
+  class="sidebar"
+  [class.collapsed]="collapsed"
+  [class.mobile-open]="mobileOpen"
+>
 
-    <div class="logo">
+  <!-- LOGO -->
+
+  <div class="logo">
+
+    <i class="bi bi-briefcase-fill"></i>
+
+    <span *ngIf="!collapsed">
       Smart Job Tracker
-    </div>
-  
-    <ul class="menu">
-  
-      <li routerLink="/dashboard">
-        Dashboard
-      </li>
-  
-      <li routerLink="/jobs">
-        Jobs
-      </li>
-  
-      <li routerLink="/analytics">
-        Analytics
-      </li>
-  
-      <li routerLink="/settings">
-        Settings
-      </li>
-  
-    </ul>
-  
+    </span>
+
   </div>
+
+  <!-- MENU -->
+
+  <ul class="menu">
+
+    <li>
+
+      <a routerLink="/dashboard">
+
+        <i class="bi bi-grid"></i>
+
+        <span *ngIf="!collapsed">
+          Dashboard
+        </span>
+
+      </a>
+
+    </li>
+
+    <li>
+
+      <a routerLink="/jobs">
+
+        <i class="bi bi-briefcase"></i>
+
+        <span *ngIf="!collapsed">
+          Jobs
+        </span>
+
+      </a>
+
+    </li>
+
+    <li>
+
+      <a routerLink="/analytics">
+
+        <i class="bi bi-bar-chart"></i>
+
+        <span *ngIf="!collapsed">
+          Analytics
+        </span>
+
+      </a>
+
+    </li>
+
+    <li>
+
+      <a routerLink="/settings">
+
+        <i class="bi bi-gear"></i>
+
+        <span *ngIf="!collapsed">
+          Settings
+        </span>
+
+      </a>
+
+    </li>
+
+  </ul>
+
+</div>

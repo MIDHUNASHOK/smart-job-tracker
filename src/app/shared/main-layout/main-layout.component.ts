@@ -6,5 +6,30 @@ import { Component } from '@angular/core';
   styleUrl: './main-layout.component.scss'
 })
 export class MainLayoutComponent {
+  sidebarCollapsed = false;
+
+  mobileSidebarOpen = false;
+
+  toggleSidebar(): void {
+
+    if (window.innerWidth <= 768) {
+
+      this.mobileSidebarOpen =
+        !this.mobileSidebarOpen;
+
+    } else {
+
+      this.sidebarCollapsed =
+        !this.sidebarCollapsed;
+
+    }
+
+  }
+
+  closeMobileSidebar(): void {
+
+    this.mobileSidebarOpen = false;
+
+  }
 
 }
