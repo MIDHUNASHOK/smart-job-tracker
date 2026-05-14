@@ -1,0 +1,216 @@
+/* SCROLL CONTAINER */
+
+.stats-scroll-container {
+    scroll-snap-type: x mandatory;
+    display: flex;
+  
+    gap: 20px;
+  
+    overflow-x: auto;
+    overflow-y: hidden;
+  
+    padding: 10px 0;
+  
+    scroll-behavior: smooth;
+  
+    scrollbar-width: none;
+  
+    -ms-overflow-style: none;
+  
+  }
+  
+  .stats-scroll-container::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* CARD */
+  
+  .stats-card {
+    scroll-snap-align: start;
+    min-width: 260px;
+    cursor: pointer;
+  
+    flex: 0 0 auto;
+  
+    background: #ffffff;
+  
+    border-radius: 20px;
+  
+    padding: 24px;
+  
+    border: 1px solid #e5e7eb;
+  
+    box-shadow:
+      0 4px 20px rgba(0,0,0,0.04);
+  
+    transition: all 0.3s ease;
+  
+  }
+  
+  .stats-card:hover {
+  
+    // transform: translateY(-4px);
+    transform: translateY(-6px) scale(1.02);
+  
+    box-shadow:
+      0 12px 30px rgba(0,0,0,0.08);
+  
+  }
+  
+  /* TOP */
+  
+  .card-top {
+  
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  
+  }
+  
+  /* TITLE */
+  
+  .card-title {
+  
+    font-size: 14px;
+  
+    color: #6b7280;
+  
+    margin-bottom: 12px;
+  
+  }
+  
+  /* VALUE */
+  
+  .stats-card h2 {
+  
+    font-size: 42px;
+    font-weight: 700;
+  
+    margin-bottom: 12px;
+  
+    color: #111827;
+  
+  }
+  
+  /* GROWTH */
+  
+  .positive {
+  
+    color: #16a34a;
+  
+    font-size: 14px;
+    font-weight: 500;
+  
+  }
+  
+  .negative {
+  
+    color: #dc2626;
+  
+    font-size: 14px;
+    font-weight: 500;
+  
+  }
+  .warning {
+
+    color: #ca8a04;
+  
+    font-size: 14px;
+    font-weight: 500;
+  
+  }
+  
+  /* ICON */
+  
+  .card-icon {
+  
+    width: 58px;
+    height: 58px;
+  
+    border-radius: 16px;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+  }
+  
+  .card-icon i {
+  
+    color: white;
+  
+    font-size: 24px;
+  
+  }
+  
+  
+  /* COLORS */
+  
+  .blue {
+  
+    background: linear-gradient(
+      135deg,
+      #2563eb,
+      #3b82f6
+    );
+  
+  }
+  
+  .purple {
+  
+    background: linear-gradient(
+      135deg,
+      #7c3aed,
+      #8b5cf6
+    );
+  
+  }
+  
+  .green {
+  
+    background: linear-gradient(
+      135deg,
+      #16a34a,
+      #22c55e
+    );
+  
+  }
+  
+  .red {
+  
+    background: linear-gradient(
+      135deg,
+      #dc2626,
+      #ef4444
+    );
+  
+  }
+  .yellow {
+
+    background: linear-gradient(
+      135deg,
+      #f59e0b,
+      #fbbf24
+    );
+  
+  }
+  
+  /* MOBILE */
+  
+  @media (max-width: 768px) {
+  
+    .stats-card {
+  
+      min-width: 220px;
+  
+      padding: 20px;
+  
+    }
+  
+    .stats-card h2 {
+  
+      font-size: 34px;
+  
+    }
+  
+  }

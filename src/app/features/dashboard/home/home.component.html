@@ -1,1 +1,68 @@
-<p>home works!</p>
+<section class="py-4">
+
+    <div class="stats-scroll-container">
+  
+      <!-- CARD -->
+  
+      <div
+        class="stats-card"
+        *ngFor="let card of statsCards"
+      >
+  
+        <div class="card-top">
+  
+          <!-- LEFT -->
+  
+          <div>
+  
+            <p class="card-title">
+              {{ card.title }}
+            </p>
+  
+            <h2>
+              {{ card.value }}
+            </h2>
+  
+            <!-- GROWTH -->
+  
+            <span
+              [ngClass]="card.type"
+            >
+  
+              {{
+                card.type === 'negative'
+                  ? '▼'
+                  : card.type === 'warning'
+                  ? '●'
+                  : '▲'
+              }}
+  
+              {{ card.growth }}
+              vs last month
+  
+            </span>
+  
+          </div>
+  
+          <!-- ICON -->
+  
+          <div
+            class="card-icon"
+            [ngClass]="card.color"
+          >
+  
+            <i
+              class="bi"
+              [ngClass]="'bi-' + card.icon"
+            >
+            </i>
+  
+          </div>
+  
+        </div>
+  
+      </div>
+  
+    </div>
+  
+  </section>
