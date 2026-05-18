@@ -20,6 +20,7 @@ import {
 
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { ToastService } from '../../../core/services/toast.service';
 
 // import { AuthService } from 'src/app/core/services/auth.service';
 
@@ -35,7 +36,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {}
 
   loginForm = this.fb.group({
@@ -75,7 +77,8 @@ export class LoginComponent {
           response.token
         );
 
-        alert('Login Successful');
+       
+        this.toastService.success('Job added successfully');
 
         this.router.navigate(['/dashboard']);
 
@@ -85,8 +88,7 @@ export class LoginComponent {
       error: (error) => {
 
         console.log(error);
-
-        alert(error.error.message);
+        this.toastService.error(error.error.message);
 
         this.isLoading = false;
       }

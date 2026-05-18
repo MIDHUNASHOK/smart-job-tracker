@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   ChartConfiguration,
   ChartOptions
 } from 'chart.js';
+import { AddJobComponent } from '../../jobs/add-job/add-job.component';
 
 @Component({
   selector: 'app-home',
@@ -10,6 +13,12 @@ import {
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
+
+  constructor(
+    private router:Router,
+    private modalService: NgbModal,
+  ){
+  }
 
   statsCards = [
 
@@ -262,5 +271,30 @@ public pieChartData: ChartConfiguration<'doughnut'>['data'] = {
 
 };
 
+
+
+openModal(type: string, data: any = null) {
+
+  const modalRef = this.modalService.open(AddJobComponent, {
+    centered: true,
+    size: 'lg',
+    backdrop: 'static'
+  });
+
+  // Passing data using Input
+  modalRef.componentInstance.modalType = type;
+
+  modalRef.componentInstance.modalData = data;
+
+  // Receiving data using Output
+  modalRef.componentInstance.saveJob.subscribe((jobData: any) => {
+
+    console.log('Received Job Data:', jobData);
+
+    // API call later here
+
+  });
+
+}
 
 }

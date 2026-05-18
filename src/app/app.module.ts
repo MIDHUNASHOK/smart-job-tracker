@@ -8,7 +8,9 @@ import { DashboardModule } from './features/dashboard/dashboard.module';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 @NgModule({
   declarations: [
     AppComponent
@@ -18,7 +20,23 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppRoutingModule,
     SharedModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule,
+    BrowserAnimationsModule,
+
+    BrowserAnimationsModule,
+
+    ToastrModule.forRoot({
+  
+      timeOut: 3000,
+  
+      positionClass: 'toast-top-right',
+  
+      preventDuplicates: true,
+  
+      progressBar: true
+  
+    })
     
   ],
   providers: [
