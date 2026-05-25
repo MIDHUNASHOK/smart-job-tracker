@@ -5,6 +5,7 @@ import { JobsRoutingModule } from './jobs-routing.module';
 import { JobListComponent } from './job-list/job-list.component';
 import { AddJobComponent } from './add-job/add-job.component';
 import { EditJobComponent } from './edit-job/edit-job.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { EditJobComponent } from './edit-job/edit-job.component';
   ],
   imports: [
     CommonModule,
-    JobsRoutingModule
+    JobsRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class JobsModule { }

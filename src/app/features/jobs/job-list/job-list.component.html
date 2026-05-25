@@ -101,108 +101,122 @@
           </thead>
   
           <tbody>
-  
-            <!-- Row -->
-            <tr>
-  
-              <td class="fw-semibold">Google</td>
-  
-              <td>Front End Developer</td>
-  
-              <td>
-                <span class="status-badge interview-badge">
-                  Interview
-                </span>
+
+            <!-- NO DATA -->
+          
+            <tr *ngIf="jobs.length === 0">
+          
+              <td colspan="5" class="text-center py-5 text-muted">
+          
+                No jobs found
+          
               </td>
-  
-              <td>May 12, 2024</td>
-  
-              <td>
-  
-                <div class="d-flex justify-content-center gap-3">
-  
-                  <button class="action-btn edit-btn">
-                    <i class="bi bi-pencil"></i>
-                  </button>
-  
-                  <button class="action-btn delete-btn">
-                    <i class="bi bi-trash"></i>
-                  </button>
-  
-                </div>
-  
-              </td>
-  
+          
             </tr>
-  
-            <!-- Row -->
-            <tr>
-  
-              <td class="fw-semibold">Microsoft</td>
-  
-              <td>Software Engineer</td>
-  
+          
+          
+          
+            <!-- DYNAMIC ROW -->
+          
+            <tr *ngFor="let job of jobs">
+          
+              <!-- COMPANY -->
+          
+              <td class="fw-semibold">
+          
+                {{ job.company_Name }}
+          
+              </td>
+          
+          
+          
+              <!-- ROLE -->
+          
               <td>
-                <span class="status-badge applied-badge">
-                  Applied
+          
+                {{ job.job_Title }}
+          
+              </td>
+          
+          
+          
+              <!-- STATUS -->
+          
+              <td>
+          
+                <span
+                  class="status-badge"
+          
+                  [ngClass]="{
+          
+                    'applied-badge':
+                      job.status === 'Applied',
+          
+                    'interview-badge':
+                      job.status === 'Interview Scheduled',
+          
+                    'rejected-badge':
+                      job.status === 'Rejected',
+          
+                    'offer-badge':
+                      job.status === 'Offer Received'
+          
+                  }"
+                >
+          
+                  {{ job.status }}
+          
                 </span>
+          
               </td>
-  
-              <td>May 10, 2024</td>
-  
+          
+          
+          
+              <!-- DATE -->
+          
               <td>
-  
+          
+                {{ job.applied_Date | date:'MMM dd, yyyy' }}
+          
+              </td>
+          
+          
+          
+              <!-- ACTIONS -->
+          
+              <td>
+          
                 <div class="d-flex justify-content-center gap-3">
-  
-                  <button class="action-btn edit-btn">
+          
+                  <!-- EDIT -->
+          
+                  <button
+                    class="action-btn edit-btn"
+                  >
+          
                     <i class="bi bi-pencil"></i>
+          
                   </button>
-  
-                  <button class="action-btn delete-btn">
+          
+          
+          
+                  <!-- DELETE -->
+          
+                  <button
+                    class="action-btn delete-btn"
+                  >
+          
                     <i class="bi bi-trash"></i>
+          
                   </button>
-  
+          
                 </div>
-  
+          
               </td>
-  
+          
             </tr>
-  
-            <!-- Row -->
-            <tr>
-  
-              <td class="fw-semibold">Amazon</td>
-  
-              <td>SDE Intern</td>
-  
-              <td>
-                <span class="status-badge rejected-badge">
-                  Rejected
-                </span>
-              </td>
-  
-              <td>May 08, 2024</td>
-  
-              <td>
-  
-                <div class="d-flex justify-content-center gap-3">
-  
-                  <button class="action-btn edit-btn">
-                    <i class="bi bi-pencil"></i>
-                  </button>
-  
-                  <button class="action-btn delete-btn">
-                    <i class="bi bi-trash"></i>
-                  </button>
-  
-                </div>
-  
-              </td>
-  
-            </tr>
-  
-          </tbody>
-  
+          
+          </tbody>  
         </table>
   
       </div>

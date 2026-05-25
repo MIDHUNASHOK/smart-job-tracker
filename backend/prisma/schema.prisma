@@ -22,3 +22,25 @@ model User {
   password  String
   createdAt DateTime @default(now())
 }
+model Job {
+
+  id            String   @id @default(cuid())
+
+  job_Title     String
+  company_Name  String
+  location      String
+
+  job_Type      String
+  work_mode     String
+
+  status        String
+
+  applied_Date  DateTime
+
+  job_Url       String?
+  notes         String?
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+}
