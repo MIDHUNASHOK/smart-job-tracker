@@ -50,7 +50,38 @@ const getAllJobs = async () => {
   
   };
 
+  const updateJob = async (id, payload) => {
+
+    const updatedJob = await prisma.job.update({
+  
+      where: {
+        id
+      },
+  
+      data: payload
+  
+    });
+  
+    return updatedJob;
+  
+  };
+  const deleteJob = async (id) => {
+
+    const deletedJob = await prisma.job.delete({
+  
+      where: {
+        id
+      }
+  
+    });
+  
+    return deletedJob;
+  
+  };
+
 module.exports = {
   createJob,
-  getAllJobs
+  getAllJobs,
+  updateJob,
+  deleteJob
 };

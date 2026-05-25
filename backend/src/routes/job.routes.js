@@ -13,4 +13,10 @@ router.post(
   jobController.createJob
 );
 
+// UPDATE
+router.put('/:id',jobController.updateJob);
+
+// DELETE
+router.delete('/:id', jobController.deleteJob);
+
 module.exports = router;

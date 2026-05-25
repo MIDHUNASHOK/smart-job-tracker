@@ -57,4 +57,5 @@ return this.http.post(
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
+  
 }

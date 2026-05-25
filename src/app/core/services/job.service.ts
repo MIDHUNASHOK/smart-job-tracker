@@ -40,4 +40,29 @@ export class JobService {
 
   }
 
+  updateJob(
+    id: string,
+    payload: any
+  ): Observable<any> {
+  
+    return this.http.put(
+  
+      `${this.apiUrl}/jobs/${id}`,
+  
+      payload
+  
+    );
+  
+  }
+
+  deleteJob(id: string) {
+
+    return this.http.delete(
+  
+      `${this.apiUrl}/jobs/${id}`
+  
+    );
+  
+  }
+
 }

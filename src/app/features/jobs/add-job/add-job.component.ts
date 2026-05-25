@@ -32,6 +32,42 @@ export class AddJobComponent {
     private jobService: JobService
   ) {}
 
+  ngOnInit(): void {
+
+    // EDIT MODE
+    if (
+      this.modalType === 'edit' &&
+      this.modalData
+    ) {
+  
+      this.addJobForm.patchValue({
+  
+        job_Title: this.modalData.job_Title,
+  
+        company_Name: this.modalData.company_Name,
+  
+        location: this.modalData.location,
+  
+        job_Type: this.modalData.job_Type,
+  
+        work_mode: this.modalData.work_mode,
+  
+        status: this.modalData.status,
+  
+        applied_Date:
+          this.modalData.applied_Date
+            ?.split('T')[0],
+  
+        job_Url: this.modalData.job_Url,
+  
+        notes: this.modalData.notes
+  
+      });
+  
+    }
+  
+  }
+
   addJobForm = this.fb.group({
     job_Title:[
       '',
@@ -71,56 +107,87 @@ export class AddJobComponent {
 
   //   if (this.addJobForm.invalid) {
   
+  //     this.addJobForm.markAllAsTouched();
+  
   //     this.toastService.warning(
   //       'Please fill all required fields'
   //     );
   
   //     return;
-  
   //   }
   
-  //   const jobData = this.addJobForm.value;
+  //   const payload = this.addJobForm.value;
   
-  //   // Send data to parent component
-  //   this.saveJob.emit(jobData);
+  //   this.jobService.createJob(payload)
+  //     .subscribe({
   
-  //   console.log('Job Submitted:', jobData);
+  //       next: (response) => {
   
-  //   this.toastService.success(
-  //     'Job added successfully'
-  //   );
+  //         console.log(response);
   
-  //   // Close modal
-  //   this.activeModal.close();
+  //         this.toastService.success(
+  //           'Job added successfully'
+  //         );
+  
+  //         this.saveJob.emit(response.data);
+  
+  //         this.activeModal.close();
+  
+  //       },
+  
+  //       error: (error) => {
+  
+  //         console.log(error);
+  
+  //         this.toastService.error(
+  //           'Failed to create job'
+  //         );
+  
+  //       }
+  
+  //     });
   
   // }
+
+
   submitJob() {
 
     if (this.addJobForm.invalid) {
-  
-      this.addJobForm.markAllAsTouched();
   
       this.toastService.warning(
         'Please fill all required fields'
       );
   
       return;
+  
     }
   
-    const payload = this.addJobForm.value;
+    // const payload = this.addJobForm.value;
+    const payload = {
+
+      ...this.addJobForm.value,
   
-    this.jobService.createJob(payload)
-      .subscribe({
+      applied_Date: new Date(
+        this.addJobForm.value.applied_Date!
+      ).toISOString()
+  
+    };
+  
+    // EDIT
+    if (this.modalType === 'edit') {
+      debugger
+      this.jobService.updateJob(
+        this.modalData.id,
+        payload
+      ).subscribe({
   
         next: (response) => {
   
-          console.log(response);
-  
           this.toastService.success(
-            'Job added successfully'
+            'Job updated successfully'
           );
   
-          this.saveJob.emit(response.data);
+          this.saveJob.emit(response);
   
           this.activeModal.close();
   
@@ -131,15 +198,48 @@ export class AddJobComponent {
           console.log(error);
   
           this.toastService.error(
-            'Failed to create job'
+            'Failed to update job'
           );
   
         }
   
       });
   
+    }
+  
+    // CREATE
+    else {
+  
+      this.jobService.createJob(payload)
+        .subscribe({
+  
+          next: (response) => {
+  
+            this.toastService.success(
+              'Job added successfully'
+            );
+  
+            this.saveJob.emit(response);
+  
+            this.activeModal.close();
+  
+          },
+  
+          error: (error) => {
+  
+            console.log(error);
+  
+            this.toastService.error(
+              'Failed to add job'
+            );
+  
+          }
+  
+        });
+  
+    }
+  
   }
-
 
   
 
