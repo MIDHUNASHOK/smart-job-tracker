@@ -29,9 +29,11 @@ import { ToastService } from '../../../core/services/toast.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
+
 export class LoginComponent {
 
   isLoading = false;
+ 
 
   constructor(
     private fb: FormBuilder,
@@ -70,8 +72,11 @@ export class LoginComponent {
     .subscribe({
 
       next: (response: any) => {
-
         console.log(response);
+        localStorage.setItem(
+          'userName',
+          response.user.fullName
+        );
 
         this.authService.saveToken(
           response.token

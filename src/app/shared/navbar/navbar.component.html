@@ -1,42 +1,160 @@
-<nav class="navbar-custom">
+<nav class="navbar navbar-expand bg-white border-bottom px-4 navbar-custom">
 
   <!-- LEFT -->
 
-  <div class="left-section">
+  <div class="d-flex align-items-center gap-3">
+
+    <!-- MENU BUTTON -->
 
     <button
-      class="menu-btn"
+      class="btn btn-light rounded-3 menu-btn"
       (click)="toggleSidebar.emit()"
     >
 
-      <i class="bi bi-list"></i>
+      <i class="bi bi-list fs-4"></i>
 
     </button>
 
-    <div class="search-box">
-
-      <i class="bi bi-search"></i>
-
-      <input
-        type="text"
-        placeholder="Search..."
-      >
-
-    </div>
-
   </div>
+
+
 
   <!-- RIGHT -->
 
-  <div class="profile">
+  <div class="d-flex align-items-center gap-3 ms-auto">
 
-    <div class="avatar">
-      MA
+    <!-- NOTIFICATION -->
+
+    <div class="dropdown">
+
+      <button
+        class="btn btn-light rounded-3 position-relative icon-btn"
+        type="button"
+        data-bs-toggle="dropdown"
+      >
+
+        <i class="bi bi-bell fs-5"></i>
+
+        <span
+          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+        >
+
+          3
+
+        </span>
+
+      </button>
+
+      <!-- DROPDOWN -->
+
+      <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-4 p-2">
+
+        <li>
+
+          <h6 class="dropdown-header">
+
+            Notifications
+
+          </h6>
+
+        </li>
+
+        <li>
+
+          <a class="dropdown-item rounded-3">
+
+            Interview scheduled
+
+          </a>
+
+        </li>
+
+      </ul>
+
     </div>
 
-    <span>
-      Midhun
-    </span>
+
+
+    <!-- PROFILE -->
+
+    <div class="dropdown">
+
+      <button
+        class="btn d-flex align-items-center gap-2 border-0 bg-transparent p-0"
+        type="button"
+        data-bs-toggle="dropdown"
+      >
+
+        <!-- AVATAR -->
+
+        <div class="avatar">
+
+          {{ userInitial }}
+
+        </div>
+
+
+        <span class="d-none d-md-inline fw-medium text-dark">
+
+          {{userName}}
+        
+        </span>
+
+        <i class="bi bi-chevron-down"></i>
+
+      </button>
+
+
+
+      <!-- DROPDOWN -->
+
+      <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-4 p-2">
+
+        <li>
+
+          <a class="dropdown-item rounded-3 d-flex align-items-center gap-2">
+
+            <i class="bi bi-person"></i>
+
+            Profile
+
+          </a>
+
+        </li>
+
+        <li>
+
+          <a class="dropdown-item rounded-3 d-flex align-items-center gap-2">
+
+            <i class="bi bi-gear"></i>
+
+            Settings
+
+          </a>
+
+        </li>
+
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+
+        <li>
+
+          <a
+            class="dropdown-item rounded-3 text-danger d-flex align-items-center gap-2"
+          >
+
+            <i class="bi bi-box-arrow-right"></i>
+
+            Logout
+
+          </a>
+
+        </li>
+
+      </ul>
+
+    </div>
 
   </div>
 
