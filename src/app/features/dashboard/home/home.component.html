@@ -419,13 +419,9 @@
         <h5 class="recent-title mb-1">
           Recent Applications
         </h5>
-        <!--   
-          <p class="recent-subtitle mb-0">
-            Latest job applications activity
-          </p> -->
       </div>
 
-      <button class="view-all-btn">
+      <button class="btn btn-success" (click)="goToJobs()">
         View All
       </button>
 
@@ -442,94 +438,59 @@
             <th>Company</th>
             <th>Role</th>
             <th>Status</th>
-            <th>Applied</th>
+            <th>Applied On</th>
+            <th>Job Url</th>
           </tr>
 
         </thead>
 
         <tbody>
 
-          <!-- Row -->
-          <tr>
-
-            <td class="fw-semibold">
-              Google
-            </td>
-
+          <tr *ngFor="let job of recentJobs">
+          
+            <td>{{ job.company_Name }}</td>
+          
+            <td>{{ job.job_Title }}</td>
+          <td>
+            <span
+            class="status-badge"
+    
+            [ngClass]="{
+    
+              'applied-badge':
+                job.status === 'Applied',
+    
+              'interview-badge':
+                job.status === 'Interview Scheduled',
+    
+              'rejected-badge':
+                job.status === 'Rejected',
+    
+              'offer-badge':
+                job.status === 'Offer Received'
+    
+            }"
+          >
+    
+            {{ job.status }}
+    
+          </span>
+          
             <td>
-              Front End Developer
+              {{ job.applied_Date | date:'MMM dd, yyyy' }}
             </td>
-
-            <td>
-
-              <span class="status-badge interview-badge">
-                Interview
-              </span>
-
-            </td>
-
-            <td>
-              May 12, 2024
-            </td>
-
+            <td>{{ job.job_Url }}</td>
+            
+          
           </tr>
-
-          <!-- Row -->
-          <tr>
-
-            <td class="fw-semibold">
-              Microsoft
-            </td>
-
-            <td>
-              Software Engineer
-            </td>
-
-            <td>
-
-              <span class="status-badge applied-badge">
-                Applied
-              </span>
-
-            </td>
-
-            <td>
-              May 10, 2024
-            </td>
-
-          </tr>
-
-          <!-- Row -->
-          <tr>
-
-            <td class="fw-semibold">
-              Amazon
-            </td>
-
-            <td>
-              SDE Intern
-            </td>
-
-            <td>
-
-              <span class="status-badge rejected-badge">
-                Rejected
-              </span>
-
-            </td>
-
-            <td>
-              May 08, 2024
-            </td>
-
-          </tr>
-
-        </tbody>
-
+        
+          </tbody>
       </table>
+
 
     </div>
 
   </div>
+
 
 </section>

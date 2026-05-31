@@ -40,6 +40,7 @@ export class HomeComponent {
   @ViewChild('lineChart')
 lineChart?: BaseChartDirective;
 
+recentJobs: any[] = [];
 
 
 
@@ -191,6 +192,14 @@ selectedDoughnutRange = '30days';
           const jobs = response.data;
   
           this.allJobs = jobs;
+
+          this.recentJobs = [...jobs]
+  .sort(
+    (a, b) =>
+      new Date(b.applied_Date).getTime() -
+      new Date(a.applied_Date).getTime()
+  )
+  .slice(0, 5);
   
           /* =========================
              OVERALL COUNTS
@@ -885,6 +894,14 @@ icon: 'briefcase'
   
     return Math.round(
       ((current - previous) / previous) * 100
+    );
+  
+  }
+
+  goToJobs() {
+
+    this.router.navigate(
+      ['/jobs/jobslist']
     );
   
   }

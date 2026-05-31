@@ -44,6 +44,7 @@
                 type="text"
                 class="form-control custom-input ps-5"
                 placeholder="Search jobs..."
+                [(ngModel)]="searchText"
               />
   
             </div>
@@ -118,7 +119,10 @@
           
             <!-- DYNAMIC ROW -->
           
-            <tr *ngFor="let job of jobs">
+            <tr *ngFor="let job of jobs | search:searchText:[
+            'company_Name',
+            'job_Title'
+            ]" >
           
               <!-- COMPANY -->
           
@@ -142,7 +146,7 @@
           
               <!-- STATUS -->
           
-              <td>
+              <td class="text-center">
           
                 <span
                   class="status-badge"

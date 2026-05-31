@@ -11,6 +11,7 @@ import { ConfirmModalComponent } from '../../../shared/modals/confirm-modal/conf
 export class JobListComponent {
 
   jobs: any[] = [];
+  searchText='';
 
   loading = false;
 
