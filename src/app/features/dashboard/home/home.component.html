@@ -48,7 +48,7 @@
           </h2>
 
           <!-- GROWTH -->
-<!-- 
+          <!-- 
           <span [ngClass]="card.type">
 
             {{
@@ -68,15 +68,15 @@
             <ng-container *ngIf="card.growth > 0">
               ▲ {{ card.growth }}% vs last month
             </ng-container>
-          
+
             <ng-container *ngIf="card.growth < 0">
               ▼ {{ card.growth * -1 }}% vs last month
             </ng-container>
-          
+
             <ng-container *ngIf="card.growth === 0">
               ● No change
             </ng-container>
-          
+
           </span>
 
         </div>
@@ -120,7 +120,7 @@
           <h5>
             Applications Over Time
           </h5>
-<!-- 
+          <!-- 
           <select class="form-select custom-select">
 
             <option>
@@ -136,42 +136,33 @@
             </option>
 
           </select> -->
-          <select
-          class="form-select custom-select"
-          [(ngModel)]="selectedLineRange "
-          (change)="onRangeChange('line')"
-        >
-        
-          <option value="30days">
-            Last 30 days
-          </option>
-        
-          <option value="6months">
-            Last 6 Months
-          </option>
-        
-          <option value="1year">
-            Last Year
-          </option>
-        
-        </select>
+          <select class="form-select custom-select" [(ngModel)]="selectedLineRange " (change)="onRangeChange('line')">
+
+            <option value="30days">
+              Last 30 days
+            </option>
+
+            <option value="6months">
+              Last 6 Months
+            </option>
+
+            <option value="1year">
+              Last Year
+            </option>
+
+          </select>
 
         </div>
 
         <!-- CHART -->
 
         <div class="chart-container">
-<!-- 
+          <!-- 
           <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'">
             
           </canvas> -->
-          <canvas
-  #lineChart
-  baseChart
-  [data]="lineChartData"
-  [options]="lineChartOptions"
-  [type]="'line'">
-</canvas>
+          <canvas #lineChart baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'">
+          </canvas>
 
         </div>
 
@@ -197,25 +188,22 @@
             Application Status
           </h5>
 
-          <select
-  class="form-select custom-select"
-  [(ngModel)]="selectedDoughnutRange "
-  (change)="onRangeChange('doughnut')"
->
+          <select class="form-select custom-select" [(ngModel)]="selectedDoughnutRange "
+            (change)="onRangeChange('doughnut')">
 
-  <option value="30days">
-    Last 30 days
-  </option>
+            <option value="30days">
+              Last 30 days
+            </option>
 
-  <option value="6months">
-    Last 6 Months
-  </option>
+            <option value="6months">
+              Last 6 Months
+            </option>
 
-  <option value="1year">
-    Last Year
-  </option>
+            <option value="1year">
+              Last Year
+            </option>
 
-</select>
+          </select>
 
         </div>
 
@@ -235,13 +223,8 @@
 
               <!-- <canvas baseChart [data]="pieChartData" [options]="pieChartOptions" [type]="'doughnut'">
               </canvas> -->
-              <canvas
-  #pieChart
-  baseChart
-  [data]="pieChartData"
-  [options]="pieChartOptions"
-  [type]="'doughnut'">
-</canvas>
+              <canvas #pieChart baseChart [data]="pieChartData" [options]="pieChartOptions" [type]="'doughnut'">
+              </canvas>
 
             </div>
 
@@ -270,7 +253,7 @@
                 </div>
 
                 <strong>
-                 
+
                   {{ appliedCount }}
 
                   ({{ getPercentage(appliedCount) }}%)
@@ -447,15 +430,12 @@
         <tbody>
 
           <tr *ngFor="let job of recentJobs">
-          
+
             <td>{{ job.company_Name }}</td>
-          
+
             <td>{{ job.job_Title }}</td>
-          <td>
-            <span
-            class="status-badge"
-    
-            [ngClass]="{
+            <td>
+              <span class="status-badge" [ngClass]="{
     
               'applied-badge':
                 job.status === 'Applied',
@@ -469,22 +449,21 @@
               'offer-badge':
                 job.status === 'Offer Received'
     
-            }"
-          >
-    
-            {{ job.status }}
-    
-          </span>
-          
+            }">
+
+                {{ job.status }}
+
+              </span>
+
             <td>
               {{ job.applied_Date | date:'MMM dd, yyyy' }}
             </td>
             <td>{{ job.job_Url }}</td>
-            
-          
+
+
           </tr>
-        
-          </tbody>
+
+        </tbody>
       </table>
 
 

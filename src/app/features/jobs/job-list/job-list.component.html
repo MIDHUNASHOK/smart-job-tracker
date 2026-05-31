@@ -1,157 +1,150 @@
-
-
-
 <div class="container py-1">
 
-    <!-- Top Header -->
-    <div class="d-flex justify-content-between align-items-center mb-0">
-  
-      <div>
-        <h2 class="fw-bold dashboard-title mb-1">
-          Job Applications
-        </h2>
-  
-        <p class="text-muted mb-0">
-          Track and manage your applications
-        </p>
-      </div>
-  
-      <!-- <button
+  <!-- Top Header -->
+  <div class="d-flex justify-content-between align-items-center mb-0">
+
+    <div>
+      <h2 class="fw-bold dashboard-title mb-1">
+        Job Applications
+      </h2>
+
+      <p class="text-muted mb-0">
+        Track and manage your applications
+      </p>
+    </div>
+
+    <!-- <button
         class="btn add-job-btn"
         data-bs-toggle="modal"
         data-bs-target="#addJobModal"
       >
         + Add Job
       </button> -->
-  
-    </div>
-  
-    <!-- Filters -->
-    <div class="card custom-card border-0 mb-4">
-  
-      <div class="card-body p-4">
-  
-        <div class="row g-3">
-  
-          <!-- Search -->
-          <div class="col-lg-4">
-  
-            <div class="search-box">
-  
-              <i class="bi bi-search search-icon"></i>
-  
-              <input
-                type="text"
-                class="form-control custom-input ps-5"
-                placeholder="Search jobs..."
-                [(ngModel)]="searchText"
-              />
-  
-            </div>
-  
-          </div>
-  
-          <!-- Status Filter -->
-          <div class="col-lg-4">
-  
-            <select class="form-select custom-input">
-              <option>All Status</option>
-              <option>Applied</option>
-              <option>Interview</option>
-              <option>Rejected</option>
-              <option>Offer Received</option>
-            </select>
-  
-          </div>
-  
-          <!-- Company Filter -->
-          <div class="col-lg-4">
-  
-            <select class="form-select custom-input">
-              <option>All Companies</option>
-              <option>Google</option>
-              <option>Amazon</option>
-              <option>Microsoft</option>
-            </select>
-  
-          </div>
-  
-        </div>
-  
-      </div>
-  
-    </div>
-  
-    <!-- Job Table -->
-    <div class="card custom-card border-0">
-  
-      <div class="table-responsive">
-  
-        <table class="table align-middle mb-0 custom-table">
-  
-          <thead>
-  
-            <tr>
-              <th>Company</th>
-              <th>Role</th>
-              <th>Status</th>
-              <th>Applied Date</th>
-              <th class="text-center">Action</th>
-            </tr>
-  
-          </thead>
-  
-          <tbody>
 
-            <!-- NO DATA -->
-          
-            <tr *ngIf="jobs.length === 0">
-          
-              <td colspan="5" class="text-center py-5 text-muted">
-          
-                No jobs found
-          
-              </td>
-          
-            </tr>
-          
-          
-          
-            <!-- DYNAMIC ROW -->
-          
-            <tr *ngFor="let job of jobs | search:searchText:[
+  </div>
+
+  <!-- Filters -->
+  <div class="card custom-card border-0 mb-4">
+
+    <div class="card-body p-4">
+
+      <div class="row g-3">
+
+        <!-- Search -->
+        <div class="col-lg-4">
+
+          <div class="search-box">
+
+            <i class="bi bi-search search-icon"></i>
+
+            <input type="text" class="form-control custom-input ps-5" placeholder="Search jobs..."
+              [(ngModel)]="searchText" (input)="applyFilters()" />
+
+          </div>
+
+        </div>
+
+        <!-- Status Filter -->
+        <div class="col-lg-4">
+          <select class="form-select custom-input" [(ngModel)]="selectedStatus" (change)="filterByStatus()">
+
+            <option value="">
+              All Status
+            </option>
+
+            <option value="Applied">
+              Applied
+            </option>
+
+            <option value="Interview Scheduled">
+              Interview
+            </option>
+
+            <option value="Rejected">
+              Rejected
+            </option>
+
+            <option value="Offer Received">
+              Offer Received
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Job Table -->
+  <div class="card custom-card border-0">
+
+    <div class="table-responsive">
+
+      <table class="table align-middle mb-0 custom-table">
+
+        <thead>
+
+          <tr>
+            <th>Company</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Applied Date</th>
+            <th class="text-center">Action</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <!-- NO DATA -->
+
+          <tr *ngIf="jobs.length === 0">
+
+            <td colspan="5" class="text-center py-5 text-muted">
+
+              No jobs found
+
+            </td>
+
+          </tr>
+
+
+
+          <!-- DYNAMIC ROW -->
+
+          <tr *ngFor="let job of paginatedJobs | search:searchText:[
             'company_Name',
             'job_Title'
-            ]" >
-          
-              <!-- COMPANY -->
-          
-              <td class="fw-semibold">
-          
-                {{ job.company_Name }}
-          
-              </td>
-          
-          
-          
-              <!-- ROLE -->
-          
-              <td>
-          
-                {{ job.job_Title }}
-          
-              </td>
-          
-          
-          
-              <!-- STATUS -->
-          
-              <td class="text-center">
-          
-                <span
-                  class="status-badge"
-          
-                  [ngClass]="{
+            ]">
+
+            <!-- COMPANY -->
+
+            <td class="fw-semibold">
+
+              {{ job.company_Name }}
+
+            </td>
+
+
+
+            <!-- ROLE -->
+
+            <td>
+
+              {{ job.job_Title }}
+
+            </td>
+
+
+
+            <!-- STATUS -->
+
+            <td>
+
+              <span class="status-badge" [ngClass]="{
           
                     'applied-badge':
                       job.status === 'Applied',
@@ -165,93 +158,82 @@
                     'offer-badge':
                       job.status === 'Offer Received'
           
-                  }"
-                >
-          
-                  {{ job.status }}
-          
-                </span>
-          
-              </td>
-          
-          
-          
-              <!-- DATE -->
-          
-              <td>
-          
-                {{ job.applied_Date | date:'MMM dd, yyyy' }}
-          
-              </td>
-          
-          
-          
-              <!-- ACTIONS -->
-          
-              <td>
-          
-                <div class="d-flex justify-content-center gap-3">
-          
-                  <!-- EDIT -->
-          
-                  <button
-                    class="action-btn edit-btn"
-                    (click)="openEditModal(job)"
-                  >
-          
-                    <i class="bi bi-pencil"></i>
-          
-                  </button>
-          
-          
-          
-                  <!-- DELETE -->
-          
-                  <button
-                    class="action-btn delete-btn"
-                    (click)="openDeleteModal(job)"
-                  >
-          
-                    <i class="bi bi-trash"></i>
-          
-                  </button>
-          
-                </div>
-          
-              </td>
-          
-            </tr>
-          
-          </tbody>  
-        </table>
-  
-      </div>
-  
-      <!-- Pagination -->
-      <div class="d-flex justify-content-center align-items-center p-4 gap-2">
-  
-        <button class="pagination-btn">
-          <i class="bi bi-chevron-left"></i>
-        </button>
-  
-        <button class="pagination-btn active-page">
-          1
-        </button>
-  
-        <button class="pagination-btn">
-          2
-        </button>
-  
-        <button class="pagination-btn">
-          3
-        </button>
-  
-        <button class="pagination-btn">
-          <i class="bi bi-chevron-right"></i>
-        </button>
-  
-      </div>
-  
+                  }">
+
+                {{ job.status }}
+
+              </span>
+
+            </td>
+
+
+
+            <!-- DATE -->
+
+            <td>
+
+              {{ job.applied_Date | date:'MMM dd, yyyy' }}
+
+            </td>
+
+
+
+            <!-- ACTIONS -->
+
+            <td>
+
+              <div class="d-flex justify-content-center gap-3">
+
+                <!-- EDIT -->
+
+                <button class="action-btn edit-btn" (click)="openEditModal(job)">
+
+                  <i class="bi bi-pencil"></i>
+
+                </button>
+
+
+
+                <!-- DELETE -->
+
+                <button class="action-btn delete-btn" (click)="openDeleteModal(job)">
+
+                  <i class="bi bi-trash"></i>
+
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
     </div>
-  
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center align-items-center p-4 gap-2">
+
+      <button class="pagination-btn" (click)="previousPage()">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+
+      <button *ngFor="let page of pages" class="pagination-btn" [class.active-page]="
+          page === currentPage
+        " (click)="changePage(page)">
+
+        {{ page }}
+
+      </button>
+
+      <button class="pagination-btn" (click)="nextPage()">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+
+    </div>
+
   </div>
+
+</div>
