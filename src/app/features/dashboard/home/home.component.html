@@ -48,7 +48,7 @@
           </h2>
 
           <!-- GROWTH -->
-
+<!-- 
           <span [ngClass]="card.type">
 
             {{
@@ -62,6 +62,21 @@
             {{ card.growth }}
             vs last month
 
+          </span> -->
+          <span [ngClass]="card.type">
+
+            <ng-container *ngIf="card.growth > 0">
+              ▲ {{ card.growth }}% vs last month
+            </ng-container>
+          
+            <ng-container *ngIf="card.growth < 0">
+              ▼ {{ card.growth * -1 }}% vs last month
+            </ng-container>
+          
+            <ng-container *ngIf="card.growth === 0">
+              ● No change
+            </ng-container>
+          
           </span>
 
         </div>
@@ -105,7 +120,7 @@
           <h5>
             Applications Over Time
           </h5>
-
+<!-- 
           <select class="form-select custom-select">
 
             <option>
@@ -120,16 +135,43 @@
               Last Year
             </option>
 
-          </select>
+          </select> -->
+          <select
+          class="form-select custom-select"
+          [(ngModel)]="selectedLineRange "
+          (change)="onRangeChange('line')"
+        >
+        
+          <option value="30days">
+            Last 30 days
+          </option>
+        
+          <option value="6months">
+            Last 6 Months
+          </option>
+        
+          <option value="1year">
+            Last Year
+          </option>
+        
+        </select>
 
         </div>
 
         <!-- CHART -->
 
         <div class="chart-container">
-
+<!-- 
           <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'">
-          </canvas>
+            
+          </canvas> -->
+          <canvas
+  #lineChart
+  baseChart
+  [data]="lineChartData"
+  [options]="lineChartOptions"
+  [type]="'line'">
+</canvas>
 
         </div>
 
@@ -155,21 +197,25 @@
             Application Status
           </h5>
 
-          <select class="form-select custom-select">
+          <select
+  class="form-select custom-select"
+  [(ngModel)]="selectedDoughnutRange "
+  (change)="onRangeChange('doughnut')"
+>
 
-            <option>
-              Last 30 days
-            </option>
+  <option value="30days">
+    Last 30 days
+  </option>
 
-            <option>
-              Last 6 Months
-            </option>
+  <option value="6months">
+    Last 6 Months
+  </option>
 
-            <option>
-              Last Year
-            </option>
+  <option value="1year">
+    Last Year
+  </option>
 
-          </select>
+</select>
 
         </div>
 
@@ -187,8 +233,15 @@
 
             <div class="pie-chart-container">
 
-              <canvas baseChart [data]="pieChartData" [options]="pieChartOptions" [type]="'doughnut'">
-              </canvas>
+              <!-- <canvas baseChart [data]="pieChartData" [options]="pieChartOptions" [type]="'doughnut'">
+              </canvas> -->
+              <canvas
+  #pieChart
+  baseChart
+  [data]="pieChartData"
+  [options]="pieChartOptions"
+  [type]="'doughnut'">
+</canvas>
 
             </div>
 
@@ -212,14 +265,15 @@
 
                   <span class="dot blue-dot"></span>
 
-                  Applied
+                  Applieds
 
                 </div>
 
                 <strong>
-                  {{ totalApplications }}
+                 
+                  {{ appliedCount }}
 
-                  ({{ getPercentage(totalApplications) }}%)
+                  ({{ getPercentage(appliedCount) }}%)
                 </strong>
 
               </div>
@@ -241,9 +295,9 @@
                 </div>
 
                 <strong>
-                  {{ totalInterviews }}
+                  {{ interviewCount }}
 
-                  ({{ getPercentage(totalInterviews) }}%)
+                  ({{ getPercentage(interviewCount) }}%)
 
                 </strong>
 
@@ -266,9 +320,9 @@
                 </div>
 
                 <strong>
-                  {{ totalOffers }}
+                  {{ offerCount }}
 
-                  ({{ getPercentage(totalOffers) }}%)
+                  ({{ getPercentage(offerCount) }}%)
 
                 </strong>
 
@@ -291,9 +345,9 @@
                 </div>
 
                 <strong>
-                  {{ totalRejections }}
+                  {{ rejectedCount }}
 
-                  ({{ getPercentage(totalRejections) }}%)
+                  ({{ getPercentage(rejectedCount) }}%)
                 </strong>
 
               </div>
@@ -315,9 +369,9 @@
                 </div>
 
                 <strong>
-                  {{ totalPending }}
+                  {{ pendingCount }}
 
-                  ({{ getPercentage(totalPending) }}%)
+                  ({{ getPercentage(pendingCount) }}%)
 
                 </strong>
 

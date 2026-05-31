@@ -4,6 +4,17 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {
+  ChangeDetectorRef
+} from '@angular/core';
+
+import {
+  BaseChartDirective
+} from 'ng2-charts';
+
+import {
+  ViewChild
+} from '@angular/core';
 
 import {
   ChartConfiguration,
@@ -20,7 +31,89 @@ import { JobService } from '../../../core/services/job.service';
   styleUrl: './home.component.scss'
 })
 
+
 export class HomeComponent {
+
+  @ViewChild('pieChart')
+  doughnutChart?: BaseChartDirective;
+
+  @ViewChild('lineChart')
+lineChart?: BaseChartDirective;
+
+
+
+
+getGrowthByStatus(
+  jobs: any[],
+  status?: string
+): number {
+
+  const currentDate = new Date();
+
+  const currentMonth =
+    currentDate.getMonth();
+
+  const currentYear =
+    currentDate.getFullYear();
+
+  const previousMonth =
+    currentMonth === 0
+      ? 11
+      : currentMonth - 1;
+
+  const previousYear =
+    currentMonth === 0
+      ? currentYear - 1
+      : currentYear;
+
+  const currentCount =
+    jobs.filter((job: any) => {
+
+      const date = new Date(
+        job.applied_Date
+      );
+
+      const statusMatch =
+        !status ||
+        job.status === status;
+
+      return (
+        statusMatch &&
+        date.getMonth() === currentMonth &&
+        date.getFullYear() === currentYear
+      );
+
+    }).length;
+
+  const previousCount =
+    jobs.filter((job: any) => {
+
+      const date = new Date(
+        job.applied_Date
+      );
+
+      const statusMatch =
+        !status ||
+        job.status === status;
+
+      return (
+        statusMatch &&
+        date.getMonth() === previousMonth &&
+        date.getFullYear() === previousYear
+      );
+
+    }).length;
+
+  return this.calculateGrowth(
+    currentCount,
+    previousCount
+  );
+
+}
+
+
+
+
   totalApplications = 0;
 
   totalInterviews = 0;
@@ -31,19 +124,34 @@ export class HomeComponent {
 
   totalPending = 0;
 
+
+
+  appliedCount = 0;
+
+interviewCount = 0;
+
+offerCount = 0;
+
+rejectedCount = 0;
+
+pendingCount = 0;
+
   statsCards: any[] = [];
   
   allJobs: any[] = [];
 
 selectedRange = '30days';
+selectedLineRange = '30days';
 
+selectedDoughnutRange = '30days';
   constructor(
 
     private router: Router,
 
     private modalService: NgbModal,
 
-    private jobService: JobService
+    private jobService: JobService,
+    private cdr: ChangeDetectorRef,
 
   ) { }
 
@@ -54,221 +162,458 @@ selectedRange = '30days';
     this.getDashboardStats();
 
   }
+  onRangeChange(chartType: string) {
+
+    if (chartType === 'line') {
+  
+      this.updateDashboardData('line');
+  
+    } else {
+  
+      this.updateDashboardData('doughnut');
+  
+    }
+  
+  }
 
 
 
-  /* =========================
-     GET DASHBOARD DATA
-  ========================= */
+
 
   getDashboardStats() {
 
     this.jobService.getAllJobs()
-
+  
       .subscribe({
-
+  
         next: (response) => {
-
+  
           const jobs = response.data;
-
-
-
+  
+          this.allJobs = jobs;
+  
           /* =========================
-             TOTAL COUNTS
+             OVERALL COUNTS
           ========================= */
-
+  
           this.totalApplications = jobs.length;
-
+  
           this.totalInterviews =
             jobs.filter(
               (job: any) =>
-                job.status === 'Interview Scheduled'
+                job.status ===
+                'Interview Scheduled'
             ).length;
-
+  
           this.totalOffers =
             jobs.filter(
               (job: any) =>
-                job.status === 'Offer Received'
+                job.status ===
+                'Offer Received'
             ).length;
-
+  
           this.totalRejections =
             jobs.filter(
               (job: any) =>
-                job.status === 'Rejected'
+                job.status ===
+                'Rejected'
             ).length;
-
+  
           this.totalPending =
             jobs.filter(
               (job: any) =>
-                job.status === 'Applied'
+                job.status ===
+                'Applied'
             ).length;
+  
           /* =========================
-             UPDATE STATS CARDS
+             GROWTH CALCULATION
           ========================= */
+          const applicationGrowth =
+          this.getGrowthByStatus(jobs);
+        
+        const interviewGrowth =
+          this.getGrowthByStatus(
+            jobs,
+            'Interview Scheduled'
+          );
+        
+        const offerGrowth =
+          this.getGrowthByStatus(
+            jobs,
+            'Offer Received'
+          );
+        
+        const rejectionGrowth =
+          this.getGrowthByStatus(
+            jobs,
+            'Rejected'
+          );
+        
+        const pendingGrowth =
+          this.getGrowthByStatus(
+            jobs,
+            'Applied'
+          );
 
+          /* =========================
+             CARDS
+          ========================= */
+  
           this.statsCards = [
-
+  
             {
               title: 'Total Applications',
-
               value: this.totalApplications,
-
-              growth: '12%',
-
-              type: 'positive',
-
-              color: 'blue',
-
-              icon: 'briefcase'
+              growth: applicationGrowth,
+              type:
+                applicationGrowth >= 0
+                  ? 'positive'
+                  : 'negative',
+                  color: 'blue',
+icon: 'briefcase'
             },
-
+  
             {
               title: 'Interviews',
-
+            
               value: this.totalInterviews,
-
-              growth: '8%',
-
-              type: 'positive',
-
+            
+              growth: interviewGrowth,
+            
+              type:
+                interviewGrowth >= 0
+                  ? 'positive'
+                  : 'negative',
+            
               color: 'purple',
-
+            
               icon: 'people'
             },
-
+  
             {
               title: 'Offers',
-
+  
               value: this.totalOffers,
-
-              growth: '20%',
-
-              type: 'positive',
-
+  
+              growth: offerGrowth,
+  
+              type:
+              offerGrowth >= 0
+                  ? 'positive'
+                  : 'negative',
+            
               color: 'green',
-
+            
               icon: 'award'
             },
-
+  
             {
               title: 'Rejections',
-
+  
               value: this.totalRejections,
+  
+              growth: rejectionGrowth,
 
-              growth: '5%',
 
-              type: 'negative',
-
+              type:
+              rejectionGrowth >= 0
+                  ? 'positive'
+                  : 'negative',
+            
               color: 'red',
-
+            
               icon: 'x-circle'
+  
             },
-
+  
             {
               title: 'Pending',
-
+  
               value: this.totalPending,
+  
+              growth: pendingGrowth,
 
-              growth: '8%',
 
-              type: 'warning',
+              type:
+              pendingGrowth>=0
+              ?'positive'
+              :'negative',
+              color:'yellow',
+              icon:'hourglass'
 
-              color: 'yellow',
-
-              icon: 'hourglass'
             }
-
+  
           ];
-
-
-
-
-
-          /* =========================
-             PIE CHART DYNAMIC DATA
-          ========================= */
-
-          this.pieChartData.datasets[0].data = [
-
-            this.totalApplications,
-
-            this.totalInterviews,
-
-            this.totalOffers,
-
-            this.totalRejections,
-
-            this.totalPending
-
-          ];
-
-
-
-          /* =========================
-             LINE CHART DYNAMIC DATA
-          ========================= */
-
-          const monthlyCounts: any = {
-
-            Jan: 0,
-            Feb: 0,
-            Mar: 0,
-            Apr: 0,
-            May: 0,
-            Jun: 0,
-            Jul: 0,
-            Aug: 0,
-            Sep: 0,
-            Oct: 0,
-            Nov: 0,
-            Dec: 0
-
-          };
-
-
-
-          jobs.forEach((job: any) => {
-
-            const date = new Date(
-              job.applied_Date
-            );
-
-            const month =
-              date.toLocaleString(
-                'default',
-                { month: 'short' }
-              );
-
-            monthlyCounts[month]++;
-
-          });
-
-
-
-          this.lineChartData.labels =
-
-            Object.keys(monthlyCounts);
-
-
-
-          this.lineChartData.datasets[0].data =
-
-            Object.values(monthlyCounts);
-
-        },
-
-
-
-        error: (error) => {
-
-          console.log(error);
-
+  
+          this.updateDashboardData(
+            'line'
+          );
+  
+          this.updateDashboardData(
+            'doughnut'
+          );
+  
         }
-
+  
       });
-
+  
   }
 
+
+  updateDashboardData(chartType: string) {
+
+    const currentDate = new Date();
+  
+    let filteredJobs = [...this.allJobs];
+  
+    const selectedRange =
+      chartType === 'line'
+        ? this.selectedLineRange
+        : this.selectedDoughnutRange;
+  
+    if (selectedRange === '30days') {
+  
+      const last30Days = new Date();
+  
+      last30Days.setDate(
+        currentDate.getDate() - 30
+      );
+  
+      filteredJobs = this.allJobs.filter(
+        (job: any) =>
+          new Date(job.applied_Date) >=
+          last30Days
+      );
+  
+    }
+  
+    else if (selectedRange === '6months') {
+  
+      const last6Months = new Date();
+  
+      last6Months.setMonth(
+        currentDate.getMonth() - 6
+      );
+  
+      filteredJobs = this.allJobs.filter(
+        (job: any) =>
+          new Date(job.applied_Date) >=
+          last6Months
+      );
+  
+    }
+  
+    else if (selectedRange === '1year') {
+  
+      const lastYear = new Date();
+  
+      lastYear.setFullYear(
+        currentDate.getFullYear() - 1
+      );
+  
+      filteredJobs = this.allJobs.filter(
+        (job: any) =>
+          new Date(job.applied_Date) >=
+          lastYear
+      );
+  
+    }
+  
+    if (chartType === 'line') {
+  
+      this.updateLineChart(
+        filteredJobs
+      );
+  
+    } else {
+  
+      this.updatePieChart(
+        filteredJobs
+      );
+  
+    }
+  
+  }
+
+  updateLineChart(jobs: any[]) {
+
+    const monthlyCounts: any = {
+  
+      Jan: 0,
+      Feb: 0,
+      Mar: 0,
+      Apr: 0,
+      May: 0,
+      Jun: 0,
+      Jul: 0,
+      Aug: 0,
+      Sep: 0,
+      Oct: 0,
+      Nov: 0,
+      Dec: 0
+  
+    };
+  
+    jobs.forEach((job: any) => {
+  
+      const date = new Date(
+        job.applied_Date
+      );
+  
+      const month =
+        date.toLocaleString(
+          'default',
+          {
+            month: 'short'
+          }
+        );
+  
+      monthlyCounts[month]++;
+  
+    });
+  
+    this.lineChartData = {
+  
+      labels: Object.keys(
+        monthlyCounts
+      ),
+  
+      datasets: [
+  
+        {
+  
+          label: 'Applications',
+  
+          data: Object.values(
+            monthlyCounts
+          ) as number[],
+  
+          borderColor: '#2563eb',
+  
+          backgroundColor:
+            'rgba(37,99,235,0.15)',
+  
+          fill: true,
+  
+          tension: 0.4,
+  
+          pointRadius: 5,
+  
+          pointHoverRadius: 7,
+  
+          pointBackgroundColor:
+            '#2563eb',
+  
+          pointBorderColor:
+            '#ffffff'
+  
+        }
+  
+      ]
+  
+    };
+
+    setTimeout(() => {
+
+      this.lineChart?.update();
+    
+    });
+  
+  }
+
+  updatePieChart(jobs: any[]) {
+
+    this.appliedCount =
+      jobs.filter(
+        (job: any) =>
+          job.status === 'Applied'
+      ).length;
+  
+    this.interviewCount =
+      jobs.filter(
+        (job: any) =>
+          job.status ===
+          'Interview Scheduled'
+      ).length;
+  
+    this.offerCount =
+      jobs.filter(
+        (job: any) =>
+          job.status ===
+          'Offer Received'
+      ).length;
+  
+    this.rejectedCount =
+      jobs.filter(
+        (job: any) =>
+          job.status ===
+          'Rejected'
+      ).length;
+  
+    this.pendingCount =
+      jobs.filter(
+        (job: any) =>
+          job.status === 'Saved'
+      ).length;
+  
+    this.pieChartData = {
+  
+      labels: [
+  
+        'Applied',
+        'Interviews',
+        'Offers',
+        'Rejected',
+        'Pending'
+  
+      ],
+  
+      datasets: [
+  
+        {
+  
+          data: [
+  
+            this.appliedCount,
+  
+            this.interviewCount,
+  
+            this.offerCount,
+  
+            this.rejectedCount,
+  
+            this.pendingCount
+  
+          ],
+  
+          backgroundColor: [
+  
+            '#2563eb',
+            '#7c3aed',
+            '#16a34a',
+            '#dc2626',
+            '#f59e0b'
+  
+          ],
+  
+          borderWidth: 0,
+  
+          hoverOffset: 8
+  
+        }
+  
+      ]
+  
+    };
+  
+    setTimeout(() => {
+  
+      this.doughnutChart?.update();
+  
+    });
+  
+  }
 
 
   /* =========================
@@ -498,18 +843,50 @@ selectedRange = '30days';
 
   }
 
-  getPercentage(value: number): number {
-
-    if (!this.totalApplications) {
-
+  getPercentage(
+    value: number
+  ): number {
+  
+    const total =
+  
+      this.appliedCount +
+  
+      this.interviewCount +
+  
+      this.offerCount +
+  
+      this.rejectedCount +
+  
+      this.pendingCount;
+  
+    if (!total) {
+  
       return 0;
-
+  
     }
-
+  
     return Math.round(
-      (value / this.totalApplications) * 100
+      (value / total) * 100
     );
+  
+  }
 
+
+  calculateGrowth(
+    current: number,
+    previous: number
+  ): number {
+  
+    if (previous === 0) {
+  
+      return current > 0 ? 100 : 0;
+  
+    }
+  
+    return Math.round(
+      ((current - previous) / previous) * 100
+    );
+  
   }
 
 }
