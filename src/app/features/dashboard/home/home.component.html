@@ -1,87 +1,85 @@
 <div class="d-flex justify-content-between align-items-center mb-4 flex-nowrap gap-2">
 
-    <h6 class="mb-0 fw-semibold text-secondary">
-      Welcome back 👋
-    </h6>
-  
-    <!-- <button
+  <h6 class="mb-0 fw-semibold text-secondary">
+    Welcome back 👋
+  </h6>
+
+  <!-- <button
       class="btn btn-primary rounded-3 px-3 py-2 d-flex align-items-center gap-2 flex-shrink-0" (click)="openModal('addJob')"> -->
 
-      <button
-  class="btn btn-primary rounded-3 px-3 py-2 d-flex align-items-center gap-2 flex-shrink-0"
-  (click)="openModal('addJob')"
->
-  
-      <i class="bi bi-plus-lg"></i>
-  
-      <!-- <span class="d-none d-sm-inline"> -->
-        <span>
-        Add Job
-      </span>
-  
-    </button>
-  
-  </div>
+  <button class="btn btn-primary rounded-3 px-3 py-2 d-flex align-items-center gap-2 flex-shrink-0"
+    (click)="openModal('addJob')">
+
+    <i class="bi bi-plus-lg"></i>
+
+    <!-- <span class="d-none d-sm-inline"> -->
+    <span>
+      Add Job
+    </span>
+
+  </button>
+
+</div>
 
 <section class="container-fluid py-2">
 
-    <!-- =========================
+  <!-- =========================
          STATS CARDS
     ========================= -->
 
-    <div class="stats-scroll-container">
+  <div class="stats-scroll-container">
 
-        <!-- CARD -->
+    <!-- CARD -->
 
-        <div class="stats-card" *ngFor="let card of statsCards">
+    <div class="stats-card" *ngFor="let card of statsCards">
 
-            <div class="card-top">
+      <div class="card-top">
 
-                <!-- LEFT -->
+        <!-- LEFT -->
 
-                <div>
+        <div>
 
-                    <p class="card-title">
-                        {{ card.title }}
-                    </p>
+          <p class="card-title">
+            {{ card.title }}
+          </p>
 
-                    <h2>
-                        {{ card.value }}
-                    </h2>
+          <h2>
+            {{ card.value }}
+          </h2>
 
-                    <!-- GROWTH -->
+          <!-- GROWTH -->
 
-                    <span [ngClass]="card.type">
+          <span [ngClass]="card.type">
 
-                        {{
-                        card.type === 'negative'
-                        ? '▼'
-                        : card.type === 'warning'
-                        ? '●'
-                        : '▲'
-                        }}
+            {{
+            card.type === 'negative'
+            ? '▼'
+            : card.type === 'warning'
+            ? '●'
+            : '▲'
+            }}
 
-                        {{ card.growth }}
-                        vs last month
+            {{ card.growth }}
+            vs last month
 
-                    </span>
-
-                </div>
-
-                <!-- ICON -->
-
-                <div class="card-icon" [ngClass]="card.color">
-
-                    <i class="bi" [ngClass]="'bi-' + card.icon">
-                    </i>
-
-                </div>
-
-            </div>
+          </span>
 
         </div>
 
+        <!-- ICON -->
+
+        <div class="card-icon" [ngClass]="card.color">
+
+          <i class="bi" [ngClass]="'bi-' + card.icon">
+          </i>
+
+        </div>
+
+      </div>
+
     </div>
+
+  </div>
 
 </section>
 
@@ -92,237 +90,250 @@
 
 <section class="container-fluid py-2">
 
-    <div class="row g-4">
+  <div class="row g-4">
 
-        <!-- LINE CHART -->
+    <!-- LINE CHART -->
 
-        <div class="col-lg-6">
+    <div class="col-lg-6">
 
-            <div class="chart-card">
+      <div class="chart-card">
 
-                <!-- HEADER -->
+        <!-- HEADER -->
 
-                <div class="chart-header">
+        <div class="chart-header">
 
-                    <h5>
-                        Applications Over Time
-                    </h5>
+          <h5>
+            Applications Over Time
+          </h5>
 
-                    <select class="form-select custom-select">
+          <select class="form-select custom-select">
 
-                        <option>
-                            Last 30 days
-                        </option>
+            <option>
+              Last 30 days
+            </option>
 
-                        <option>
-                            Last 6 Months
-                        </option>
+            <option>
+              Last 6 Months
+            </option>
 
-                        <option>
-                            Last Year
-                        </option>
+            <option>
+              Last Year
+            </option>
 
-                    </select>
-
-                </div>
-
-                <!-- CHART -->
-
-                <div class="chart-container">
-
-                    <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'">
-                    </canvas>
-
-                </div>
-
-            </div>
+          </select>
 
         </div>
 
+        <!-- CHART -->
 
+        <div class="chart-container">
 
-
-
-        <!-- APPLICATION STATUS -->
-
-        <div class="col-lg-6">
-
-            <div class="chart-card status-card">
-
-                <!-- HEADER -->
-
-                <div class="chart-header">
-
-                    <h5>
-                        Application Status
-                    </h5>
-
-                    <select class="form-select custom-select">
-
-                        <option>
-                            Last 30 days
-                        </option>
-
-                        <option>
-                            Last 6 Months
-                        </option>
-
-                        <option>
-                            Last Year
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-
-
-
-                <!-- BODY -->
-
-                <div class="row align-items-center">
-
-                    <!-- PIE CHART -->
-
-                    <div class="col-lg-6 col-md-6">
-
-                        <div class="pie-chart-container">
-
-                            <canvas baseChart [data]="pieChartData" [options]="pieChartOptions" [type]="'doughnut'">
-                            </canvas>
-
-                        </div>
-
-                    </div>
-
-
-
-
-
-                    <!-- STATUS LIST -->
-
-                    <div class="col-lg-6 col-md-6">
-
-                        <div class="status-list">
-
-                            <!-- APPLIED -->
-
-                            <div class="status-item">
-
-                                <div class="status-left">
-
-                                    <span class="dot blue-dot"></span>
-
-                                    Applied
-
-                                </div>
-
-                                <strong>
-                                    128 (51%)
-                                </strong>
-
-                            </div>
-
-
-
-
-
-                            <!-- INTERVIEWS -->
-
-                            <div class="status-item">
-
-                                <div class="status-left">
-
-                                    <span class="dot purple-dot"></span>
-
-                                    Interviews
-
-                                </div>
-
-                                <strong>
-                                    32 (13%)
-                                </strong>
-
-                            </div>
-
-
-
-
-
-                            <!-- OFFERS -->
-
-                            <div class="status-item">
-
-                                <div class="status-left">
-
-                                    <span class="dot green-dot"></span>
-
-                                    Offers
-
-                                </div>
-
-                                <strong>
-                                    6 (2%)
-                                </strong>
-
-                            </div>
-
-
-
-
-
-                            <!-- REJECTED -->
-
-                            <div class="status-item">
-
-                                <div class="status-left">
-
-                                    <span class="dot red-dot"></span>
-
-                                    Rejected
-
-                                </div>
-
-                                <strong>
-                                    90 (34%)
-                                </strong>
-
-                            </div>
-
-
-
-
-
-                            <!-- PENDING -->
-
-                            <div class="status-item">
-
-                                <div class="status-left">
-
-                                    <span class="dot yellow-dot"></span>
-
-                                    Pending
-
-                                </div>
-
-                                <strong>
-                                    60 (20%)
-                                </strong>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
+          <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'">
+          </canvas>
 
         </div>
+
+      </div>
 
     </div>
+
+
+
+
+
+    <!-- APPLICATION STATUS -->
+
+    <div class="col-lg-6">
+
+      <div class="chart-card status-card">
+
+        <!-- HEADER -->
+
+        <div class="chart-header">
+
+          <h5>
+            Application Status
+          </h5>
+
+          <select class="form-select custom-select">
+
+            <option>
+              Last 30 days
+            </option>
+
+            <option>
+              Last 6 Months
+            </option>
+
+            <option>
+              Last Year
+            </option>
+
+          </select>
+
+        </div>
+
+
+
+
+
+        <!-- BODY -->
+
+        <div class="row align-items-center">
+
+          <!-- PIE CHART -->
+
+          <div class="col-lg-6 col-md-6">
+
+            <div class="pie-chart-container">
+
+              <canvas baseChart [data]="pieChartData" [options]="pieChartOptions" [type]="'doughnut'">
+              </canvas>
+
+            </div>
+
+          </div>
+
+
+
+
+
+          <!-- STATUS LIST -->
+
+          <div class="col-lg-6 col-md-6">
+
+            <div class="status-list">
+
+              <!-- APPLIED -->
+
+              <div class="status-item">
+
+                <div class="status-left">
+
+                  <span class="dot blue-dot"></span>
+
+                  Applied
+
+                </div>
+
+                <strong>
+                  {{ totalApplications }}
+
+                  ({{ getPercentage(totalApplications) }}%)
+                </strong>
+
+              </div>
+
+
+
+
+
+              <!-- INTERVIEWS -->
+
+              <div class="status-item">
+
+                <div class="status-left">
+
+                  <span class="dot purple-dot"></span>
+
+                  Interviews
+
+                </div>
+
+                <strong>
+                  {{ totalInterviews }}
+
+                  ({{ getPercentage(totalInterviews) }}%)
+
+                </strong>
+
+              </div>
+
+
+
+
+
+              <!-- OFFERS -->
+
+              <div class="status-item">
+
+                <div class="status-left">
+
+                  <span class="dot green-dot"></span>
+
+                  Offers
+
+                </div>
+
+                <strong>
+                  {{ totalOffers }}
+
+                  ({{ getPercentage(totalOffers) }}%)
+
+                </strong>
+
+              </div>
+
+
+
+
+
+              <!-- REJECTED -->
+
+              <div class="status-item">
+
+                <div class="status-left">
+
+                  <span class="dot red-dot"></span>
+
+                  Rejected
+
+                </div>
+
+                <strong>
+                  {{ totalRejections }}
+
+                  ({{ getPercentage(totalRejections) }}%)
+                </strong>
+
+              </div>
+
+
+
+
+
+              <!-- PENDING -->
+
+              <div class="status-item">
+
+                <div class="status-left">
+
+                  <span class="dot yellow-dot"></span>
+
+                  Pending
+
+                </div>
+
+                <strong>
+                  {{ totalPending }}
+
+                  ({{ getPercentage(totalPending) }}%)
+
+                </strong>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
 
 </section>
 
@@ -345,126 +356,126 @@
 
 <section class="container-fluid py-2">
 
-    <div class="card recent-card border-0">
-  
-      <!-- Header -->
-      <div class="recent-header">
-  
-        <div>
-          <h5 class="recent-title mb-1">
-            Recent Applications
-          </h5>
-<!--   
+  <div class="card recent-card border-0">
+
+    <!-- Header -->
+    <div class="recent-header">
+
+      <div>
+        <h5 class="recent-title mb-1">
+          Recent Applications
+        </h5>
+        <!--   
           <p class="recent-subtitle mb-0">
             Latest job applications activity
           </p> -->
-        </div>
-  
-        <button class="view-all-btn">
-          View All
-        </button>
-  
       </div>
-  
-      <!-- Table -->
-      <div class="table-responsive">
-  
-        <table class="table align-middle mb-0 recent-table">
-  
-          <thead>
-  
-            <tr>
-              <th>Company</th>
-              <th>Role</th>
-              <th>Status</th>
-              <th>Applied</th>
-            </tr>
-  
-          </thead>
-  
-          <tbody>
-  
-            <!-- Row -->
-            <tr>
-  
-              <td class="fw-semibold">
-                Google
-              </td>
-  
-              <td>
-                Front End Developer
-              </td>
-  
-              <td>
-  
-                <span class="status-badge interview-badge">
-                  Interview
-                </span>
-  
-              </td>
-  
-              <td>
-                May 12, 2024
-              </td>
-  
-            </tr>
-  
-            <!-- Row -->
-            <tr>
-  
-              <td class="fw-semibold">
-                Microsoft
-              </td>
-  
-              <td>
-                Software Engineer
-              </td>
-  
-              <td>
-  
-                <span class="status-badge applied-badge">
-                  Applied
-                </span>
-  
-              </td>
-  
-              <td>
-                May 10, 2024
-              </td>
-  
-            </tr>
-  
-            <!-- Row -->
-            <tr>
-  
-              <td class="fw-semibold">
-                Amazon
-              </td>
-  
-              <td>
-                SDE Intern
-              </td>
-  
-              <td>
-  
-                <span class="status-badge rejected-badge">
-                  Rejected
-                </span>
-  
-              </td>
-  
-              <td>
-                May 08, 2024
-              </td>
-  
-            </tr>
-  
-          </tbody>
-  
-        </table>
-  
-      </div>
-  
+
+      <button class="view-all-btn">
+        View All
+      </button>
+
     </div>
-  
-  </section>
+
+    <!-- Table -->
+    <div class="table-responsive">
+
+      <table class="table align-middle mb-0 recent-table">
+
+        <thead>
+
+          <tr>
+            <th>Company</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Applied</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <!-- Row -->
+          <tr>
+
+            <td class="fw-semibold">
+              Google
+            </td>
+
+            <td>
+              Front End Developer
+            </td>
+
+            <td>
+
+              <span class="status-badge interview-badge">
+                Interview
+              </span>
+
+            </td>
+
+            <td>
+              May 12, 2024
+            </td>
+
+          </tr>
+
+          <!-- Row -->
+          <tr>
+
+            <td class="fw-semibold">
+              Microsoft
+            </td>
+
+            <td>
+              Software Engineer
+            </td>
+
+            <td>
+
+              <span class="status-badge applied-badge">
+                Applied
+              </span>
+
+            </td>
+
+            <td>
+              May 10, 2024
+            </td>
+
+          </tr>
+
+          <!-- Row -->
+          <tr>
+
+            <td class="fw-semibold">
+              Amazon
+            </td>
+
+            <td>
+              SDE Intern
+            </td>
+
+            <td>
+
+              <span class="status-badge rejected-badge">
+                Rejected
+              </span>
+
+            </td>
+
+            <td>
+              May 08, 2024
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>

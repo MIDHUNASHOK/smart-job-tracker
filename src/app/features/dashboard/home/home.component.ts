@@ -21,8 +21,21 @@ import { JobService } from '../../../core/services/job.service';
 })
 
 export class HomeComponent {
+  totalApplications = 0;
+
+  totalInterviews = 0;
+
+  totalOffers = 0;
+
+  totalRejections = 0;
+
+  totalPending = 0;
 
   statsCards: any[] = [];
+  
+  allJobs: any[] = [];
+
+selectedRange = '30days';
 
   constructor(
 
@@ -32,7 +45,7 @@ export class HomeComponent {
 
     private jobService: JobService
 
-  ) {}
+  ) { }
 
 
 
@@ -64,64 +77,31 @@ export class HomeComponent {
              TOTAL COUNTS
           ========================= */
 
-          const totalApplications =
+          this.totalApplications = jobs.length;
 
-            jobs.length;
-
-
-
-          const totalInterviews =
-
+          this.totalInterviews =
             jobs.filter(
-
               (job: any) =>
-
-                job.status ===
-                'Interview Scheduled'
-
+                job.status === 'Interview Scheduled'
             ).length;
 
-
-
-          const totalOffers =
-
+          this.totalOffers =
             jobs.filter(
-
               (job: any) =>
-
-                job.status ===
-                'Offer Received'
-
+                job.status === 'Offer Received'
             ).length;
 
-
-
-          const totalRejections =
-
+          this.totalRejections =
             jobs.filter(
-
               (job: any) =>
-
-                job.status ===
-                'Rejected'
-
+                job.status === 'Rejected'
             ).length;
 
-
-
-          const totalPending =
-
+          this.totalPending =
             jobs.filter(
-
               (job: any) =>
-
-                job.status ===
-                'Applied'
-
+                job.status === 'Applied'
             ).length;
-
-
-
           /* =========================
              UPDATE STATS CARDS
           ========================= */
@@ -131,7 +111,7 @@ export class HomeComponent {
             {
               title: 'Total Applications',
 
-              value: totalApplications,
+              value: this.totalApplications,
 
               growth: '12%',
 
@@ -145,7 +125,7 @@ export class HomeComponent {
             {
               title: 'Interviews',
 
-              value: totalInterviews,
+              value: this.totalInterviews,
 
               growth: '8%',
 
@@ -159,7 +139,7 @@ export class HomeComponent {
             {
               title: 'Offers',
 
-              value: totalOffers,
+              value: this.totalOffers,
 
               growth: '20%',
 
@@ -173,7 +153,7 @@ export class HomeComponent {
             {
               title: 'Rejections',
 
-              value: totalRejections,
+              value: this.totalRejections,
 
               growth: '5%',
 
@@ -187,7 +167,7 @@ export class HomeComponent {
             {
               title: 'Pending',
 
-              value: totalPending,
+              value: this.totalPending,
 
               growth: '8%',
 
@@ -202,21 +182,23 @@ export class HomeComponent {
 
 
 
+
+
           /* =========================
              PIE CHART DYNAMIC DATA
           ========================= */
 
           this.pieChartData.datasets[0].data = [
 
-            totalApplications,
+            this.totalApplications,
 
-            totalInterviews,
+            this.totalInterviews,
 
-            totalOffers,
+            this.totalOffers,
 
-            totalRejections,
+            this.totalRejections,
 
-            totalPending
+            this.totalPending
 
           ];
 
@@ -296,42 +278,42 @@ export class HomeComponent {
   public lineChartData:
     ChartConfiguration<'line'>['data'] = {
 
-    labels: [],
+      labels: [],
 
-    datasets: [
+      datasets: [
 
-      {
+        {
 
-        label: 'Applications',
+          label: 'Applications',
 
-        data: [],
+          data: [],
 
-        borderColor: '#2563eb',
+          borderColor: '#2563eb',
 
-        backgroundColor:
-          'rgba(37, 99, 235, 0.15)',
+          backgroundColor:
+            'rgba(37, 99, 235, 0.15)',
 
-        fill: true,
+          fill: true,
 
-        tension: 0.4,
+          tension: 0.4,
 
-        pointRadius: 5,
+          pointRadius: 5,
 
-        pointHoverRadius: 7,
+          pointHoverRadius: 7,
 
-        pointBackgroundColor: '#2563eb',
+          pointBackgroundColor: '#2563eb',
 
-        pointBorderColor: '#ffffff',
+          pointBorderColor: '#ffffff',
 
-        pointHoverBackgroundColor: '#ffffff',
+          pointHoverBackgroundColor: '#ffffff',
 
-        pointHoverBorderColor: '#2563eb'
+          pointHoverBorderColor: '#2563eb'
 
-      }
+        }
 
-    ]
+      ]
 
-  };
+    };
 
 
 
@@ -342,59 +324,59 @@ export class HomeComponent {
   public lineChartOptions:
     ChartOptions<'line'> = {
 
-    responsive: true,
+      responsive: true,
 
-    maintainAspectRatio: false,
+      maintainAspectRatio: false,
 
-    plugins: {
+      plugins: {
 
-      legend: {
-
-        display: false
-
-      }
-
-    },
-
-    scales: {
-
-      x: {
-
-        grid: {
+        legend: {
 
           display: false
-
-        },
-
-        ticks: {
-
-          color: '#64748b'
 
         }
 
       },
 
-      y: {
+      scales: {
 
-        beginAtZero: true,
+        x: {
 
-        grid: {
+          grid: {
 
-          color: '#f1f5f9'
+            display: false
+
+          },
+
+          ticks: {
+
+            color: '#64748b'
+
+          }
 
         },
 
-        ticks: {
+        y: {
 
-          color: '#64748b'
+          beginAtZero: true,
+
+          grid: {
+
+            color: '#f1f5f9'
+
+          },
+
+          ticks: {
+
+            color: '#64748b'
+
+          }
 
         }
 
       }
 
-    }
-
-  };
+    };
 
 
 
@@ -405,23 +387,23 @@ export class HomeComponent {
   public pieChartOptions:
     ChartOptions<'doughnut'> = {
 
-    responsive: true,
+      responsive: true,
 
-    maintainAspectRatio: false,
+      maintainAspectRatio: false,
 
-    cutout: '72%',
+      cutout: '72%',
 
-    plugins: {
+      plugins: {
 
-      legend: {
+        legend: {
 
-        display: false
+          display: false
+
+        }
 
       }
 
-    }
-
-  };
+    };
 
 
 
@@ -432,41 +414,41 @@ export class HomeComponent {
   public pieChartData:
     ChartConfiguration<'doughnut'>['data'] = {
 
-    labels: [
+      labels: [
 
-      'Applied',
-      'Interviews',
-      'Offers',
-      'Rejected',
-      'Pending'
+        'Applied',
+        'Interviews',
+        'Offers',
+        'Rejected',
+        'Pending'
 
-    ],
+      ],
 
-    datasets: [
+      datasets: [
 
-      {
+        {
 
-        data: [],
+          data: [],
 
-        backgroundColor: [
+          backgroundColor: [
 
-          '#2563eb',
-          '#7c3aed',
-          '#16a34a',
-          '#dc2626',
-          '#f59e0b'
+            '#2563eb',
+            '#7c3aed',
+            '#16a34a',
+            '#dc2626',
+            '#f59e0b'
 
-        ],
+          ],
 
-        borderWidth: 0,
+          borderWidth: 0,
 
-        hoverOffset: 8
+          hoverOffset: 8
 
-      }
+        }
 
-    ]
+      ]
 
-  };
+    };
 
 
 
@@ -513,6 +495,20 @@ export class HomeComponent {
         this.getDashboardStats();
 
       });
+
+  }
+
+  getPercentage(value: number): number {
+
+    if (!this.totalApplications) {
+
+      return 0;
+
+    }
+
+    return Math.round(
+      (value / this.totalApplications) * 100
+    );
 
   }
 
