@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AuthService } from '../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -11,6 +13,14 @@ export class NavbarComponent {
   toggleSidebar =
     new EventEmitter<void>();
     userInitial='';
+
+    constructor( 
+      private authService: AuthService,
+      private router: Router
+      )
+    {
+      
+    }
 
 
     // ngOnInit(): void {
@@ -30,5 +40,12 @@ export class NavbarComponent {
         .join('')
         .toUpperCase();
     
+    }
+
+
+    logout(){
+      localStorage.clear();
+      this.router.navigate(['/login']);
+      
     }
 }
