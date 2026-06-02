@@ -1,1 +1,211 @@
-<p>add-job works!</p>
+<div class="modal-header">
+
+    <h5 class="modal-title fw-bold">
+      Add New Job
+    </h5>
+  
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="activeModal.close()"
+    ></button>
+  
+  </div>
+  
+  <!-- Modal Body -->
+  <div class="modal-body">
+  
+    <form [formGroup]="addJobForm"
+    (ngSubmit)="submitJob()">
+  
+      <!-- Job Title -->
+      <div class="mb-3">
+  
+        <label class="form-label">
+          Job Title *
+        </label>
+  
+        <input
+          type="text"
+          class="form-control" formControlName="job_Title"
+          placeholder="Frontend Developer"
+        />
+  
+      </div>
+  
+      <!-- Company Name -->
+      <div class="mb-3">
+  
+        <label class="form-label">
+          Company Name *
+        </label>
+  
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Company Name" formControlName="company_Name"
+        />
+  
+      </div>
+  
+      <!-- Location -->
+      <div class="mb-3">
+  
+        <label class="form-label">
+          Location *
+        </label>
+  
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Berlin, Germany" formControlName="location"
+        />
+  
+      </div>
+  
+      <!-- Job Type & Work Mode -->
+      <div class="row">
+  
+        <div class="col-md-6 mb-3">
+  
+          <label class="form-label">
+            Job Type *
+          </label>
+  
+          <select class="form-select" formControlName="job_Type">
+  
+            <option value="" disabled>
+              Select Job Type
+            </option>
+  
+            <option>Full-time</option>
+            <option>Part-time</option>
+            <option>Internship</option>
+            <option>Werkstudent</option>
+            <option>Contract</option>
+  
+          </select>
+  
+        </div>
+  
+        <div class="col-md-6 mb-3">
+  
+          <label class="form-label">
+            Work Mode *
+          </label>
+  
+          <select class="form-select" formControlName="work_mode">
+  
+            <option value="" disabled>
+              Select Work Mode
+            </option>
+  
+            <option>Remote</option>
+            <option>Hybrid</option>
+            <option>Onsite</option>
+  
+          </select>
+  
+        </div>
+  
+      </div>
+  
+      <!-- Status & Applied Date -->
+      <div class="row">
+  
+        <div class="col-md-6 mb-3">
+  
+          <label class="form-label">
+            Status *
+          </label>
+  
+          <select class="form-select" formControlName="status">
+  
+            <option value="" disabled>
+              Select Status
+            </option>
+  
+            <option>Saved</option>
+            <option>Applied</option>
+            <option>Interview Scheduled</option>
+            <option>Technical Round</option>
+            <option>HR Round</option>
+            <option>Rejected</option>
+            <option>Offer Received</option>
+            <option>Accepted</option>
+  
+          </select>
+  
+        </div>
+  
+        <div class="col-md-6 mb-3">
+  
+          <label class="form-label">
+            Applied Date *
+          </label>
+  
+          <input
+            type="date"
+            class="form-control" formControlName="applied_Date"
+          />
+  
+        </div>
+  
+      </div>
+  
+      <!-- Job URL -->
+      <div class="mb-3">
+  
+        <label class="form-label">
+          Job URL
+        </label>
+  
+        <input
+          type="url"
+          class="form-control" formControlName="job_Url"
+          placeholder="https://company.com/job"
+        />
+  
+      </div>
+  
+      <!-- Notes -->
+      <div class="mb-3">
+  
+        <label class="form-label">
+          Notes
+        </label>
+  
+        <textarea
+          rows="4"
+          class="form-control" formControlName="notes"
+          placeholder="Add notes about the application..."
+        ></textarea>
+  
+      </div>
+
+
+        <!-- Modal Footer -->
+  <div class="modal-footer">
+  
+    <button
+      type="button"
+      class="btn btn-outline-secondary"
+      (click)="activeModal.close()"
+    >
+      Cancel
+    </button>
+  
+    <button
+      type="submit"
+      class="btn btn-primary"
+    >
+      Save Job
+    </button>
+  
+  </div>
+  
+    </form>
+  
+  </div>
+  

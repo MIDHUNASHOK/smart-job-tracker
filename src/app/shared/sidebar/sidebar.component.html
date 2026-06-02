@@ -1,27 +1,112 @@
-<div class="sidebar">
+<div
+  class="sidebar"
+  [class.collapsed]="collapsed"
+  [class.mobile-open]="mobileOpen"
+>
 
-    <div class="logo">
-      Smart Job Tracker
-    </div>
-  
-    <ul class="menu">
-  
-      <li routerLink="/dashboard">
-        Dashboard
-      </li>
-  
-      <li routerLink="/jobs">
-        Jobs
-      </li>
-  
-      <li routerLink="/analytics">
-        Analytics
-      </li>
-  
-      <li routerLink="/settings">
-        Settings
-      </li>
-  
-    </ul>
-  
-  </div>
+  <!-- LOGO -->
+
+<div class="logo">
+
+  <!-- ICON -->
+
+  <!-- <i
+    *ngIf="collapsed"
+    class="bi bi-briefcase-fill"
+  ></i> -->
+
+  <!-- IMAGE LOGO -->
+  <img
+  *ngIf="collapsed"
+  src="assets/global_Icon/jobPilot_Icon.png"
+  alt="JobPilot Logo"
+  class="logo-img"
+  >
+
+  <img
+    *ngIf="!collapsed"
+    src="assets/global logo/job_pilot_logo.png"
+    alt="JobPilot Logo"
+    class="logo-img"
+  >
+
+</div>
+
+  <!-- MENU -->
+
+  <ul class="menu">
+
+    <li>
+
+      <a routerLink="/dashboard">
+
+        <i class="bi bi-grid"></i>
+
+        <span *ngIf="!collapsed">
+          Dashboard
+        </span>
+
+      </a>
+
+    </li>
+
+    <li>
+
+      <a routerLink="/jobs/jobslist">
+
+        <i class="bi bi-briefcase"></i>
+
+        <span *ngIf="!collapsed">
+          Jobs
+        </span>
+
+      </a>
+
+    </li>
+
+    <li>
+
+      <a routerLink="/analytics">
+
+        <i class="bi bi-bar-chart"></i>
+
+        <span *ngIf="!collapsed">
+          CV Analytics
+        </span>
+
+      </a>
+
+    </li>
+
+    <li>
+
+      <a routerLink="/settings">
+
+        <i class="bi bi-person-circle"></i>
+
+        <span *ngIf="!collapsed">
+          Profile
+        </span>
+
+      </a>
+
+    </li>
+
+
+    <li>
+
+      <a routerLink="/settings">
+
+        <i class="bi bi-robot"></i>
+
+        <span *ngIf="!collapsed">
+          Smart Apply
+        </span>
+
+      </a>
+
+    </li>
+
+  </ul>
+
+</div>

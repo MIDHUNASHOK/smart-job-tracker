@@ -8,6 +8,8 @@ import { RouterModule } from '@angular/router';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { ConfirmModalComponent } from './modals/confirm-modal/confirm-modal.component';
+import { SearchPipe } from './pipes/search.pipe';
 
 
 
@@ -15,7 +17,9 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   declarations: [
     MainLayoutComponent,
     SidebarComponent,
-    NavbarComponent
+    NavbarComponent,
+    ConfirmModalComponent,
+    SearchPipe
   ],
   imports: [
     CommonModule,
@@ -23,7 +27,9 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   ], exports: [
     MainLayoutComponent,
     SidebarComponent,
-    NavbarComponent
+    NavbarComponent,
+    ConfirmModalComponent,
+    SearchPipe
   ]
 })
 export class SharedModule { }
