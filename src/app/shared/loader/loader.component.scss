@@ -1,0 +1,24 @@
+
+
+.loader-logo{
+    width:80px;
+    animation: nextzielPulse 1.8s infinite ease-in-out;
+  }
+  
+  @keyframes nextzielPulse{
+    0%{
+      transform:scale(.9);
+      opacity:.7;
+    }
+  
+    50%{
+      transform:scale(1.05);
+      opacity:1;
+      filter:drop-shadow(0 0 12px #7bc043);
+    }
+  
+    100%{
+      transform:scale(.9);
+      opacity:.7;
+    }
+  }

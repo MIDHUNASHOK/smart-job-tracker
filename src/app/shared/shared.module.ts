@@ -10,6 +10,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ConfirmModalComponent } from './modals/confirm-modal/confirm-modal.component';
 import { SearchPipe } from './pipes/search.pipe';
+import { UnderConstructionComponent } from './under-construction/under-construction.component';
+import { LoaderComponent } from './loader/loader.component';
 
 
 
@@ -19,7 +21,9 @@ import { SearchPipe } from './pipes/search.pipe';
     SidebarComponent,
     NavbarComponent,
     ConfirmModalComponent,
-    SearchPipe
+    SearchPipe,
+    UnderConstructionComponent,
+    LoaderComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +33,8 @@ import { SearchPipe } from './pipes/search.pipe';
     SidebarComponent,
     NavbarComponent,
     ConfirmModalComponent,
-    SearchPipe
+    SearchPipe,
+    UnderConstructionComponent
   ]
 })
 export class SharedModule { }

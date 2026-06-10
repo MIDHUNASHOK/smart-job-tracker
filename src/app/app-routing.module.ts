@@ -104,6 +104,20 @@ const routes: Routes = [
           import('./features/analytics/analytics.module').then(
             m => m.AnalyticsModule
           )
+      },
+      {
+        path: 'profile',
+        loadChildren: () =>
+          import('./features/profile/profile.module').then(
+            m => m.ProfileModule
+          )
+      },
+      {
+        path: 'smart_apply',
+        loadChildren: () =>
+          import('./features/smart-apply/smart-apply.module').then(
+            m => m.SmartApplyModule
+          )
       }
 
     ]
