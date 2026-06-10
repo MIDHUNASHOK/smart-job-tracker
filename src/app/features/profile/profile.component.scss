@@ -1,0 +1,273 @@
+/* ==========================================
+   PAGE
+========================================== */
+
+.container-fluid {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  /* ==========================================
+     CARDS
+  ========================================== */
+  
+  .card {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #ffffff;
+    transition: all 0.25s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06) !important;
+  }
+  
+  .card-header {
+    background: #fff;
+    border-bottom: 1px solid #f1f5f9;
+    padding: 1rem 1.5rem;
+  }
+  
+  .card-header h5 {
+    font-weight: 600;
+    color: #0f172a;
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+  }
+  
+  /* ==========================================
+     PROFILE HEADER
+  ========================================== */
+  
+  .profile-card {
+    border-left: 5px solid #7bc043;
+    background: linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #f8fcf4 100%
+    );
+  }
+  
+  .profile-avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #7bc043;
+    padding: 4px;
+    background: #fff;
+    box-shadow: 0 8px 20px rgba(123, 192, 67, 0.15);
+  }
+  
+  .profile-card h2 {
+    color: #0f172a;
+    font-weight: 700;
+  }
+  
+  .profile-card p {
+    font-size: 0.95rem;
+  }
+  
+  /* ==========================================
+     FORM CONTROLS
+  ========================================== */
+  
+  .form-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #475569;
+    margin-bottom: 0.5rem;
+  }
+  
+  .form-control {
+    border-radius: 12px;
+    border: 1px solid #dbe2ea;
+    min-height: 48px;
+    transition: all 0.25s ease;
+  }
+  
+  .form-control:focus {
+    border-color: #7bc043;
+    box-shadow: 0 0 0 0.2rem rgba(123, 192, 67, 0.15);
+  }
+  
+  textarea.form-control {
+    min-height: 140px;
+    resize: vertical;
+  }
+  
+  /* ==========================================
+     BUTTONS
+  ========================================== */
+  
+  .btn {
+    border-radius: 12px;
+    font-weight: 500;
+  }
+  
+  .btn-success {
+    background: #7bc043;
+    border-color: #7bc043;
+  }
+  
+  .btn-success:hover {
+    background: #69ad36;
+    border-color: #69ad36;
+  }
+  
+  .btn-outline-primary {
+    border-color: #0f172a;
+    color: #0f172a;
+  }
+  
+  .btn-outline-primary:hover {
+    background: #0f172a;
+    border-color: #0f172a;
+  }
+  
+  /* ==========================================
+     PROFILE COMPLETION
+  ========================================== */
+  
+  .progress {
+    height: 12px;
+    border-radius: 20px;
+    background: #edf2f7;
+  }
+  
+  .progress-bar {
+    border-radius: 20px;
+    background: linear-gradient(
+      90deg,
+      #7bc043,
+      #98d45e
+    );
+  }
+  
+  /* ==========================================
+     SKILLS
+  ========================================== */
+  
+  .badge {
+    padding: 10px 16px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+  
+  /* ==========================================
+     EXPERIENCE ITEMS
+  ========================================== */
+  
+  .experience-item {
+    position: relative;
+    padding-left: 20px;
+  }
+  
+  .experience-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #7bc043;
+  }
+  
+  .experience-item h6 {
+    color: #0f172a;
+    font-weight: 600;
+  }
+  
+  /* ==========================================
+     RESUME BUILDER CARD
+  ========================================== */
+  
+  .resume-builder-card {
+    background: linear-gradient(
+      135deg,
+      #0f172a,
+      #1e293b
+    );
+    color: #fff;
+  }
+  
+  .resume-builder-card h5 {
+    color: #fff;
+  }
+  
+  .resume-builder-card p {
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .resume-builder-card .btn-success {
+    min-width: 220px;
+  }
+  
+  /* ==========================================
+     MOBILE
+  ========================================== */
+  
+  @media (max-width: 991px) {
+  
+    .profile-avatar {
+      width: 110px;
+      height: 110px;
+      margin-bottom: 1rem;
+    }
+  
+    .profile-card {
+      text-align: center;
+    }
+  
+    .profile-card .btn {
+      width: 100%;
+      margin-top: 10px;
+    }
+  
+    .profile-card .btn-outline-primary {
+      margin-right: 0 !important;
+    }
+  
+    .card-body {
+      padding: 1.25rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+  
+    .container-fluid {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+  
+    .profile-avatar {
+      width: 90px;
+      height: 90px;
+    }
+  
+    .profile-card h2 {
+      font-size: 1.5rem;
+    }
+  
+    .card-header {
+      padding: 1rem;
+    }
+  
+    .card-body {
+      padding: 1rem;
+    }
+  
+    .btn-lg {
+      width: 100%;
+    }
+  
+    .badge {
+      margin-bottom: 8px;
+    }
+  }
