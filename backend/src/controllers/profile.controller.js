@@ -19,16 +19,16 @@ const getProfile = async (req, res) => {
 
   } catch (error) {
 
-    console.log(error);
-
+    console.log('PROFILE ERROR:', error);
+  
     return res.status(500).json({
-
+  
       success: false,
-
-      message: 'Failed to fetch profile'
-
+  
+      error: error.message
+  
     });
-
+  
   }
 
 };
