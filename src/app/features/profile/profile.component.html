@@ -1,587 +1,721 @@
-<div class="container-fluid py-4">
+<div class="container py-4">
 
-  <!-- Profile Completion -->
+  <!-- Toast Notification -->
+  <div 
+    class="toast-container position-fixed top-0 end-0 p-3" 
+    style="z-index: 1100;">
+    <div 
+      class="toast align-items-center border-0"
+      [class.show]="toast.show"
+      [class.text-bg-success]="toast.type === 'success'"
+      [class.text-bg-danger]="toast.type === 'error'"
+      role="alert">
+      <div class="d-flex">
+        <div class="toast-body">
+          <i 
+            class="bi me-2"
+            [class.bi-check-circle-fill]="toast.type === 'success'"
+            [class.bi-x-circle-fill]="toast.type === 'error'">
+          </i>
+          {{ toast.message }}
+        </div>
+        <button 
+          type="button" 
+          class="btn-close btn-close-white me-2 m-auto" 
+          (click)="toast.show = false">
+        </button>
+      </div>
+    </div>
+  </div>
 
-  <div class="card shadow-sm border-0 mb-4">
-
+  <!-- Profile Completion Card -->
+  <div class="card shadow-sm mb-4">
     <div class="card-body">
-
-      <div class="d-flex justify-content-between align-items-center">
-
-        <h5 class="mb-0">
-          Profile Completion
-        </h5>
-
-        <span class="fw-bold text-success">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <h6 class="mb-0 fw-semibold">Profile Completion</h6>
+        <span class="badge" [class]="'bg-' + completionColor">
           {{ profileCompletion }}%
         </span>
-
       </div>
-
-      <div class="progress mt-3">
-
-        <div
-          class="progress-bar bg-success"
-          role="progressbar"
-          [style.width.%]="profileCompletion">
+      <div class="progress" style="height: 8px;">
+        <div 
+          class="progress-bar"
+          [class]="'bg-' + completionColor"
+          role="progressbar" 
+          [style.width.%]="profileCompletion"
+          [attr.aria-valuenow]="profileCompletion"
+          aria-valuemin="0" 
+          aria-valuemax="100">
         </div>
-
       </div>
-
+      <small class="text-muted mt-2 d-block">
+        Complete your profile to increase visibility to recruiters
+      </small>
     </div>
-
   </div>
 
   <!-- Profile Header -->
-
-  <div class="card shadow-sm border-0 profile-card">
-
+  <div class="card shadow-sm profile-header mb-4">
     <div class="card-body">
-
-      <div class="row align-items-center">
-
-        <div class="col-lg-2 text-center">
-
-          <label for="profileImageInput" class="profile-image-wrapper">
+      <div class="row align-items-center g-3">
         
-            <!-- <img
-              [src]="profileImagePreview || profile.avatarUrl || 'assets/global logo/user-avatar.png'"
-              class="profile-avatar"
-              alt="Profile"> -->
-
-            <img
-            [src]=" profile.avatarUrl || 'assets/global logo/user-avatar.png'"
-            class="profile-avatar"
-            alt="Profile">
-        
-            <!-- <span class="profile-upload-text">
-              Change
-            </span> -->
-        
-          </label>
-        
-          <!-- <input
-            id="profileImageInput"
-            type="file"
-            accept="image/*"
-            class="d-none"
-            (change)="onProfileImageSelected($event)"> -->
-        
+        <div class="col-12 col-md-auto text-center">
+          <div class="avatar-wrapper">
+            <img 
+              [src]="profile.avatarUrl || 'assets/global logo/user-avatar.png'"
+              class="profile-avatar" 
+              alt="Profile picture"
+              (error)="profile.avatarUrl = ''">
+            <button class="btn btn-sm btn-light avatar-edit" title="Change photo">
+              <i class="bi bi-camera"></i>
+            </button>
+          </div>
         </div>
 
-        <div class="col-lg-7">
-
-          <h2 class="fw-bold mb-1">
+        <div class="col-12 col-md text-center text-md-start">
+          <h2 class="mb-1 fw-bold">
             {{ profile.fullName || 'Your Name' }}
           </h2>
-
-          <p class="text-muted mb-1">
+          <p class="text-muted mb-1 fs-5">
             {{ profile.profession || 'Your Profession' }}
           </p>
-
           <p class="text-muted mb-0">
+            <i class="bi bi-geo-alt me-1"></i>
             {{ profile.location || 'Your Location' }}
           </p>
-
-        </div>
-
-        <div class="col-lg-3 text-lg-end mt-3 mt-lg-0">
-
-          <button
-            class="btn btn-outline-primary me-2"
-            (click)="saveProfile()">
-            Save Profile
-          </button>
-
-          <button class="btn btn-success">
-            Generate CV
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- Personal Information -->
-
-  <div class="card shadow-sm border-0 mt-4">
-
-    <div class="card-header bg-white">
-
-      <h5 class="mb-0">
-        Personal Information
-      </h5>
-
-    </div>
-
-    <div class="card-body">
-
-      <div class="row">
-
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Full Name</label>
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="profile.fullName"
-            placeholder="Enter your full name">
-        </div>
-
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Profession</label>
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="profile.profession"
-            placeholder="Angular Developer">
-        </div>
-
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Email</label>
-          <input
-            type="email"
-            class="form-control"
-            [(ngModel)]="profile.email"
-            placeholder="Enter your email">
-        </div>
-
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Phone</label>
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="profile.phone"
-            placeholder="+49 123456789">
-        </div>
-
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Location</label>
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="profile.location"
-            placeholder="Berlin, Germany">
-        </div>
-
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Avatar URL</label>
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="profile.avatarUrl"
-            placeholder="https://example.com/profile.png">
-        </div>
-
-        <div class="col-md-6 mb-3">
-          <label class="form-label">LinkedIn Profile</label>
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="profile.linkedin"
-            placeholder="https://linkedin.com/in/...">
-        </div>
-
-        <div class="col-md-6 mb-3">
-          <label class="form-label">GitHub Profile</label>
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="profile.github"
-            placeholder="https://github.com/...">
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- Professional Summary -->
-
-  <div class="card shadow-sm border-0 mt-4">
-
-    <div class="card-header bg-white">
-
-      <div class="d-flex justify-content-between align-items-center">
-
-        <h5 class="mb-0">
-          Professional Summary
-        </h5>
-
-        <button
-          class="btn btn-success btn-sm"
-          (click)="saveProfile()">
-          Save
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="card-body">
-
-      <textarea
-        rows="5"
-        class="form-control"
-        [(ngModel)]="profile.summary"
-        placeholder="Write your professional summary...">
-      </textarea>
-
-    </div>
-
-  </div>
-
-  <!-- Skills -->
-
-  <div class="card shadow-sm border-0 mt-4">
-
-    <div class="card-header bg-white">
-
-      <div class="d-flex justify-content-between">
-
-        <h5 class="mb-0">
-          Skills
-        </h5>
-
-        <button
-          class="btn btn-success btn-sm"
-          (click)="addSkill()">
-          Add Skill
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="card-body">
-
-      <ng-container *ngIf="skills.length > 0; else noSkills">
-
-        <span
-          class="badge bg-primary me-2 mb-2"
-          *ngFor="let skill of skills; trackBy: trackById">
-
-          {{ skill.name }}
-
-          <i
-            class="bi bi-x ms-2 pointer"
-            (click)="deleteSkill(skill.id)">
-          </i>
-
-        </span>
-
-      </ng-container>
-
-      <ng-template #noSkills>
-        <p class="text-muted mb-0">
-          No skills added yet.
-        </p>
-      </ng-template>
-
-    </div>
-
-  </div>
-
-  <!-- Work Experience -->
-
-  <div class="card shadow-sm border-0 mt-4">
-
-    <div class="card-header bg-white">
-
-      <div class="d-flex justify-content-between">
-
-        <h5 class="mb-0">
-          Work Experience
-        </h5>
-
-        <button
-          class="btn btn-success btn-sm"
-          (click)="addExperience()">
-          Add Experience
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="card-body">
-
-      <ng-container *ngIf="experiences.length > 0; else noExperience">
-
-        <div
-          class="experience-item"
-          *ngFor="let exp of experiences; trackBy: trackById">
-
-          <div class="d-flex justify-content-between">
-
-            <div>
-
-              <h6 class="fw-bold">
-                {{ exp.jobTitle }}
-              </h6>
-
-              <p class="text-muted">
-                {{ exp.companyName }} |
-                {{ exp.startDate }} -
-                {{ exp.endDate || 'Present' }}
-              </p>
-
-              <p>
-                {{ exp.description }}
-              </p>
-
-            </div>
-
-            <button
-              class="btn btn-sm btn-outline-danger"
-              (click)="deleteExperience(exp.id)">
-              <i class="bi bi-trash"></i>
-            </button>
-
+          
+          <div class="mt-2" *ngIf="profile.linkedin || profile.github">
+            <a 
+              *ngIf="profile.linkedin" 
+              [href]="profile.linkedin" 
+              target="_blank" 
+              class="btn btn-sm btn-outline-primary me-2">
+              <i class="bi bi-linkedin"></i>
+            </a>
+            <a 
+              *ngIf="profile.github" 
+              [href]="profile.github" 
+              target="_blank" 
+              class="btn btn-sm btn-outline-dark">
+              <i class="bi bi-github"></i>
+            </a>
           </div>
-
-          <hr>
-
         </div>
 
-      </ng-container>
-
-      <ng-template #noExperience>
-        <p class="text-muted mb-0">
-          No work experience added yet.
-        </p>
-      </ng-template>
-
-    </div>
-
-  </div>
-
-  <!-- Education -->
-
-  <div class="card shadow-sm border-0 mt-4">
-
-    <div class="card-header bg-white">
-
-      <div class="d-flex justify-content-between">
-
-        <h5 class="mb-0">
-          Education
-        </h5>
-
-        <button
-          class="btn btn-success btn-sm"
-          (click)="addEducation()">
-          Add Education
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="card-body">
-
-      <ng-container *ngIf="educations.length > 0; else noEducation">
-
-        <div
-          class="experience-item"
-          *ngFor="let edu of educations; trackBy: trackById">
-
-          <div class="d-flex justify-content-between">
-
-            <div>
-
-              <h6 class="fw-bold">
-                {{ edu.degree }}
-              </h6>
-
-              <p class="text-muted">
-                {{ edu.institute }}
-              </p>
-
-              <p>
-                {{ edu.startYear }} - {{ edu.endYear }}
-              </p>
-
-            </div>
-
-            <button
-              class="btn btn-sm btn-outline-danger"
-              (click)="deleteEducation(edu.id)">
-              <i class="bi bi-trash"></i>
+        <div class="col-12 col-md-auto">
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button 
+              class="btn btn-outline-primary" 
+              (click)="saveProfile()"
+              [disabled]="loading.saving">
+              <span *ngIf="loading.saving" class="spinner-border spinner-border-sm me-1"></span>
+              <i *ngIf="!loading.saving" class="bi bi-check2 me-1"></i>
+              Save Profile
             </button>
-
+            <button class="btn btn-success" (click)="generateResume()">
+              <i class="bi bi-file-earmark-pdf me-1"></i>
+              Generate CV
+            </button>
           </div>
-
-          <hr>
-
         </div>
-
-      </ng-container>
-
-      <ng-template #noEducation>
-        <p class="text-muted mb-0">
-          No education added yet.
-        </p>
-      </ng-template>
-
-    </div>
-
-  </div>
-
-  <!-- Certifications -->
-
-  <div class="card shadow-sm border-0 mt-4">
-
-    <div class="card-header bg-white">
-
-      <div class="d-flex justify-content-between">
-
-        <h5 class="mb-0">
-          Certifications
-        </h5>
-
-        <button
-          class="btn btn-success btn-sm"
-          (click)="addCertification()">
-          Add Certification
-        </button>
-
+        
       </div>
-
     </div>
-
-    <div class="card-body">
-
-      <ng-container *ngIf="certifications.length > 0; else noCertification">
-
-        <ul class="mb-0">
-
-          <li
-            class="mb-2 d-flex justify-content-between align-items-center"
-            *ngFor="let cert of certifications; trackBy: trackById">
-
-            <span>
-              {{ cert.name }}
-
-              <span class="text-muted">
-                {{ cert.issuer ? ' - ' + cert.issuer : '' }}
-                {{ cert.year ? '(' + cert.year + ')' : '' }}
-              </span>
-            </span>
-
-            <button
-              class="btn btn-sm btn-outline-danger"
-              (click)="deleteCertification(cert.id)">
-              <i class="bi bi-trash"></i>
-            </button>
-
-          </li>
-
-        </ul>
-
-      </ng-container>
-
-      <ng-template #noCertification>
-        <p class="text-muted mb-0">
-          No certifications added yet.
-        </p>
-      </ng-template>
-
-    </div>
-
   </div>
 
-  <!-- Languages -->
+  <div class="row g-4">
+    
+    <!-- Left Column -->
+    <div class="col-lg-8">
 
-  <div class="card shadow-sm border-0 mt-4">
-
-    <div class="card-header bg-white">
-
-      <div class="d-flex justify-content-between">
-
-        <h5 class="mb-0">
-          Languages
-        </h5>
-
-        <button
-          class="btn btn-success btn-sm"
-          (click)="addLanguage()">
-          Add Language
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="card-body">
-
-      <ng-container *ngIf="languages.length > 0; else noLanguage">
-
-        <span
-          class="badge bg-success me-2 mb-2"
-          *ngFor="let lang of languages; trackBy: trackById">
-
-          {{ lang.name }} - {{ lang.level }}
-
-          <i
-            class="bi bi-x ms-2 pointer"
-            (click)="deleteLanguage(lang.id)">
-          </i>
-
-        </span>
-
-      </ng-container>
-
-      <ng-template #noLanguage>
-        <p class="text-muted mb-0">
-          No languages added yet.
-        </p>
-      </ng-template>
-
-    </div>
-
-  </div>
-
-  <!-- Resume Builder -->
-
-  <div class="card shadow-sm border-0 mt-4 mb-5 resume-builder-card">
-
-    <div class="card-body">
-
-      <div class="row align-items-center">
-
-        <div class="col-md-8">
-
-          <h5 class="fw-bold mb-2">
-            Resume Builder
+      <!-- Personal Information -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-transparent">
+          <h5 class="mb-0 fw-semibold">
+            <i class="bi bi-person me-2 text-primary"></i>
+            Personal Information
           </h5>
-
-          <p class="text-muted mb-0">
-            Generate a professional ATS-friendly resume
-            automatically using your profile information.
-          </p>
-
         </div>
+        <div class="card-body">
+          <div class="row g-3">
+            
+            <div class="col-sm-6">
+              <label class="form-label">Full Name *</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                [(ngModel)]="profile.fullName"
+                placeholder="John Doe">
+            </div>
 
-        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+            <div class="col-sm-6">
+              <label class="form-label">Profession *</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                [(ngModel)]="profile.profession"
+                placeholder="Full Stack Developer">
+            </div>
 
-          <button class="btn btn-success btn-lg">
+            <div class="col-sm-6">
+              <label class="form-label">Email *</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-envelope"></i>
+                </span>
+                <input 
+                  type="email" 
+                  class="form-control" 
+                  [(ngModel)]="profile.email"
+                  placeholder="john@example.com">
+              </div>
+            </div>
 
-            <i class="bi bi-file-earmark-pdf-fill me-2"></i>
+            <div class="col-sm-6">
+              <label class="form-label">Phone</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-telephone"></i>
+                </span>
+                <input 
+                  type="tel" 
+                  class="form-control" 
+                  [(ngModel)]="profile.phone"
+                  placeholder="+49 123 456 789">
+              </div>
+            </div>
 
-            Generate Resume
+            <div class="col-sm-6">
+              <label class="form-label">Location</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-geo-alt"></i>
+                </span>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  [(ngModel)]="profile.location"
+                  placeholder="Berlin, Germany">
+              </div>
+            </div>
 
+            <div class="col-sm-6">
+              <label class="form-label">Avatar URL</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-image"></i>
+                </span>
+                <input 
+                  type="url" 
+                  class="form-control" 
+                  [(ngModel)]="profile.avatarUrl"
+                  placeholder="https://...">
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <label class="form-label">LinkedIn</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-linkedin"></i>
+                </span>
+                <input 
+                  type="url" 
+                  class="form-control" 
+                  [(ngModel)]="profile.linkedin"
+                  placeholder="[linkedin.com](https://linkedin.com/in/)">
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <label class="form-label">GitHub</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-github"></i>
+                </span>
+                <input 
+                  type="url" 
+                  class="form-control" 
+                  [(ngModel)]="profile.github"
+                  placeholder="[github.com](https://github.com/)">
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Professional Summary -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+          <h5 class="mb-0 fw-semibold">
+            <i class="bi bi-file-text me-2 text-primary"></i>
+            Professional Summary
+          </h5>
+          <small class="text-muted">
+            {{ profile.summary?.length || 0 }}/500 characters
+          </small>
+        </div>
+        <div class="card-body">
+          <textarea 
+            class="form-control" 
+            rows="4"
+            [(ngModel)]="profile.summary"
+            maxlength="500"
+            placeholder="Write a brief summary of your professional background, skills, and career goals...">
+          </textarea>
+        </div>
+      </div>
+
+      <!-- Work Experience -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+          <h5 class="mb-0 fw-semibold">
+            <i class="bi bi-briefcase me-2 text-primary"></i>
+            Work Experience
+          </h5>
+          <button class="btn btn-success btn-sm" (click)="openExperienceModal()">
+            <i class="bi bi-plus-lg me-1"></i> Add
           </button>
+        </div>
+        <div class="card-body">
+          
+          <div *ngIf="loading.experiences" class="text-center py-4">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+
+          <div *ngIf="!loading.experiences && experiences.length === 0" class="text-center py-4">
+            <i class="bi bi-briefcase display-4 text-muted"></i>
+            <p class="text-muted mt-2 mb-0">No work experience added yet</p>
+          </div>
+
+          <div *ngIf="!loading.experiences && experiences.length > 0" class="timeline">
+            <div 
+              class="timeline-item" 
+              *ngFor="let exp of experiences; let last = last">
+              <div class="d-flex justify-content-between align-items-start">
+                <div class="flex-grow-1">
+                  <h6 class="fw-bold mb-1">{{ exp.jobTitle }}</h6>
+                  <p class="text-primary mb-1">{{ exp.companyName }}</p>
+                  <small class="text-muted">
+                    <i class="bi bi-calendar3 me-1"></i>
+                    {{ exp.startDate }} – {{ exp.endDate || 'Present' }}
+                  </small>
+                  <p class="mt-2 mb-0 text-secondary" *ngIf="exp.description">
+                    {{ exp.description }}
+                  </p>
+                </div>
+                <button 
+                  class="btn btn-sm btn-outline-danger ms-3" 
+                  (click)="deleteExperience(exp.id)"
+                  title="Delete">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+              <hr *ngIf="!last">
+            </div>
+          </div>
 
         </div>
+      </div>
 
+      <!-- Education -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+          <h5 class="mb-0 fw-semibold">
+            <i class="bi bi-mortarboard me-2 text-primary"></i>
+            Education
+          </h5>
+          <button class="btn btn-success btn-sm" (click)="openEducationModal()">
+            <i class="bi bi-plus-lg me-1"></i> Add
+          </button>
+        </div>
+        <div class="card-body">
+
+          <div *ngIf="loading.educations" class="text-center py-4">
+            <div class="spinner-border text-primary" role="status"></div>
+          </div>
+
+          <div *ngIf="!loading.educations && educations.length === 0" class="text-center py-4">
+            <i class="bi bi-mortarboard display-4 text-muted"></i>
+            <p class="text-muted mt-2 mb-0">No education added yet</p>
+          </div>
+
+          <div *ngIf="!loading.educations && educations.length > 0" class="timeline">
+            <div 
+              class="timeline-item" 
+              *ngFor="let edu of educations; let last = last">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <h6 class="fw-bold mb-1">{{ edu.degree }}</h6>
+                  <p class="text-primary mb-1">{{ edu.institute }}</p>
+                  <small class="text-muted">
+                    <i class="bi bi-calendar3 me-1"></i>
+                    {{ edu.startYear }} – {{ edu.endYear || 'Present' }}
+                  </small>
+                </div>
+                <button 
+                  class="btn btn-sm btn-outline-danger ms-3" 
+                  (click)="deleteEducation(edu.id)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+              <hr *ngIf="!last">
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column -->
+    <div class="col-lg-4">
+
+      <!-- Skills -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+          <h5 class="mb-0 fw-semibold">
+            <i class="bi bi-lightning me-2 text-primary"></i>
+            Skills
+          </h5>
+          <button class="btn btn-success btn-sm" (click)="openSkillModal()">
+            <i class="bi bi-plus-lg"></i>
+          </button>
+        </div>
+        <div class="card-body">
+
+          <div *ngIf="loading.skills" class="text-center py-3">
+            <div class="spinner-border spinner-border-sm text-primary"></div>
+          </div>
+
+          <div *ngIf="!loading.skills && skills.length === 0" class="text-center py-3">
+            <p class="text-muted mb-0">No skills added yet</p>
+          </div>
+
+          <div *ngIf="!loading.skills && skills.length > 0" class="d-flex flex-wrap gap-2">
+            <span 
+              class="badge bg-primary-subtle text-primary skill-badge" 
+              *ngFor="let skill of skills">
+              {{ skill.name }}
+              <i 
+                class="bi bi-x-lg ms-1 pointer" 
+                (click)="deleteSkill(skill.id)">
+              </i>
+            </span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Certifications -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+          <h5 class="mb-0 fw-semibold">
+            <i class="bi bi-award me-2 text-primary"></i>
+            Certifications
+          </h5>
+          <button class="btn btn-success btn-sm" (click)="openCertificationModal()">
+            <i class="bi bi-plus-lg"></i>
+          </button>
+        </div>
+        <div class="card-body">
+
+          <div *ngIf="loading.certifications" class="text-center py-3">
+            <div class="spinner-border spinner-border-sm text-primary"></div>
+          </div>
+
+          <div *ngIf="!loading.certifications && certifications.length === 0" class="text-center py-3">
+            <p class="text-muted mb-0">No certifications added yet</p>
+          </div>
+
+          <ul *ngIf="!loading.certifications && certifications.length > 0" class="list-unstyled mb-0">
+            <li 
+              class="d-flex justify-content-between align-items-center py-2" 
+              *ngFor="let cert of certifications; let last = last"
+              [class.border-bottom]="!last">
+              <div>
+                <span class="fw-medium">{{ cert.name }}</span>
+                <br *ngIf="cert.issuer || cert.year">
+                <small class="text-muted">
+                  {{ cert.issuer }}{{ cert.issuer && cert.year ? ' • ' : '' }}{{ cert.year }}
+                </small>
+              </div>
+              <button 
+                class="btn btn-sm btn-outline-danger" 
+                (click)="deleteCertification(cert.id)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+
+      <!-- Languages -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+          <h5 class="mb-0 fw-semibold">
+            <i class="bi bi-translate me-2 text-primary"></i>
+            Languages
+          </h5>
+          <button class="btn btn-success btn-sm" (click)="openLanguageModal()">
+            <i class="bi bi-plus-lg"></i>
+          </button>
+        </div>
+        <div class="card-body">
+
+          <div *ngIf="loading.languages" class="text-center py-3">
+            <div class="spinner-border spinner-border-sm text-primary"></div>
+          </div>
+
+          <div *ngIf="!loading.languages && languages.length === 0" class="text-center py-3">
+            <p class="text-muted mb-0">No languages added yet</p>
+          </div>
+
+          <div *ngIf="!loading.languages && languages.length > 0" class="d-flex flex-wrap gap-2">
+            <span 
+              class="badge bg-success-subtle text-success skill-badge" 
+              *ngFor="let lang of languages">
+              {{ lang.name }} 
+              <small class="opacity-75">• {{ lang.level }}</small>
+              <i 
+                class="bi bi-x-lg ms-1 pointer" 
+                (click)="deleteLanguage(lang.id)">
+              </i>
+            </span>
+          </div>
+
+        </div>
       </div>
 
     </div>
 
   </div>
 
+  <!-- Resume Builder CTA -->
+  <div class="card shadow-sm resume-cta mt-2 mb-5">
+    <div class="card-body py-4">
+      <div class="row align-items-center">
+        <div class="col-lg-8 mb-3 mb-lg-0">
+          <h5 class="fw-bold text-white mb-2">
+            <i class="bi bi-file-earmark-pdf-fill me-2"></i>
+            Ready to generate your resume?
+          </h5>
+          <p class="text-white-50 mb-0">
+            Create a professional ATS-friendly resume using your profile information
+          </p>
+        </div>
+        <div class="col-lg-4 text-lg-end">
+          <button class="btn btn-light btn-lg px-4">
+            <i class="bi bi-download me-2"></i>
+            Generate Resume
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- MODALS -->
+<!-- ═══════════════════════════════════════════ -->
+
+<!-- Skill Modal -->
+<div 
+  class="modal fade" 
+  [class.show]="showSkillModal" 
+  [style.display]="showSkillModal ? 'block' : 'none'"
+  tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Skill</h5>
+        <button type="button" class="btn-close" (click)="closeSkillModal()"></button>
+      </div>
+      <div class="modal-body">
+        <label class="form-label">Skill Name *</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          [(ngModel)]="newSkill.name"
+          placeholder="e.g. Angular, TypeScript, Node.js"
+          (keyup.enter)="submitSkill()">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeSkillModal()">Cancel</button>
+        <button type="button" class="btn btn-success" (click)="submitSkill()">Add Skill</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Experience Modal -->
+<div 
+  class="modal fade" 
+  [class.show]="showExperienceModal" 
+  [style.display]="showExperienceModal ? 'block' : 'none'"
+  tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Work Experience</h5>
+        <button type="button" class="btn-close" (click)="closeExperienceModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Job Title *</label>
+            <input type="text" class="form-control" [(ngModel)]="newExperience.jobTitle" placeholder="Senior Developer">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Company *</label>
+            <input type="text" class="form-control" [(ngModel)]="newExperience.companyName" placeholder="Company Name">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Start Date *</label>
+            <input type="month" class="form-control" [(ngModel)]="newExperience.startDate">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">End Date</label>
+            <input type="month" class="form-control" [(ngModel)]="newExperience.endDate" placeholder="Leave empty if current">
+          </div>
+          <div class="col-12">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" rows="3" [(ngModel)]="newExperience.description" placeholder="Describe your responsibilities and achievements..."></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeExperienceModal()">Cancel</button>
+        <button type="button" class="btn btn-success" (click)="submitExperience()">Add Experience</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Education Modal -->
+<div 
+  class="modal fade" 
+  [class.show]="showEducationModal" 
+  [style.display]="showEducationModal ? 'block' : 'none'"
+  tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Education</h5>
+        <button type="button" class="btn-close" (click)="closeEducationModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label">Degree *</label>
+            <input type="text" class="form-control" [(ngModel)]="newEducation.degree" placeholder="Bachelor of Science in Computer Science">
+          </div>
+          <div class="col-12">
+            <label class="form-label">Institution *</label>
+            <input type="text" class="form-control" [(ngModel)]="newEducation.institute" placeholder="University Name">
+          </div>
+          <div class="col-6">
+            <label class="form-label">Start Year</label>
+            <input type="number" class="form-control" [(ngModel)]="newEducation.startYear" placeholder="2018" min="1950" max="2030">
+          </div>
+          <div class="col-6">
+            <label class="form-label">End Year</label>
+            <input type="number" class="form-control" [(ngModel)]="newEducation.endYear" placeholder="2022" min="1950" max="2030">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeEducationModal()">Cancel</button>
+        <button type="button" class="btn btn-success" (click)="submitEducation()">Add Education</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Certification Modal -->
+<div 
+  class="modal fade" 
+  [class.show]="showCertificationModal" 
+  [style.display]="showCertificationModal ? 'block' : 'none'"
+  tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Certification</h5>
+        <button type="button" class="btn-close" (click)="closeCertificationModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label">Certification Name *</label>
+            <input type="text" class="form-control" [(ngModel)]="newCertification.name" placeholder="AWS Solutions Architect">
+          </div>
+          <div class="col-8">
+            <label class="form-label">Issuer</label>
+            <input type="text" class="form-control" [(ngModel)]="newCertification.issuer" placeholder="Amazon Web Services">
+          </div>
+          <div class="col-4">
+            <label class="form-label">Year</label>
+            <input type="number" class="form-control" [(ngModel)]="newCertification.year" placeholder="2023" min="1990" max="2030">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeCertificationModal()">Cancel</button>
+        <button type="button" class="btn btn-success" (click)="submitCertification()">Add Certification</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Language Modal -->
+<div 
+  class="modal fade" 
+  [class.show]="showLanguageModal" 
+  [style.display]="showLanguageModal ? 'block' : 'none'"
+  tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Language</h5>
+        <button type="button" class="btn-close" (click)="closeLanguageModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-7">
+            <label class="form-label">Language *</label>
+            <input type="text" class="form-control" [(ngModel)]="newLanguage.name" placeholder="German">
+          </div>
+          <div class="col-5">
+            <label class="form-label">Level *</label>
+            <select class="form-select" [(ngModel)]="newLanguage.level">
+              <option value="">Select...</option>
+              <option value="Native">Native</option>
+              <option value="Fluent">Fluent</option>
+              <option value="Advanced">Advanced</option>
+              <option value="Intermediate">Intermediate</option>
+              <option value="Basic">Basic</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeLanguageModal()">Cancel</button>
+        <button type="button" class="btn btn-success" (click)="submitLanguage()">Add Language</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Backdrop -->
+<div 
+  class="modal-backdrop fade" 
+  [class.show]="showSkillModal || showExperienceModal || showEducationModal || showCertificationModal || showLanguageModal"
+  [style.display]="(showSkillModal || showExperienceModal || showEducationModal || showCertificationModal || showLanguageModal) ? 'block' : 'none'"
+  (click)="showSkillModal = false; showExperienceModal = false; showEducationModal = false; showCertificationModal = false; showLanguageModal = false">
 </div>

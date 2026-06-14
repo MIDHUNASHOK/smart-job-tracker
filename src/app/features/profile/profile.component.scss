@@ -1,305 +1,316 @@
-/* ==========================================
-   PAGE
-========================================== */
+// ════════════════════════════════════════════════════════
+// VARIABLES
+// ════════════════════════════════════════════════════════
 
-.container-fluid {
-    max-width: 1400px;
-    margin: 0 auto;
+$primary: #4f46e5;
+$success: #22c55e;
+$border-radius: 16px;
+$transition: all 0.2s ease;
+
+// ════════════════════════════════════════════════════════
+// CARDS
+// ════════════════════════════════════════════════════════
+
+.card {
+  border: none;
+  border-radius: $border-radius;
+  transition: $transition;
+  overflow: hidden;
+
+  &:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
   }
-  
-  /* ==========================================
-     CARDS
-  ========================================== */
-  
-  .card {
-    border: none;
-    border-radius: 20px;
-    overflow: hidden;
-    background: #ffffff;
-    transition: all 0.25s ease;
+}
+
+.card-header {
+  border-bottom: 1px solid #f1f5f9;
+  padding: 1rem 1.25rem;
+
+  h5 {
+    font-size: 1rem;
   }
-  
-  .card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06) !important;
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+// ════════════════════════════════════════════════════════
+// PROFILE HEADER
+// ════════════════════════════════════════════════════════
+
+.profile-header {
+  border-left: 4px solid $success;
+  background: linear-gradient(135deg, #fff 0%, #f0fdf4 100%);
+}
+
+.avatar-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid $success;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.2);
+}
+
+.avatar-edit {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+// ════════════════════════════════════════════════════════
+// FORMS
+// ════════════════════════════════════════════════════════
+
+.form-label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #475569;
+  margin-bottom: 0.4rem;
+}
+
+.form-control,
+.form-select {
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  padding: 0.6rem 0.9rem;
+  transition: $transition;
+
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
   }
-  
-  .card-header {
-    background: #fff;
-    border-bottom: 1px solid #f1f5f9;
-    padding: 1rem 1.5rem;
+}
+
+.input-group-text {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px 0 0 10px;
+  color: #64748b;
+}
+
+.input-group .form-control {
+  border-radius: 0 10px 10px 0;
+}
+
+textarea.form-control {
+  min-height: 100px;
+  resize: vertical;
+}
+
+// ════════════════════════════════════════════════════════
+// BUTTONS
+// ════════════════════════════════════════════════════════
+
+.btn {
+  border-radius: 10px;
+  font-weight: 500;
+  transition: $transition;
+}
+
+.btn-success {
+  background: $success;
+  border-color: $success;
+
+  &:hover {
+    background: darken($success, 8%);
+    border-color: darken($success, 8%);
   }
-  
-  .card-header h5 {
-    font-weight: 600;
-    color: #0f172a;
+}
+
+.btn-outline-primary {
+  color: #1e293b;
+  border-color: #cbd5e1;
+
+  &:hover {
+    background: #1e293b;
+    border-color: #1e293b;
   }
-  
-  .card-body {
-    padding: 1.5rem;
+}
+
+// ════════════════════════════════════════════════════════
+// BADGES / SKILLS
+// ════════════════════════════════════════════════════════
+
+.skill-badge {
+  padding: 0.5rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+
+  i {
+    font-size: 0.75rem;
+    opacity: 0.7;
+    cursor: pointer;
+    transition: $transition;
+
+    &:hover {
+      opacity: 1;
+    }
   }
-  
-  /* ==========================================
-     PROFILE HEADER
-  ========================================== */
-  
-  .profile-card {
-    border-left: 5px solid #7bc043;
-    background: linear-gradient(
-      135deg,
-      #ffffff 0%,
-      #f8fcf4 100%
-    );
-  }
-  
-  .profile-avatar {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 5px solid #7bc043;
-    padding: 4px;
-    background: #fff;
-    box-shadow: 0 8px 20px rgba(123, 192, 67, 0.15);
-  }
-  
-  .profile-card h2 {
-    color: #0f172a;
-    font-weight: 700;
-  }
-  
-  .profile-card p {
-    font-size: 0.95rem;
-  }
-  
-  /* ==========================================
-     FORM CONTROLS
-  ========================================== */
-  
-  .form-label {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: #475569;
-    margin-bottom: 0.5rem;
-  }
-  
-  .form-control {
-    border-radius: 12px;
-    border: 1px solid #dbe2ea;
-    min-height: 48px;
-    transition: all 0.25s ease;
-  }
-  
-  .form-control:focus {
-    border-color: #7bc043;
-    box-shadow: 0 0 0 0.2rem rgba(123, 192, 67, 0.15);
-  }
-  
-  textarea.form-control {
-    min-height: 140px;
-    resize: vertical;
-  }
-  
-  /* ==========================================
-     BUTTONS
-  ========================================== */
-  
-  .btn {
-    border-radius: 12px;
-    font-weight: 500;
-  }
-  
-  .btn-success {
-    background: #7bc043;
-    border-color: #7bc043;
-  }
-  
-  .btn-success:hover {
-    background: #69ad36;
-    border-color: #69ad36;
-  }
-  
-  .btn-outline-primary {
-    border-color: #0f172a;
-    color: #0f172a;
-  }
-  
-  .btn-outline-primary:hover {
-    background: #0f172a;
-    border-color: #0f172a;
-  }
-  
-  /* ==========================================
-     PROFILE COMPLETION
-  ========================================== */
-  
-  .progress {
-    height: 12px;
-    border-radius: 20px;
-    background: #edf2f7;
-  }
-  
-  .progress-bar {
-    border-radius: 20px;
-    background: linear-gradient(
-      90deg,
-      #7bc043,
-      #98d45e
-    );
-  }
-  
-  /* ==========================================
-     SKILLS
-  ========================================== */
-  
-  .badge {
-    padding: 10px 16px;
-    border-radius: 999px;
-    font-size: 0.85rem;
-    font-weight: 500;
-  }
-  
-  /* ==========================================
-     EXPERIENCE ITEMS
-  ========================================== */
-  
-  .experience-item {
-    position: relative;
-    padding-left: 20px;
-  }
-  
-  .experience-item::before {
+}
+
+.bg-primary-subtle {
+  background-color: rgba(79, 70, 229, 0.1) !important;
+}
+
+.bg-success-subtle {
+  background-color: rgba(34, 197, 94, 0.1) !important;
+}
+
+// ════════════════════════════════════════════════════════
+// TIMELINE
+// ════════════════════════════════════════════════════════
+
+.timeline-item {
+  position: relative;
+  padding-left: 20px;
+
+  &::before {
     content: "";
     position: absolute;
     left: 0;
-    top: 7px;
+    top: 6px;
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: #7bc043;
+    background: $success;
   }
-  
-  .experience-item h6 {
+
+  h6 {
     color: #0f172a;
-    font-weight: 600;
+    margin-bottom: 0.25rem;
   }
-  
-  /* ==========================================
-     RESUME BUILDER CARD
-  ========================================== */
-  
-  .resume-builder-card {
-    background: linear-gradient(
-      135deg,
-      #0f172a,
-      #1e293b
-    );
-    color: #fff;
+}
+
+// ════════════════════════════════════════════════════════
+// PROGRESS BAR
+// ════════════════════════════════════════════════════════
+
+.progress {
+  border-radius: 20px;
+  background: #f1f5f9;
+}
+
+.progress-bar {
+  border-radius: 20px;
+  transition: width 0.6s ease;
+}
+
+// ════════════════════════════════════════════════════════
+// RESUME CTA
+// ════════════════════════════════════════════════════════
+
+.resume-cta {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  border-radius: $border-radius;
+
+  &:hover {
+    transform: translateY(-2px);
   }
-  
-  .resume-builder-card h5 {
-    color: #fff;
+}
+
+// ════════════════════════════════════════════════════════
+// TOAST
+// ════════════════════════════════════════════════════════
+
+.toast {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+
+  &.show {
+    opacity: 1;
   }
-  
-  .resume-builder-card p {
-    color: rgba(255, 255, 255, 0.8);
-  }
-  
-  .resume-builder-card .btn-success {
-    min-width: 220px;
-  }
-  
-  /* ==========================================
-     MOBILE
-  ========================================== */
-  
-  @media (max-width: 991px) {
-  
-    .profile-avatar {
-      width: 110px;
-      height: 110px;
-      margin-bottom: 1rem;
-    }
-  
-    .profile-card {
-      text-align: center;
-    }
-  
-    .profile-card .btn {
-      width: 100%;
-      margin-top: 10px;
-    }
-  
-    .profile-card .btn-outline-primary {
-      margin-right: 0 !important;
-    }
-  
-    .card-body {
-      padding: 1.25rem;
-    }
-  }
-  
-  @media (max-width: 576px) {
-  
-    .container-fluid {
-      padding-left: 12px;
-      padding-right: 12px;
-    }
-  
-    .profile-avatar {
-      width: 90px;
-      height: 90px;
-    }
-  
-    .profile-card h2 {
-      font-size: 1.5rem;
-    }
-  
-    .card-header {
-      padding: 1rem;
-    }
-  
-    .card-body {
-      padding: 1rem;
-    }
-  
-    .btn-lg {
-      width: 100%;
-    }
-  
-    .badge {
-      margin-bottom: 8px;
-    }
+}
+
+// ════════════════════════════════════════════════════════
+// MODALS
+// ════════════════════════════════════════════════════════
+
+.modal {
+  &.show {
+    display: block !important;
   }
 
-  .pointer {
-    cursor: pointer;
+  .modal-content {
+    border: none;
+    border-radius: $border-radius;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
   }
 
+  .modal-header {
+    border-bottom: 1px solid #f1f5f9;
+    padding: 1rem 1.25rem;
+  }
 
+  .modal-footer {
+    border-top: 1px solid #f1f5f9;
+    padding: 1rem 1.25rem;
+  }
+}
 
-  // .profile-image-wrapper {
-  //   position: relative;
-  //   display: inline-block;
-  //   cursor: pointer;
-  // }
-  
-  // .profile-avatar {
-  //   width: 110px;
-  //   height: 110px;
-  //   border-radius: 50%;
-  //   object-fit: cover;
-  //   border: 4px solid #6fbe44;
-  // }
-  
-  // .profile-upload-text {
-  //   position: absolute;
-  //   bottom: 6px;
-  //   left: 50%;
-  //   transform: translateX(-50%);
-  //   background: rgba(0, 0, 0, 0.65);
-  //   color: #fff;
-  //   font-size: 12px;
-  //   padding: 3px 10px;
-  //   border-radius: 20px;
-  // }
+// ════════════════════════════════════════════════════════
+// UTILITIES
+// ════════════════════════════════════════════════════════
+
+.pointer {
+  cursor: pointer;
+}
+
+// ════════════════════════════════════════════════════════
+// RESPONSIVE
+// ════════════════════════════════════════════════════════
+
+@media (max-width: 991.98px) {
+  .profile-avatar {
+    width: 100px;
+    height: 100px;
+  }
+
+  .avatar-edit {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .profile-avatar {
+    width: 80px;
+    height: 80px;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .card-header {
+    padding: 0.875rem 1rem;
+  }
+
+  .btn-lg {
+    width: 100%;
+  }
+}
