@@ -44,23 +44,28 @@
 
           <label for="profileImageInput" class="profile-image-wrapper">
         
-            <img
-              [src]="profileImagePreview || profile.avatarUrl || 'assets/images/default-avatar.png'"
+            <!-- <img
+              [src]="profileImagePreview || profile.avatarUrl || 'assets/global logo/user-avatar.png'"
               class="profile-avatar"
-              alt="Profile">
+              alt="Profile"> -->
+
+            <img
+            [src]=" profile.avatarUrl || 'assets/global logo/user-avatar.png'"
+            class="profile-avatar"
+            alt="Profile">
         
-            <span class="profile-upload-text">
+            <!-- <span class="profile-upload-text">
               Change
-            </span>
+            </span> -->
         
           </label>
         
-          <input
+          <!-- <input
             id="profileImageInput"
             type="file"
             accept="image/*"
             class="d-none"
-            (change)="onProfileImageSelected($event)">
+            (change)="onProfileImageSelected($event)"> -->
         
         </div>
 

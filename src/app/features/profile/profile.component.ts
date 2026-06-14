@@ -395,31 +395,31 @@ export class ProfileComponent implements OnInit {
 
 
 
-  profileImagePreview: string | ArrayBuffer | null = null;
-selectedProfileImage: File | null = null;
+//   profileImagePreview: string | ArrayBuffer | null = null;
+// selectedProfileImage: File | null = null;
 
-onProfileImageSelected(event: Event): void {
-  const input = event.target as HTMLInputElement;
+// onProfileImageSelected(event: Event): void {
+//   const input = event.target as HTMLInputElement;
 
-  if (!input.files || input.files.length === 0) {
-    return;
-  }
+//   if (!input.files || input.files.length === 0) {
+//     return;
+//   }
 
-  const file = input.files[0];
+//   const file = input.files[0];
 
-  if (!file.type.startsWith('image/')) {
-    alert('Please select a valid image file');
-    return;
-  }
+//   if (!file.type.startsWith('image/')) {
+//     alert('Please select a valid image file');
+//     return;
+//   }
 
-  this.selectedProfileImage = file;
+//   this.selectedProfileImage = file;
 
-  const reader = new FileReader();
+//   const reader = new FileReader();
 
-  reader.onload = () => {
-    this.profileImagePreview = reader.result;
-  };
+//   reader.onload = () => {
+//     this.profileImagePreview = reader.result;
+//   };
 
-  reader.readAsDataURL(file);
-}
+//   reader.readAsDataURL(file);
+// }
 }
