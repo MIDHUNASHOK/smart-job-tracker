@@ -63,4 +63,72 @@ model Profile {
   updatedAt DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+   skills Skill[]
+   experiences    Experience[]
+   educations     Education[]
+   certifications Certification[]
+   languages      Language[]
+}
+
+model Skill {
+  id        String   @id @default(cuid())
+  profileId String
+  name      String
+  createdAt DateTime @default(now())
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+model Experience {
+  id          String   @id @default(cuid())
+  profileId   String
+
+  jobTitle    String
+  companyName String
+  startDate   String
+  endDate     String?
+  description String?  @db.Text
+
+  createdAt   DateTime @default(now())
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+model Education {
+  id          String   @id @default(cuid())
+  profileId   String
+
+  degree      String
+  institute   String
+  startYear   String?
+  endYear     String?
+
+  createdAt   DateTime @default(now())
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+model Certification {
+  id          String   @id @default(cuid())
+  profileId   String
+
+  name        String
+  issuer      String?
+  year        String?
+
+  createdAt   DateTime @default(now())
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+model Language {
+  id          String   @id @default(cuid())
+  profileId   String
+
+  name        String
+  level       String
+
+  createdAt   DateTime @default(now())
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 }

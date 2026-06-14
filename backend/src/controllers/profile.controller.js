@@ -1,10 +1,12 @@
 const profileService = require('../services/profile.service');
 
+const TEMP_USER_ID = 1;
+
 const getProfile = async (req, res) => {
 
   try {
 
-    const userId = req.user.id;
+    const userId = TEMP_USER_ID;
 
     const profile =
       await profileService.getProfile(userId);
@@ -20,15 +22,15 @@ const getProfile = async (req, res) => {
   } catch (error) {
 
     console.log('PROFILE ERROR:', error);
-  
+
     return res.status(500).json({
-  
+
       success: false,
-  
+
       error: error.message
-  
+
     });
-  
+
   }
 
 };
@@ -37,7 +39,7 @@ const saveProfile = async (req, res) => {
 
   try {
 
-    const userId = req.user.id;
+    const userId = TEMP_USER_ID;
 
     const response =
       await profileService.saveProfile(
@@ -57,13 +59,13 @@ const saveProfile = async (req, res) => {
 
   } catch (error) {
 
-    console.log(error);
+    console.log('PROFILE SAVE ERROR:', error);
 
     return res.status(500).json({
 
       success: false,
 
-      message: 'Failed to save profile'
+      error: error.message
 
     });
 

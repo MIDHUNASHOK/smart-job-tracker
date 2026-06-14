@@ -1,364 +1,548 @@
 <div class="container-fluid py-4">
 
-    <!-- Profile Completion -->
-  
-    <div class="card shadow-sm border-0 mb-4">
-      <div class="card-body">
-  
-        <div class="d-flex justify-content-between align-items-center">
-          <h5 class="mb-0">Profile Completion</h5>
-          <span class="fw-bold text-success">75%</span>
-        </div>
-  
-        <div class="progress mt-3">
-          <div
-            class="progress-bar bg-success"
-            role="progressbar"
-            style="width:75%">
-          </div>
-        </div>
-  
+  <!-- Profile Completion -->
+
+  <div class="card shadow-sm border-0 mb-4">
+
+    <div class="card-body">
+
+      <div class="d-flex justify-content-between align-items-center">
+
+        <h5 class="mb-0">
+          Profile Completion
+        </h5>
+
+        <span class="fw-bold text-success">
+          {{ profileCompletion }}%
+        </span>
+
       </div>
+
+      <div class="progress mt-3">
+
+        <div
+          class="progress-bar bg-success"
+          role="progressbar"
+          [style.width.%]="profileCompletion">
+        </div>
+
+      </div>
+
     </div>
-  
-    <!-- Profile Header -->
-  
-    <div class="card shadow-sm border-0 profile-card">
-  
-      <div class="card-body">
-  
-        <div class="row align-items-center">
-  
-          <div class="col-lg-2 text-center">
-  
+
+  </div>
+
+  <!-- Profile Header -->
+
+  <div class="card shadow-sm border-0 profile-card">
+
+    <div class="card-body">
+
+      <div class="row align-items-center">
+
+        <div class="col-lg-2 text-center">
+
+          <label for="profileImageInput" class="profile-image-wrapper">
+        
             <img
-              src="assets/images/default-avatar.png"
+              [src]="profileImagePreview || profile.avatarUrl || 'assets/images/default-avatar.png'"
               class="profile-avatar"
               alt="Profile">
-  
-          </div>
-  
-          <div class="col-lg-7">
-  
-            <h2 class="fw-bold mb-1">
-              Midhun Ashok
-            </h2>
-  
-            <p class="text-muted mb-1">
-              Angular Developer
-            </p>
-  
-            <p class="text-muted mb-0">
-              Berlin, Germany
-            </p>
-  
-          </div>
-  
-          <div class="col-lg-3 text-lg-end mt-3 mt-lg-0">
-  
-            <button class="btn btn-outline-primary me-2">
-              Edit Profile
-            </button>
-  
-            <button class="btn btn-success">
-              Generate CV
-            </button>
-  
-          </div>
-  
+        
+            <span class="profile-upload-text">
+              Change
+            </span>
+        
+          </label>
+        
+          <input
+            id="profileImageInput"
+            type="file"
+            accept="image/*"
+            class="d-none"
+            (change)="onProfileImageSelected($event)">
+        
         </div>
-  
-      </div>
-  
-    </div>
-  
-    <!-- Personal Information -->
-  
-    <div class="card shadow-sm border-0 mt-4">
-  
-      <div class="card-header bg-white">
-        <h5 class="mb-0">Personal Information</h5>
-      </div>
-  
-      <div class="card-body">
-  
-        <div class="row">
-  
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Full Name</label>
-            <input class="form-control" value="Midhun Ashok">
-          </div>
-  
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Email</label>
-            <input class="form-control" value="midhun@example.com">
-          </div>
-  
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Phone</label>
-            <input class="form-control" value="+49 123456789">
-          </div>
-  
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Location</label>
-            <input class="form-control" value="Berlin, Germany">
-          </div>
 
-          <div class="col-md-6 mb-3">
+        <div class="col-lg-7">
 
-            <label class="form-label">
-              LinkedIn Profile
-            </label>
-  
-            <input
-              type="text"
-              class="form-control"
-              placeholder="https://linkedin.com/in/...">
-  
-          </div>
+          <h2 class="fw-bold mb-1">
+            {{ profile.fullName || 'Your Name' }}
+          </h2>
 
-          <div class="col-md-6 mb-3">
+          <p class="text-muted mb-1">
+            {{ profile.profession || 'Your Profession' }}
+          </p>
 
-            <label class="form-label">
-              GitHub Profile
-            </label>
-  
-            <input
-              type="text"
-              class="form-control"
-              placeholder="https://github.com/...">
-  
-          </div>
-  
-        </div>
-  
-      </div>
-  
-    </div>
-  
-    <!-- Professional Summary -->
-  
-    <div class="card shadow-sm border-0 mt-4">
-  
-      <div class="card-header bg-white">
-  
-        <div class="d-flex justify-content-between">
-          <h5 class="mb-0">Professional Summary</h5>
-  
-          <button class="btn btn-success btn-sm">
-            Save
-          </button>
-        </div>
-  
-      </div>
-  
-      <div class="card-body">
-  
-        <textarea
-          rows="5"
-          class="form-control"
-          placeholder="Write your professional summary...">
-  Angular Developer with experience building scalable enterprise applications using Angular, TypeScript, Node.js and PostgreSQL.
-        </textarea>
-  
-      </div>
-  
-    </div>
-  
-    <!-- Skills -->
-  
-    <div class="card shadow-sm border-0 mt-4">
-  
-      <div class="card-header bg-white">
-  
-        <div class="d-flex justify-content-between">
-  
-          <h5 class="mb-0">Skills</h5>
-  
-          <button class="btn btn-success btn-sm">
-            Add Skill
-          </button>
-  
-        </div>
-  
-      </div>
-  
-      <div class="card-body">
-  
-        <span class="badge bg-primary me-2 mb-2">Angular</span>
-        <span class="badge bg-success me-2 mb-2">TypeScript</span>
-        <span class="badge bg-warning text-dark me-2 mb-2">RxJS</span>
-        <span class="badge bg-info me-2 mb-2">Node.js</span>
-        <span class="badge bg-secondary me-2 mb-2">PostgreSQL</span>
-  
-      </div>
-  
-    </div>
-  
-    <!-- Work Experience -->
-  
-    <div class="card shadow-sm border-0 mt-4">
-  
-      <div class="card-header bg-white">
-  
-        <div class="d-flex justify-content-between">
-  
-          <h5 class="mb-0">Work Experience</h5>
-  
-          <button class="btn btn-success btn-sm">
-            Add Experience
-          </button>
-  
-        </div>
-  
-      </div>
-  
-      <div class="card-body">
-  
-        <div class="experience-item">
-  
-          <h6 class="fw-bold">
-            Senior Angular Developer
-          </h6>
-  
-          <p class="text-muted">
-            ABC Technologies | Jan 2023 - Present
+          <p class="text-muted mb-0">
+            {{ profile.location || 'Your Location' }}
           </p>
-  
-          <p>
-            Developed enterprise web applications using Angular,
-            Node.js and PostgreSQL.
-          </p>
-  
+
         </div>
-  
-        <hr>
-  
-        <div class="experience-item">
-  
-          <h6 class="fw-bold">
-            Software Engineer
-          </h6>
-  
-          <p class="text-muted">
-            XYZ Solutions | 2020 - 2022
-          </p>
-  
-          <p>
-            Worked on frontend development using Angular and Bootstrap.
-          </p>
-  
-        </div>
-  
-      </div>
-  
-    </div>
-  
-    <!-- Education -->
-  
-    <div class="card shadow-sm border-0 mt-4">
-  
-      <div class="card-header bg-white">
-  
-        <div class="d-flex justify-content-between">
-  
-          <h5 class="mb-0">Education</h5>
-  
-          <button class="btn btn-success btn-sm">
-            Add Education
+
+        <div class="col-lg-3 text-lg-end mt-3 mt-lg-0">
+
+          <button
+            class="btn btn-outline-primary me-2"
+            (click)="saveProfile()">
+            Save Profile
           </button>
-  
+
+          <button class="btn btn-success">
+            Generate CV
+          </button>
+
         </div>
-  
+
       </div>
-  
-      <div class="card-body">
-  
-        <h6 class="fw-bold">
-          Bachelor of Technology
-        </h6>
-  
-        <p class="text-muted">
-          APJ Abdul Kalam University
+
+    </div>
+
+  </div>
+
+  <!-- Personal Information -->
+
+  <div class="card shadow-sm border-0 mt-4">
+
+    <div class="card-header bg-white">
+
+      <h5 class="mb-0">
+        Personal Information
+      </h5>
+
+    </div>
+
+    <div class="card-body">
+
+      <div class="row">
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Full Name</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="profile.fullName"
+            placeholder="Enter your full name">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Profession</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="profile.profession"
+            placeholder="Angular Developer">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            [(ngModel)]="profile.email"
+            placeholder="Enter your email">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Phone</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="profile.phone"
+            placeholder="+49 123456789">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Location</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="profile.location"
+            placeholder="Berlin, Germany">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Avatar URL</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="profile.avatarUrl"
+            placeholder="https://example.com/profile.png">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">LinkedIn Profile</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="profile.linkedin"
+            placeholder="https://linkedin.com/in/...">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">GitHub Profile</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="profile.github"
+            placeholder="https://github.com/...">
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Professional Summary -->
+
+  <div class="card shadow-sm border-0 mt-4">
+
+    <div class="card-header bg-white">
+
+      <div class="d-flex justify-content-between align-items-center">
+
+        <h5 class="mb-0">
+          Professional Summary
+        </h5>
+
+        <button
+          class="btn btn-success btn-sm"
+          (click)="saveProfile()">
+          Save
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="card-body">
+
+      <textarea
+        rows="5"
+        class="form-control"
+        [(ngModel)]="profile.summary"
+        placeholder="Write your professional summary...">
+      </textarea>
+
+    </div>
+
+  </div>
+
+  <!-- Skills -->
+
+  <div class="card shadow-sm border-0 mt-4">
+
+    <div class="card-header bg-white">
+
+      <div class="d-flex justify-content-between">
+
+        <h5 class="mb-0">
+          Skills
+        </h5>
+
+        <button
+          class="btn btn-success btn-sm"
+          (click)="addSkill()">
+          Add Skill
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="card-body">
+
+      <ng-container *ngIf="skills.length > 0; else noSkills">
+
+        <span
+          class="badge bg-primary me-2 mb-2"
+          *ngFor="let skill of skills; trackBy: trackById">
+
+          {{ skill.name }}
+
+          <i
+            class="bi bi-x ms-2 pointer"
+            (click)="deleteSkill(skill.id)">
+          </i>
+
+        </span>
+
+      </ng-container>
+
+      <ng-template #noSkills>
+        <p class="text-muted mb-0">
+          No skills added yet.
         </p>
-  
-        <p>
-          2010 - 2014
-        </p>
-  
-      </div>
-  
+      </ng-template>
+
     </div>
-  
-    <!-- Certifications -->
-  
-    <div class="card shadow-sm border-0 mt-4">
-  
-      <div class="card-header bg-white">
-  
-        <div class="d-flex justify-content-between">
-  
-          <h5 class="mb-0">Certifications</h5>
-  
-          <button class="btn btn-success btn-sm">
-            Add Certification
-          </button>
-  
-        </div>
-  
+
+  </div>
+
+  <!-- Work Experience -->
+
+  <div class="card shadow-sm border-0 mt-4">
+
+    <div class="card-header bg-white">
+
+      <div class="d-flex justify-content-between">
+
+        <h5 class="mb-0">
+          Work Experience
+        </h5>
+
+        <button
+          class="btn btn-success btn-sm"
+          (click)="addExperience()">
+          Add Experience
+        </button>
+
       </div>
-  
-      <div class="card-body">
-  
+
+    </div>
+
+    <div class="card-body">
+
+      <ng-container *ngIf="experiences.length > 0; else noExperience">
+
+        <div
+          class="experience-item"
+          *ngFor="let exp of experiences; trackBy: trackById">
+
+          <div class="d-flex justify-content-between">
+
+            <div>
+
+              <h6 class="fw-bold">
+                {{ exp.jobTitle }}
+              </h6>
+
+              <p class="text-muted">
+                {{ exp.companyName }} |
+                {{ exp.startDate }} -
+                {{ exp.endDate || 'Present' }}
+              </p>
+
+              <p>
+                {{ exp.description }}
+              </p>
+
+            </div>
+
+            <button
+              class="btn btn-sm btn-outline-danger"
+              (click)="deleteExperience(exp.id)">
+              <i class="bi bi-trash"></i>
+            </button>
+
+          </div>
+
+          <hr>
+
+        </div>
+
+      </ng-container>
+
+      <ng-template #noExperience>
+        <p class="text-muted mb-0">
+          No work experience added yet.
+        </p>
+      </ng-template>
+
+    </div>
+
+  </div>
+
+  <!-- Education -->
+
+  <div class="card shadow-sm border-0 mt-4">
+
+    <div class="card-header bg-white">
+
+      <div class="d-flex justify-content-between">
+
+        <h5 class="mb-0">
+          Education
+        </h5>
+
+        <button
+          class="btn btn-success btn-sm"
+          (click)="addEducation()">
+          Add Education
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="card-body">
+
+      <ng-container *ngIf="educations.length > 0; else noEducation">
+
+        <div
+          class="experience-item"
+          *ngFor="let edu of educations; trackBy: trackById">
+
+          <div class="d-flex justify-content-between">
+
+            <div>
+
+              <h6 class="fw-bold">
+                {{ edu.degree }}
+              </h6>
+
+              <p class="text-muted">
+                {{ edu.institute }}
+              </p>
+
+              <p>
+                {{ edu.startYear }} - {{ edu.endYear }}
+              </p>
+
+            </div>
+
+            <button
+              class="btn btn-sm btn-outline-danger"
+              (click)="deleteEducation(edu.id)">
+              <i class="bi bi-trash"></i>
+            </button>
+
+          </div>
+
+          <hr>
+
+        </div>
+
+      </ng-container>
+
+      <ng-template #noEducation>
+        <p class="text-muted mb-0">
+          No education added yet.
+        </p>
+      </ng-template>
+
+    </div>
+
+  </div>
+
+  <!-- Certifications -->
+
+  <div class="card shadow-sm border-0 mt-4">
+
+    <div class="card-header bg-white">
+
+      <div class="d-flex justify-content-between">
+
+        <h5 class="mb-0">
+          Certifications
+        </h5>
+
+        <button
+          class="btn btn-success btn-sm"
+          (click)="addCertification()">
+          Add Certification
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="card-body">
+
+      <ng-container *ngIf="certifications.length > 0; else noCertification">
+
         <ul class="mb-0">
-          <li>AWS Certified Developer</li>
-          <li>Angular Professional Certification</li>
-          <li>Google Cloud Associate</li>
+
+          <li
+            class="mb-2 d-flex justify-content-between align-items-center"
+            *ngFor="let cert of certifications; trackBy: trackById">
+
+            <span>
+              {{ cert.name }}
+
+              <span class="text-muted">
+                {{ cert.issuer ? ' - ' + cert.issuer : '' }}
+                {{ cert.year ? '(' + cert.year + ')' : '' }}
+              </span>
+            </span>
+
+            <button
+              class="btn btn-sm btn-outline-danger"
+              (click)="deleteCertification(cert.id)">
+              <i class="bi bi-trash"></i>
+            </button>
+
+          </li>
+
         </ul>
-  
-      </div>
-  
+
+      </ng-container>
+
+      <ng-template #noCertification>
+        <p class="text-muted mb-0">
+          No certifications added yet.
+        </p>
+      </ng-template>
+
     </div>
-  
-    <!-- Languages -->
-  
-    <div class="card shadow-sm border-0 mt-4">
-  
-      <div class="card-header bg-white">
-  
-        <div class="d-flex justify-content-between">
-  
-          <h5 class="mb-0">Languages</h5>
-  
-          <button class="btn btn-success btn-sm">
-            Add Language
-          </button>
-  
-        </div>
-  
+
+  </div>
+
+  <!-- Languages -->
+
+  <div class="card shadow-sm border-0 mt-4">
+
+    <div class="card-header bg-white">
+
+      <div class="d-flex justify-content-between">
+
+        <h5 class="mb-0">
+          Languages
+        </h5>
+
+        <button
+          class="btn btn-success btn-sm"
+          (click)="addLanguage()">
+          Add Language
+        </button>
+
       </div>
-  
-      <div class="card-body">
-  
-        <span class="badge bg-success me-2">
-          English - Fluent
-        </span>
-  
-        <span class="badge bg-primary me-2">
-          German - A2
-        </span>
-  
-        <span class="badge bg-secondary">
-          Malayalam - Native
-        </span>
-  
-      </div>
-  
+
     </div>
-  
+
+    <div class="card-body">
+
+      <ng-container *ngIf="languages.length > 0; else noLanguage">
+
+        <span
+          class="badge bg-success me-2 mb-2"
+          *ngFor="let lang of languages; trackBy: trackById">
+
+          {{ lang.name }} - {{ lang.level }}
+
+          <i
+            class="bi bi-x ms-2 pointer"
+            (click)="deleteLanguage(lang.id)">
+          </i>
+
+        </span>
+
+      </ng-container>
+
+      <ng-template #noLanguage>
+        <p class="text-muted mb-0">
+          No languages added yet.
+        </p>
+      </ng-template>
+
+    </div>
+
+  </div>
+
   <!-- Resume Builder -->
 
-  <div class="card shadow-sm border-0 mt-4 mb-5">
+  <div class="card shadow-sm border-0 mt-4 mb-5 resume-builder-card">
 
     <div class="card-body">
 
@@ -371,10 +555,8 @@
           </h5>
 
           <p class="text-muted mb-0">
-
             Generate a professional ATS-friendly resume
             automatically using your profile information.
-
           </p>
 
         </div>
@@ -396,5 +578,5 @@
     </div>
 
   </div>
-  
-  </div>
+
+</div>
