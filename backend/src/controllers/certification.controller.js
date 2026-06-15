@@ -5,8 +5,10 @@ const getCertifications = async (req, res) => {
 
   try {
 
+    const userId = req.user.userId;
+
     const certifications =
-      await certificationService.getCertifications();
+      await certificationService.getCertifications(userId);
 
     return res.status(200).json({
       success: true,
@@ -30,6 +32,8 @@ const addCertification = async (req, res) => {
 
   try {
 
+    const userId = req.user.userId;
+
     const { name } = req.body;
 
     if (!name) {
@@ -42,7 +46,10 @@ const addCertification = async (req, res) => {
     }
 
     const certification =
-      await certificationService.addCertification(req.body);
+      await certificationService.addCertification(
+        userId,
+        req.body
+      );
 
     return res.status(201).json({
       success: true,
@@ -67,9 +74,14 @@ const deleteCertification = async (req, res) => {
 
   try {
 
+    const userId = req.user.userId;
+
     const { id } = req.params;
 
-    await certificationService.deleteCertification(id);
+    await certificationService.deleteCertification(
+      userId,
+      id
+    );
 
     return res.status(200).json({
       success: true,

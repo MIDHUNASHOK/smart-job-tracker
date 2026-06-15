@@ -1,12 +1,10 @@
 const prisma = require('../config/prisma');
 
-const TEMP_USER_ID = 1;
-
-const getProfileByUserId = async () => {
+const getProfileByUserId = async (userId) => {
 
   let profile = await prisma.profile.findUnique({
     where: {
-      userId: TEMP_USER_ID
+      userId
     }
   });
 
@@ -14,7 +12,7 @@ const getProfileByUserId = async () => {
 
     profile = await prisma.profile.create({
       data: {
-        userId: TEMP_USER_ID
+        userId
       }
     });
 
@@ -24,10 +22,10 @@ const getProfileByUserId = async () => {
 
 };
 
-const getEducations = async () => {
+const getEducations = async (userId) => {
 
   const profile =
-    await getProfileByUserId();
+    await getProfileByUserId(userId);
 
   return await prisma.education.findMany({
     where: {
@@ -40,10 +38,13 @@ const getEducations = async () => {
 
 };
 
-const addEducation = async (data) => {
+const addEducation = async (
+  userId,
+  data
+) => {
 
   const profile =
-    await getProfileByUserId();
+    await getProfileByUserId(userId);
 
   return await prisma.education.create({
     data: {
@@ -57,11 +58,18 @@ const addEducation = async (data) => {
 
 };
 
-const deleteEducation = async (id) => {
+const deleteEducation = async (
+  userId,
+  id
+) => {
 
-  return await prisma.education.delete({
+  const profile =
+    await getProfileByUserId(userId);
+
+  return await prisma.education.deleteMany({
     where: {
-      id
+      id,
+      profileId: profile.id
     }
   });
 

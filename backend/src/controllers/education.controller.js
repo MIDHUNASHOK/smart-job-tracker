@@ -5,8 +5,10 @@ const getEducations = async (req, res) => {
 
   try {
 
+    const userId = req.user.userId;
+
     const educations =
-      await educationService.getEducations();
+      await educationService.getEducations(userId);
 
     return res.status(200).json({
       success: true,
@@ -30,6 +32,8 @@ const addEducation = async (req, res) => {
 
   try {
 
+    const userId = req.user.userId;
+
     const {
       degree,
       institute
@@ -45,7 +49,10 @@ const addEducation = async (req, res) => {
     }
 
     const education =
-      await educationService.addEducation(req.body);
+      await educationService.addEducation(
+        userId,
+        req.body
+      );
 
     return res.status(201).json({
       success: true,
@@ -70,9 +77,14 @@ const deleteEducation = async (req, res) => {
 
   try {
 
+    const userId = req.user.userId;
+
     const { id } = req.params;
 
-    await educationService.deleteEducation(id);
+    await educationService.deleteEducation(
+      userId,
+      id
+    );
 
     return res.status(200).json({
       success: true,

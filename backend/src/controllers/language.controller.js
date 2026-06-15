@@ -5,8 +5,10 @@ const getLanguages = async (req, res) => {
 
   try {
 
+    const userId = req.user.userId;
+
     const languages =
-      await languageService.getLanguages();
+      await languageService.getLanguages(userId);
 
     return res.status(200).json({
       success: true,
@@ -30,6 +32,8 @@ const addLanguage = async (req, res) => {
 
   try {
 
+    const userId = req.user.userId;
+
     const {
       name,
       level
@@ -45,7 +49,10 @@ const addLanguage = async (req, res) => {
     }
 
     const language =
-      await languageService.addLanguage(req.body);
+      await languageService.addLanguage(
+        userId,
+        req.body
+      );
 
     return res.status(201).json({
       success: true,
@@ -70,9 +77,14 @@ const deleteLanguage = async (req, res) => {
 
   try {
 
+    const userId = req.user.userId;
+
     const { id } = req.params;
 
-    await languageService.deleteLanguage(id);
+    await languageService.deleteLanguage(
+      userId,
+      id
+    );
 
     return res.status(200).json({
       success: true,

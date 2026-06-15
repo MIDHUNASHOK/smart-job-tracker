@@ -1,12 +1,10 @@
 const prisma = require('../config/prisma');
 
-const TEMP_USER_ID = 1;
-
-const getProfileByUserId = async () => {
+const getProfileByUserId = async (userId) => {
 
   let profile = await prisma.profile.findUnique({
     where: {
-      userId: TEMP_USER_ID
+      userId
     }
   });
 
@@ -14,7 +12,7 @@ const getProfileByUserId = async () => {
 
     profile = await prisma.profile.create({
       data: {
-        userId: TEMP_USER_ID
+        userId
       }
     });
 
@@ -24,10 +22,10 @@ const getProfileByUserId = async () => {
 
 };
 
-const getCertifications = async () => {
+const getCertifications = async (userId) => {
 
   const profile =
-    await getProfileByUserId();
+    await getProfileByUserId(userId);
 
   return await prisma.certification.findMany({
     where: {
@@ -40,10 +38,13 @@ const getCertifications = async () => {
 
 };
 
-const addCertification = async (data) => {
+const addCertification = async (
+  userId,
+  data
+) => {
 
   const profile =
-    await getProfileByUserId();
+    await getProfileByUserId(userId);
 
   return await prisma.certification.create({
     data: {
@@ -56,11 +57,18 @@ const addCertification = async (data) => {
 
 };
 
-const deleteCertification = async (id) => {
+const deleteCertification = async (
+  userId,
+  id
+) => {
 
-  return await prisma.certification.delete({
+  const profile =
+    await getProfileByUserId(userId);
+
+  return await prisma.certification.deleteMany({
     where: {
-      id
+      id,
+      profileId: profile.id
     }
   });
 

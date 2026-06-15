@@ -1,12 +1,10 @@
 const prisma = require('../config/prisma');
 
-const TEMP_USER_ID = 1;
-
-const getProfileByUserId = async () => {
+const getProfileByUserId = async (userId) => {
 
   let profile = await prisma.profile.findUnique({
     where: {
-      userId: TEMP_USER_ID
+      userId
     }
   });
 
@@ -14,7 +12,7 @@ const getProfileByUserId = async () => {
 
     profile = await prisma.profile.create({
       data: {
-        userId: TEMP_USER_ID
+        userId
       }
     });
 
@@ -24,10 +22,10 @@ const getProfileByUserId = async () => {
 
 };
 
-const getLanguages = async () => {
+const getLanguages = async (userId) => {
 
   const profile =
-    await getProfileByUserId();
+    await getProfileByUserId(userId);
 
   return await prisma.language.findMany({
     where: {
@@ -40,10 +38,13 @@ const getLanguages = async () => {
 
 };
 
-const addLanguage = async (data) => {
+const addLanguage = async (
+  userId,
+  data
+) => {
 
   const profile =
-    await getProfileByUserId();
+    await getProfileByUserId(userId);
 
   return await prisma.language.create({
     data: {
@@ -55,11 +56,18 @@ const addLanguage = async (data) => {
 
 };
 
-const deleteLanguage = async (id) => {
+const deleteLanguage = async (
+  userId,
+  id
+) => {
 
-  return await prisma.language.delete({
+  const profile =
+    await getProfileByUserId(userId);
+
+  return await prisma.language.deleteMany({
     where: {
-      id
+      id,
+      profileId: profile.id
     }
   });
 
