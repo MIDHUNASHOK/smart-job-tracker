@@ -3,17 +3,21 @@ const prisma = require('../config/prisma');
 const getProfile = async (userId) => {
 
   let profile = await prisma.profile.findUnique({
+
     where: {
       userId
     }
+
   });
 
   if (!profile) {
 
     profile = await prisma.profile.create({
+
       data: {
         userId
       }
+
     });
 
   }
@@ -22,7 +26,24 @@ const getProfile = async (userId) => {
 
 };
 
-const saveProfile = async (userId, profileData) => {
+const saveProfile = async (
+  userId,
+  profileData
+) => {
+
+  const data = {
+
+    fullName: profileData.fullName,
+    profession: profileData.profession,
+    email: profileData.email,
+    phone: profileData.phone,
+    location: profileData.location,
+    linkedin: profileData.linkedin,
+    github: profileData.github,
+    summary: profileData.summary,
+    avatarUrl: profileData.avatarUrl
+
+  };
 
   return await prisma.profile.upsert({
 
@@ -30,25 +51,11 @@ const saveProfile = async (userId, profileData) => {
       userId
     },
 
-    update: {
-      fullName: profileData.fullName,
-      phone: profileData.phone,
-      location: profileData.location,
-      linkedin: profileData.linkedin,
-      github: profileData.github,
-      summary: profileData.summary,
-      avatarUrl: profileData.avatarUrl
-    },
+    update: data,
 
     create: {
       userId,
-      fullName: profileData.fullName,
-      phone: profileData.phone,
-      location: profileData.location,
-      linkedin: profileData.linkedin,
-      github: profileData.github,
-      summary: profileData.summary,
-      avatarUrl: profileData.avatarUrl
+      ...data
     }
 
   });

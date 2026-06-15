@@ -1,22 +1,28 @@
 const profileService = require('../services/profile.service');
 
-const TEMP_USER_ID = 1;
-
 const getProfile = async (req, res) => {
 
   try {
 
-    const userId = TEMP_USER_ID;
+    console.log('REQ USER:', req.user);
+
+    const userId = req.user.userId;
+
+    if (!userId) {
+
+      return res.status(401).json({
+        success: false,
+        message: 'User ID not found in token'
+      });
+
+    }
 
     const profile =
       await profileService.getProfile(userId);
 
     return res.status(200).json({
-
       success: true,
-
       data: profile
-
     });
 
   } catch (error) {
@@ -24,11 +30,8 @@ const getProfile = async (req, res) => {
     console.log('PROFILE ERROR:', error);
 
     return res.status(500).json({
-
       success: false,
-
       error: error.message
-
     });
 
   }
@@ -39,7 +42,18 @@ const saveProfile = async (req, res) => {
 
   try {
 
-    const userId = TEMP_USER_ID;
+    console.log('REQ USER:', req.user);
+
+    const userId = req.user.userId;
+
+    if (!userId) {
+
+      return res.status(401).json({
+        success: false,
+        message: 'User ID not found in token'
+      });
+
+    }
 
     const response =
       await profileService.saveProfile(
@@ -48,13 +62,9 @@ const saveProfile = async (req, res) => {
       );
 
     return res.status(200).json({
-
       success: true,
-
       message: 'Profile saved successfully',
-
       data: response
-
     });
 
   } catch (error) {
@@ -62,11 +72,8 @@ const saveProfile = async (req, res) => {
     console.log('PROFILE SAVE ERROR:', error);
 
     return res.status(500).json({
-
       success: false,
-
       error: error.message
-
     });
 
   }

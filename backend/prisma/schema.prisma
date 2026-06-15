@@ -49,6 +49,8 @@ model Profile {
   userId Int @unique
 
   fullName String?
+  profession String?
+  email      String?
   phone    String?
   location String?
 

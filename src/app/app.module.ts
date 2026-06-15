@@ -11,6 +11,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {AuthInterceptor} from './core/interceptors/auth.interceptor';
 @NgModule({
   declarations: [
     AppComponent
@@ -34,13 +36,21 @@ import { ToastrModule } from 'ngx-toastr';
   
       preventDuplicates: true,
   
-      progressBar: true
+      progressBar: true,
+      
   
     })
     
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  
   ],
   bootstrap: [AppComponent]
 })
