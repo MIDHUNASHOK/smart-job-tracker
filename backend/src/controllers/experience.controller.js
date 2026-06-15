@@ -5,8 +5,10 @@ const getExperiences = async (req, res) => {
 
   try {
 
+    const userId = req.user.userId;
+
     const experiences =
-      await experienceService.getExperiences();
+      await experienceService.getExperiences(userId);
 
     return res.status(200).json({
       success: true,
@@ -30,6 +32,8 @@ const addExperience = async (req, res) => {
 
   try {
 
+    const userId = req.user.userId;
+
     const {
       jobTitle,
       companyName,
@@ -46,7 +50,10 @@ const addExperience = async (req, res) => {
     }
 
     const experience =
-      await experienceService.addExperience(req.body);
+      await experienceService.addExperience(
+        userId,
+        req.body
+      );
 
     return res.status(201).json({
       success: true,
@@ -71,9 +78,14 @@ const deleteExperience = async (req, res) => {
 
   try {
 
+    const userId = req.user.userId;
+
     const { id } = req.params;
 
-    await experienceService.deleteExperience(id);
+    await experienceService.deleteExperience(
+      userId,
+      id
+    );
 
     return res.status(200).json({
       success: true,

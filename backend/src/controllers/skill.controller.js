@@ -4,8 +4,10 @@ const getSkills = async (req, res) => {
 
   try {
 
+    const userId = req.user.userId;
+
     const skills =
-      await skillService.getSkills();
+      await skillService.getSkills(userId);
 
     return res.status(200).json({
       success: true,
@@ -29,6 +31,8 @@ const addSkill = async (req, res) => {
 
   try {
 
+    const userId = req.user.userId;
+
     const { name } = req.body;
 
     if (!name) {
@@ -41,7 +45,7 @@ const addSkill = async (req, res) => {
     }
 
     const skill =
-      await skillService.addSkill(name);
+      await skillService.addSkill(userId, name);
 
     return res.status(201).json({
       success: true,
@@ -66,9 +70,14 @@ const deleteSkill = async (req, res) => {
 
   try {
 
+    const userId = req.user.userId;
+
     const { id } = req.params;
 
-    await skillService.deleteSkill(id);
+    await skillService.deleteSkill(
+      userId,
+      id
+    );
 
     return res.status(200).json({
       success: true,

@@ -1,12 +1,10 @@
 const prisma = require('../config/prisma');
 
-const TEMP_USER_ID = 1;
-
-const getProfileByUserId = async () => {
+const getProfileByUserId = async (userId) => {
 
   let profile = await prisma.profile.findUnique({
     where: {
-      userId: TEMP_USER_ID
+      userId
     }
   });
 
@@ -14,7 +12,7 @@ const getProfileByUserId = async () => {
 
     profile = await prisma.profile.create({
       data: {
-        userId: TEMP_USER_ID
+        userId
       }
     });
 
@@ -24,9 +22,10 @@ const getProfileByUserId = async () => {
 
 };
 
-const getExperiences = async () => {
+const getExperiences = async (userId) => {
 
-  const profile = await getProfileByUserId();
+  const profile =
+    await getProfileByUserId(userId);
 
   return await prisma.experience.findMany({
     where: {
@@ -39,9 +38,13 @@ const getExperiences = async () => {
 
 };
 
-const addExperience = async (data) => {
+const addExperience = async (
+  userId,
+  data
+) => {
 
-  const profile = await getProfileByUserId();
+  const profile =
+    await getProfileByUserId(userId);
 
   return await prisma.experience.create({
     data: {
@@ -56,11 +59,18 @@ const addExperience = async (data) => {
 
 };
 
-const deleteExperience = async (id) => {
+const deleteExperience = async (
+  userId,
+  id
+) => {
 
-  return await prisma.experience.delete({
+  const profile =
+    await getProfileByUserId(userId);
+
+  return await prisma.experience.deleteMany({
     where: {
-      id
+      id,
+      profileId: profile.id
     }
   });
 
