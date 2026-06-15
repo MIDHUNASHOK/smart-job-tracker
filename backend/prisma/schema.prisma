@@ -20,10 +20,13 @@ model User {
   password  String
   createdAt DateTime @default(now())
   profile   Profile?
+  jobs Job[]
 }
 
 model Job {
   id String @id @default(cuid())
+
+  userId Int
 
   job_Title    String
   company_Name String
@@ -41,6 +44,8 @@ model Job {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Profile {

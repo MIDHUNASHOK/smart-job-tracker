@@ -1,83 +1,116 @@
-const { PrismaClient } = require('@prisma/client');
+const prisma = require('../config/prisma');
 
-const prisma = new PrismaClient();
+const createJob = async (
+  userId,
+  jobData
+) => {
 
-const createJob = async (jobData) => {
+  const newJob =
+    await prisma.job.create({
 
-  const newJob = await prisma.job.create({
+      data: {
 
-    data: {
+        userId,
 
-      job_Title: jobData.job_Title,
+        job_Title: jobData.job_Title,
 
-      company_Name: jobData.company_Name,
+        company_Name: jobData.company_Name,
 
-      location: jobData.location,
+        location: jobData.location,
 
-      job_Type: jobData.job_Type,
+        job_Type: jobData.job_Type,
 
-      work_mode: jobData.work_mode,
+        work_mode: jobData.work_mode,
 
-      status: jobData.status,
+        status: jobData.status,
 
-      applied_Date: new Date(jobData.applied_Date),
+        applied_Date: new Date(
+          jobData.applied_Date
+        ),
 
-      job_Url: jobData.job_Url || null,
+        job_Url: jobData.job_Url || null,
 
-      notes: jobData.notes || null
+        notes: jobData.notes || null
 
-    }
+      }
 
-  });
+    });
 
   return newJob;
 
 };
 
-const getAllJobs = async () => {
+const getAllJobs = async (userId) => {
 
-    const jobs = await prisma.job.findMany({
-  
-      orderBy: {
-  
-        createdAt: 'desc'
-  
-      }
-  
-    });
-  
-    return jobs;
-  
-  };
+  const jobs =
+    await prisma.job.findMany({
 
-  const updateJob = async (id, payload) => {
-
-    const updatedJob = await prisma.job.update({
-  
       where: {
-        id
+        userId
       },
-  
-      data: payload
-  
-    });
-  
-    return updatedJob;
-  
-  };
-  const deleteJob = async (id) => {
 
-    const deletedJob = await prisma.job.delete({
-  
-      where: {
-        id
+      orderBy: {
+        createdAt: 'desc'
       }
-  
+
     });
-  
-    return deletedJob;
-  
-  };
+
+  return jobs;
+
+};
+
+const updateJob = async (
+  userId,
+  id,
+  payload
+) => {
+
+  const updatedJob =
+    await prisma.job.updateMany({
+
+      where: {
+        id,
+        userId
+      },
+
+      data: {
+        job_Title: payload.job_Title,
+        company_Name: payload.company_Name,
+        location: payload.location,
+        job_Type: payload.job_Type,
+        work_mode: payload.work_mode,
+        status: payload.status,
+        applied_Date: payload.applied_Date
+          ? new Date(payload.applied_Date)
+          : undefined,
+        job_Url: payload.job_Url || null,
+        notes: payload.notes || null
+      }
+
+    });
+
+  return updatedJob;
+
+};
+
+const deleteJob = async (
+  userId,
+  id
+) => {
+
+  const deletedJob =
+    await prisma.job.deleteMany({
+
+      where: {
+        id,
+        userId
+      }
+
+    });
+
+  return deletedJob;
+
+};
 
 module.exports = {
   createJob,
