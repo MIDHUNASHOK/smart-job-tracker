@@ -1,6 +1,7 @@
 <div class="container-fluid smart-apply-page py-4">
 
-  <!-- Header -->
+  <!-- HEADER -->
+
   <div class="page-header mb-4">
 
     <div>
@@ -10,7 +11,7 @@
       </h3>
 
       <p class="text-muted mb-0">
-        Prepare and send professional job applications with your resume.
+        Prepare and send professional job applications with your resume
       </p>
 
     </div>
@@ -19,7 +20,8 @@
 
   <div class="row g-4">
 
-    <!-- Application Form -->
+    <!-- LEFT SIDE -->
+
     <div class="col-lg-7">
 
       <div class="card border-0 shadow-sm smart-card">
@@ -34,9 +36,14 @@
 
         <div class="card-body">
 
-          <form>
+          <form
+            [formGroup]="smartApplyForm"
+            (ngSubmit)="sendApplication()"
+          >
 
             <div class="row">
+
+              <!-- COMPANY NAME -->
 
               <div class="col-md-6 mb-3">
 
@@ -47,22 +54,50 @@
                 <input
                   type="text"
                   class="form-control custom-input"
-                  placeholder="Example: Amazon">
+                  formControlName="companyName"
+                  placeholder="Amazon"
+                >
+
+                <small
+                  class="text-danger"
+                  *ngIf="
+                    smartApplyForm.get('companyName')?.touched &&
+                    smartApplyForm.get('companyName')?.invalid
+                  "
+                >
+                  Company name is required
+                </small>
 
               </div>
+
+              <!-- RECRUITER EMAIL -->
 
               <div class="col-md-6 mb-3">
 
                 <label class="form-label">
-                  HR / Recruiter Email
+                  Recruiter Email
                 </label>
 
                 <input
                   type="email"
                   class="form-control custom-input"
-                  placeholder="hr@example.com">
+                  formControlName="recruiterEmail"
+                  placeholder="hr@company.com"
+                >
+
+                <small
+                  class="text-danger"
+                  *ngIf="
+                    smartApplyForm.get('recruiterEmail')?.touched &&
+                    smartApplyForm.get('recruiterEmail')?.invalid
+                  "
+                >
+                  Valid email is required
+                </small>
 
               </div>
+
+              <!-- JOB TITLE -->
 
               <div class="col-md-6 mb-3">
 
@@ -73,35 +108,57 @@
                 <input
                   type="text"
                   class="form-control custom-input"
-                  placeholder="Angular Developer">
+                  formControlName="jobTitle"
+                  placeholder="Angular Developer"
+                >
+
+                <small
+                  class="text-danger"
+                  *ngIf="
+                    smartApplyForm.get('jobTitle')?.touched &&
+                    smartApplyForm.get('jobTitle')?.invalid
+                  "
+                >
+                  Job title is required
+                </small>
 
               </div>
+
+              <!-- LOCATION -->
 
               <div class="col-md-6 mb-3">
 
                 <label class="form-label">
-                  Work Location
+                  Location
                 </label>
 
                 <input
                   type="text"
                   class="form-control custom-input"
-                  placeholder="Berlin, Germany">
+                  formControlName="location"
+                  placeholder="Berlin, Germany"
+                >
 
               </div>
+
+              <!-- SUBJECT -->
 
               <div class="col-12 mb-3">
 
                 <label class="form-label">
-                  Subject
+                  Email Subject
                 </label>
 
                 <input
                   type="text"
                   class="form-control custom-input"
-                  placeholder="Application for Angular Developer Position">
+                  formControlName="subject"
+                  placeholder="Application for Angular Developer Position"
+                >
 
               </div>
+
+              <!-- COVER LETTER -->
 
               <div class="col-12 mb-3">
 
@@ -110,44 +167,69 @@
                 </label>
 
                 <textarea
-                  rows="8"
+                  rows="10"
                   class="form-control custom-input"
-                  placeholder="Write your application email..."></textarea>
+                  formControlName="coverEmail"
+                  placeholder="Write your application email here..."
+                ></textarea>
 
               </div>
+
+              <!-- RESUME -->
 
               <div class="col-12 mb-4">
 
                 <label class="form-label">
-                  Resume / CV
+                  Upload Resume
                 </label>
 
                 <input
                   type="file"
                   class="form-control custom-input"
-                  accept=".pdf,.doc,.docx">
+                  accept=".pdf,.doc,.docx"
+                  (change)="onResumeSelected($event)"
+                >
+
+                <small
+                  *ngIf="selectedResume"
+                  class="text-success mt-2 d-block"
+                >
+                  Selected: {{ selectedResume.name }}
+                </small>
 
               </div>
 
             </div>
 
+            <!-- ACTION BUTTONS -->
+
             <div class="d-flex flex-wrap gap-2">
 
               <button
                 type="button"
-                class="btn btn-outline-primary">
+                class="btn btn-outline-primary"
+                (click)="generateEmail()"
+              >
 
                 <i class="bi bi-magic me-2"></i>
+
                 Generate Email
 
               </button>
 
               <button
-                type="button"
-                class="btn btn-success">
+                type="submit"
+                class="btn btn-success"
+                [disabled]="isSending"
+              >
 
                 <i class="bi bi-send-fill me-2"></i>
-                Send Application
+
+                {{
+                  isSending
+                    ? 'Sending...'
+                    : 'Send Application'
+                }}
 
               </button>
 
@@ -161,8 +243,11 @@
 
     </div>
 
-    <!-- Preview / Info -->
+    <!-- RIGHT SIDE -->
+
     <div class="col-lg-5">
+
+      <!-- SMART APPLY ASSISTANT -->
 
       <div class="card border-0 shadow-sm smart-card mb-4">
 
@@ -179,20 +264,25 @@
           </h5>
 
           <p class="text-muted">
-            Generate a professional email, attach your resume,
-            and track the application automatically.
+
+            Generate professional application emails,
+            upload your resume and track applications
+            automatically.
+
           </p>
 
         </div>
 
       </div>
 
+      <!-- WORKFLOW -->
+
       <div class="card border-0 shadow-sm smart-card">
 
         <div class="card-header bg-white border-0">
 
           <h5 class="mb-0 fw-bold">
-            Workflow
+            Application Workflow
           </h5>
 
         </div>
@@ -204,7 +294,7 @@
             <span>1</span>
 
             <p>
-              Enter job and company details
+              Enter company details
             </p>
 
           </div>
@@ -214,7 +304,7 @@
             <span>2</span>
 
             <p>
-              Generate or write cover email
+              Generate professional email
             </p>
 
           </div>
@@ -224,7 +314,7 @@
             <span>3</span>
 
             <p>
-              Attach your resume
+              Upload ATS-friendly resume
             </p>
 
           </div>
@@ -239,10 +329,21 @@
 
           </div>
 
-          <div class="alert alert-warning mt-3 mb-0">
+          <div class="workflow-item">
+
+            <span>5</span>
+
+            <p>
+              Track application status automatically
+            </p>
+
+          </div>
+
+          <div class="alert alert-warning mt-4 mb-0">
 
             <i class="bi bi-info-circle me-2"></i>
-            Auto sending will be enabled only after email service setup.
+
+            Backend email integration will be added in the next phase.
 
           </div>
 

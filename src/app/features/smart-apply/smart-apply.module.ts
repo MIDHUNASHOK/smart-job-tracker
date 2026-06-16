@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { SmartApplyRoutingModule } from './smart-apply-routing.module';
 import { SmartApplyComponent } from './smart-apply.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { SmartApplyComponent } from './smart-apply.component';
   ],
   imports: [
     CommonModule,
-    SmartApplyRoutingModule
+    SmartApplyRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class SmartApplyModule { }
