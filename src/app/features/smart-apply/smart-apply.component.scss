@@ -1,0 +1,103 @@
+.smart-apply-page {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.smart-card {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 1.25rem 1.5rem;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0.5rem;
+}
+
+.custom-input {
+  min-height: 48px;
+  border-radius: 12px;
+  border: 1px solid #dbe2ea;
+}
+
+.custom-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.12);
+}
+
+textarea.custom-input {
+  min-height: 180px;
+  resize: vertical;
+}
+
+.smart-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  font-size: 36px;
+}
+
+.workflow-item {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.workflow-item span {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #eff6ff;
+  color: #2563eb;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.workflow-item p {
+  margin: 0;
+  color: #475569;
+  font-weight: 500;
+}
+
+.btn {
+  border-radius: 12px;
+  font-weight: 600;
+  padding: 10px 18px;
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    align-items: flex-start;
+  }
+
+  .card-body {
+    padding: 1.25rem;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
