@@ -1,5 +1,5 @@
 const API_BASE_URL =
-  'http://localhost:5000/api';
+  'https://jobpilot-api-whlc.onrender.com/api';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -177,41 +177,70 @@ async function extractLinkedInJobDetails() {
       currentWindow: true
     });
 
-  chrome.tabs.sendMessage(
-    tab.id,
-    {
-      action: 'GET_JOB_DETAILS'
-    },
-    (response) => {
+  if (!tab || !tab.id) {
 
-      if (chrome.runtime.lastError || !response) {
+    showMessage(
+      'Unable to access current tab',
+      'error'
+    );
 
-        showMessage(
-          'Open a LinkedIn job page to auto-fill details',
-          'warning'
-        );
+    return;
 
-        return;
+  }
 
-      }
+  try {
 
-      document.getElementById('jobTitle').value =
-        response.jobTitle || '';
+    const results =
+      await chrome.scripting.executeScript({
+        target: {
+          tabId: tab.id
+        },
+        files: ['content.js']
+      });
 
-      document.getElementById('companyName').value =
-        response.companyName || '';
+    const response =
+      results[0]?.result;
 
-      document.getElementById('location').value =
-        response.location || '';
+    if (!response) {
 
-      document.getElementById('jobUrl').value =
-        response.jobUrl || '';
-        checkAlreadySaved();
+      showMessage(
+        'Could not extract job details. Please enter manually.',
+        'warning'
+      );
+
+      return;
 
     }
-  );
 
-  
+    document.getElementById('jobTitle').value =
+      response.jobTitle || '';
+
+    document.getElementById('companyName').value =
+      response.companyName || '';
+
+    document.getElementById('location').value =
+      response.location || '';
+
+    document.getElementById('jobUrl').value =
+      response.jobUrl || tab.url || '';
+
+    showMessage(
+      'Job details detected. Please review before saving.',
+      'success'
+    );
+
+    checkAlreadySaved();
+
+  } catch (error) {
+
+    console.log(error);
+
+    showMessage(
+      'Could not read this page. Please enter details manually.',
+      'warning'
+    );
+
+  }
 
 }
 

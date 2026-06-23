@@ -1,3 +1,7 @@
+
+
+
+
 {
   "manifest_version": 3,
   "name": "NextZiel Job Saver",
@@ -9,22 +13,10 @@
     "storage"
   ],
   "host_permissions": [
-    "http://localhost:5000/*",
-    "https://*/*",
-    "http://*/*"
+    "https://jobpilot-api-whlc.onrender.com/*"
   ],
   "action": {
     "default_popup": "popup.html",
     "default_title": "Save to NextZiel"
-  },
-  "content_scripts": [
-    {
-      "matches": [
-        "https://*/*",
-        "http://*/*"
-      ],
-      "js": ["content.js"],
-      "run_at": "document_idle"
-    }
-  ]
+  }
 }
