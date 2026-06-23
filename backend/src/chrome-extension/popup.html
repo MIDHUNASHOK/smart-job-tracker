@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NextZiel Job Saver</title>
+
+  <style>
+    body {
+      width: 360px;
+      font-family: Arial, sans-serif;
+      padding: 16px;
+      background: #f8fafc;
+    }
+
+    h3 {
+      margin-top: 0;
+      color: #0f172a;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 9px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+    }
+
+    button {
+      width: 100%;
+      padding: 11px;
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    .primary-btn {
+      background: #198754;
+      color: white;
+    }
+
+    .blue-btn {
+      background: #0d6efd;
+      color: white;
+    }
+
+    .danger-btn {
+      background: #dc3545;
+      color: white;
+    }
+
+    .message {
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .divider {
+      height: 1px;
+      background: #e2e8f0;
+      margin: 14px 0;
+    }
+
+    .user-box {
+      background: #ecfdf5;
+      color: #047857;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h3>NextZiel Job Saver</h3>
+
+  <!-- LOGIN SECTION -->
+
+  <div id="loginSection">
+
+    <label>Email</label>
+
+    <input
+      id="email"
+      type="email"
+      placeholder="Enter NextZiel email">
+
+    <label>Password</label>
+
+    <input
+      id="password"
+      type="password"
+      placeholder="Enter password">
+
+    <button
+      id="loginBtn"
+      class="blue-btn">
+      Login
+    </button>
+
+  </div>
+
+  <!-- JOB SECTION -->
+
+  <div id="jobSection" class="hidden">
+
+    <div
+      id="userInfo"
+      class="user-box">
+    </div>
+
+    <label>Job Title</label>
+    <input id="jobTitle" placeholder="Job Title">
+
+    <label>Company Name</label>
+    <input id="companyName" placeholder="Company Name">
+
+    <label>Location</label>
+    <input id="location" placeholder="Location">
+
+    <label>Job URL</label>
+    <input id="jobUrl" placeholder="Job URL">
+
+    <button
+      id="saveJob"
+      class="primary-btn">
+      Save Job
+    </button>
+
+    <button
+      id="logoutBtn"
+      class="danger-btn">
+      Logout
+    </button>
+
+  </div>
+
+  <p id="message" class="message"></p>
+
+  <script src="popup.js"></script>
+
+</body>
+</html>

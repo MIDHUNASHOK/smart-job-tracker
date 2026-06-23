@@ -7,6 +7,7 @@ const jobController =
 
 const authMiddleware =
   require('../middleware/auth.middleware');
+  
 
 router.get(
   '/',
@@ -20,6 +21,11 @@ router.post(
   jobController.createJob
 );
 
+router.get(
+  '/check',
+  authMiddleware,
+  jobController.checkJobSaved
+);
 router.put(
   '/:id',
   authMiddleware,

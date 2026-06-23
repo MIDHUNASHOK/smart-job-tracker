@@ -112,9 +112,25 @@ const deleteJob = async (
 
 };
 
+const checkJobSaved = async (
+  userId,
+  jobUrl
+) => {
+
+  return await prisma.job.findFirst({
+    where: {
+      userId,
+      job_Url: jobUrl
+    }
+  });
+
+};
+
 module.exports = {
   createJob,
   getAllJobs,
   updateJob,
-  deleteJob
+  deleteJob,
+  checkJobSaved
+  
 };

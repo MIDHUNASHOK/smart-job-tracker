@@ -125,9 +125,49 @@ const deleteJob = async (req, res) => {
 
 };
 
+const checkJobSaved = async (req, res) => {
+
+  try {
+
+    const userId = req.user.userId;
+    const { jobUrl } = req.query;
+
+    if (!jobUrl) {
+      return res.status(400).json({
+        success: false,
+        message: 'Job URL is required'
+      });
+    }
+
+    const job =
+      await jobService.checkJobSaved(
+        userId,
+        jobUrl
+      );
+
+    return res.status(200).json({
+      success: true,
+      saved: !!job,
+      data: job
+    });
+
+  } catch (error) {
+
+    console.log('CHECK JOB ERROR:', error);
+
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to check job'
+    });
+
+  }
+
+};
+
 module.exports = {
   createJob,
   getAllJobs,
   deleteJob,
-  updateJob
+  updateJob,
+  checkJobSaved
 };
