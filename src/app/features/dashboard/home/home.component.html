@@ -1,23 +1,37 @@
-<div class="d-flex justify-content-between align-items-center mb-4 flex-nowrap gap-2">
+<div class="dashboard-action-header">
 
   <h6 class="mb-0 fw-semibold text-secondary">
     Welcome back 👋
   </h6>
 
-  <!-- <button
-      class="btn btn-primary rounded-3 px-3 py-2 d-flex align-items-center gap-2 flex-shrink-0" (click)="openModal('addJob')"> -->
+  <div class="dashboard-actions">
 
-  <button class="btn btn-primary rounded-3 px-3 py-2 d-flex align-items-center gap-2 flex-shrink-0"
-    (click)="openModal('addJob')">
+    <button
+      class="btn btn-outline-success rounded-3 px-3 py-2 d-flex align-items-center gap-2"
+      type="button" (click)="openChromePopup()">
 
-    <i class="bi bi-plus-lg"></i>
+      <i class="bi bi-puzzle-fill"></i>
 
-    <!-- <span class="d-none d-sm-inline"> -->
-    <span>
-      Add Job
-    </span>
+      <span>
+        Add from Chrome
+      </span>
 
-  </button>
+    </button>
+
+    <button
+      class="btn btn-primary rounded-3 px-3 py-2 d-flex align-items-center gap-2"
+      type="button"
+      (click)="openModal('addJob')">
+
+      <i class="bi bi-plus-lg"></i>
+
+      <span>
+        Add Job
+      </span>
+
+    </button>
+
+  </div>
 
 </div>
 

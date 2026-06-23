@@ -12,6 +12,7 @@ import { ConfirmModalComponent } from './modals/confirm-modal/confirm-modal.comp
 import { SearchPipe } from './pipes/search.pipe';
 import { UnderConstructionComponent } from './under-construction/under-construction.component';
 import { LoaderComponent } from './loader/loader.component';
+import { ChromeExtensionPopupComponent } from './modals/chrome-extension-popup/chrome-extension-popup.component';
 
 
 
@@ -23,7 +24,8 @@ import { LoaderComponent } from './loader/loader.component';
     ConfirmModalComponent,
     SearchPipe,
     UnderConstructionComponent,
-    LoaderComponent
+    LoaderComponent,
+    ChromeExtensionPopupComponent
   ],
   imports: [
     CommonModule,

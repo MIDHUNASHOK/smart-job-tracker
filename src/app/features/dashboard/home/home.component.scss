@@ -1,10 +1,34 @@
-/* =========================
+/* ==================================================
+   DASHBOARD ACTION HEADER
+================================================== */
+
+.dashboard-action-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.dashboard-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dashboard-actions .btn {
+  min-height: 44px;
+  font-weight: 600;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+/* ==================================================
    STATS SCROLL CONTAINER
-========================= */
+================================================== */
 
 .stats-scroll-container {
   display: flex;
-
   gap: 20px;
 
   overflow-x: auto;
@@ -15,7 +39,6 @@
   scroll-behavior: smooth;
 
   scrollbar-width: none;
-
   -ms-overflow-style: none;
 
   scroll-snap-type: x mandatory;
@@ -25,16 +48,16 @@
   display: none;
 }
 
-/* =========================
-     STATS CARD
-  ========================= */
+/* ==================================================
+   STATS CARD
+================================================== */
 
 .stats-card {
   min-width: 260px;
 
   flex: 0 0 auto;
 
-  background: #ffffff;
+  background: #fff;
 
   border-radius: 20px;
 
@@ -52,104 +75,70 @@
 }
 
 .stats-card:hover {
-  transform: translateY(-6px) scale(1.02);
-
+  transform: translateY(-5px);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
 }
 
-/* =========================
-     CARD TOP
-  ========================= */
-
 .card-top {
   display: flex;
-
   justify-content: space-between;
-
   align-items: flex-start;
 }
 
-/* =========================
-     TITLE
-  ========================= */
-
 .card-title {
   font-size: 14px;
-
   color: #6b7280;
-
   margin-bottom: 12px;
 }
-
-/* =========================
-     VALUE
-  ========================= */
 
 .stats-card h2 {
   font-size: 42px;
-
   font-weight: 700;
-
   margin-bottom: 12px;
-
   color: #111827;
 }
 
-/* =========================
-     GROWTH
-  ========================= */
+/* ==================================================
+   STATUS COLORS
+================================================== */
 
 .positive {
   color: #16a34a;
-
   font-size: 14px;
-
   font-weight: 500;
 }
 
 .negative {
   color: #dc2626;
-
   font-size: 14px;
-
   font-weight: 500;
 }
 
 .warning {
   color: #ca8a04;
-
   font-size: 14px;
-
   font-weight: 500;
 }
 
-/* =========================
-     ICON
-  ========================= */
+/* ==================================================
+   CARD ICONS
+================================================== */
 
 .card-icon {
   width: 58px;
-
   height: 58px;
 
   border-radius: 16px;
 
   display: flex;
-
   justify-content: center;
-
   align-items: center;
 }
 
 .card-icon i {
-  color: white;
-
+  color: #fff;
   font-size: 24px;
 }
-
-/* =========================
-     COLORS
-  ========================= */
 
 .blue {
   background: linear-gradient(135deg, #2563eb, #3b82f6);
@@ -171,12 +160,12 @@
   background: linear-gradient(135deg, #f59e0b, #fbbf24);
 }
 
-/* =========================
-   CHART CARD
-========================= */
+/* ==================================================
+   CHART CARDS
+================================================== */
 
 .chart-card {
-  background: #ffffff;
+  background: #fff;
 
   border-radius: 20px;
 
@@ -189,15 +178,9 @@
   height: 100%;
 }
 
-/* =========================
-     CHART HEADER
-  ========================= */
-
 .chart-header {
   display: flex;
-
   justify-content: space-between;
-
   align-items: center;
 
   margin-bottom: 24px;
@@ -213,10 +196,6 @@
   color: #111827;
 }
 
-/* =========================
-     SELECT
-  ========================= */
-
 .custom-select {
   width: 170px;
 
@@ -229,31 +208,20 @@
   box-shadow: none;
 }
 
-/* =========================
-     LINE CHART
-  ========================= */
-
 .chart-container {
   position: relative;
-
   height: 320px;
 }
 
-/* =========================
-     PIE CHART
-  ========================= */
-
 .pie-chart-container {
   position: relative;
-
   height: 260px;
-
   width: 100%;
 }
 
-/* =========================
-     STATUS LIST
-  ========================= */
+/* ==================================================
+   STATUS LIST
+================================================== */
 
 .status-list {
   height: 100%;
@@ -267,39 +235,21 @@
   gap: 24px;
 }
 
-/* =========================
-     STATUS ITEM
-  ========================= */
-
 .status-item {
   display: flex;
-
   justify-content: space-between;
-
   align-items: center;
 }
-
-/* =========================
-     STATUS LEFT
-  ========================= */
 
 .status-left {
   display: flex;
-
   align-items: center;
-
   gap: 12px;
 }
 
-/* =========================
-     DOT
-  ========================= */
-
 .dot {
   width: 12px;
-
   height: 12px;
-
   border-radius: 50%;
 }
 
@@ -323,88 +273,32 @@
   background: #f59e0b;
 }
 
-/* =========================
-     MOBILE
-  ========================= */
-
-@media (max-width: 768px) {
-  .chart-header {
-    flex-direction: column;
-
-    align-items: flex-start;
-
-    gap: 15px;
-  }
-
-  .custom-select {
-    width: 100%;
-  }
-
-  .chart-container {
-    height: 260px;
-  }
-
-  .pie-chart-container {
-    height: 220px;
-
-    margin-bottom: 30px;
-  }
-
-  .status-list {
-    gap: 18px;
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-//job listing css
+/* ==================================================
+   RECENT JOBS SECTION
+================================================== */
 
 :root {
-
   --primary-color: #1E3A5F;
   --primary-hover: #16324F;
 
-  --bg-color: #F8FAFC;
+  --card-color: #ffffff;
 
-  --card-color: #FFFFFF;
+  --text-color: #1f2937;
 
-  --text-color: #1F2937;
+  --muted-text: #6b7280;
 
-  --muted-text: #6B7280;
-
-  --border-color: #E5E7EB;
-
+  --border-color: #e5e7eb;
 }
 
-/* =========================
-   CARD
-========================= */
-
 .recent-card {
-
   background: var(--card-color);
 
   border-radius: 22px;
 
-  box-shadow:
-    0 4px 20px rgba(0, 0, 0, 0.04);
-
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
-/* =========================
-   HEADER
-========================= */
-
 .recent-header {
-
   display: flex;
 
   justify-content: space-between;
@@ -418,33 +312,23 @@
   gap: 16px;
 
   flex-wrap: wrap;
-
 }
 
 .recent-title {
-
   font-size: 18px;
 
   font-weight: 700;
 
   color: var(--text-color);
-
 }
 
 .recent-subtitle {
-
   color: var(--muted-text);
 
   font-size: 14px;
-
 }
 
-/* =========================
-   VIEW ALL BUTTON
-========================= */
-
 .view-all-btn {
-
   background: var(--primary-color);
 
   color: white;
@@ -460,21 +344,13 @@
   font-weight: 600;
 
   transition: 0.3s ease;
-
 }
 
 .view-all-btn:hover {
-
   background: var(--primary-hover);
-
 }
 
-/* =========================
-   TABLE
-========================= */
-
 .recent-table thead th {
-
   padding: 16px 20px;
 
   font-size: 13px;
@@ -486,33 +362,27 @@
   border-bottom: 1px solid var(--border-color);
 
   white-space: nowrap;
-
 }
 
 .recent-table tbody td {
-
   padding: 18px 20px;
 
-  border-bottom: 1px solid #F3F4F6;
+  border-bottom: 1px solid #f3f4f6;
 
   vertical-align: middle;
 
   white-space: nowrap;
-
 }
 
 .recent-table tbody tr:last-child td {
-
   border-bottom: none;
-
 }
 
-/* =========================
+/* ==================================================
    STATUS BADGES
-========================= */
+================================================== */
 
 .status-badge {
-
   padding: 6px 12px;
 
   border-radius: 999px;
@@ -520,58 +390,81 @@
   font-size: 12px;
 
   font-weight: 600;
-
 }
 
 .applied-badge {
-
-  background: #E0EAFF;
-
-  color: #2563EB;
-
+  background: #e0eaff;
+  color: #2563eb;
 }
 
 .interview-badge {
-
-  background: #FEF3C7;
-
-  color: #D97706;
-
+  background: #fef3c7;
+  color: #d97706;
 }
 
 .rejected-badge {
-
-  background: #FEE2E2;
-
-  color: #DC2626;
-
+  background: #fee2e2;
+  color: #dc2626;
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* ==================================================
+   RESPONSIVE
+================================================== */
 
 @media (max-width: 768px) {
 
-  .recent-header {
-
+  .chart-header {
+    flex-direction: column;
     align-items: flex-start;
+    gap: 15px;
+  }
 
+  .custom-select {
+    width: 100%;
+  }
+
+  .chart-container {
+    height: 260px;
+  }
+
+  .pie-chart-container {
+    height: 220px;
+    margin-bottom: 30px;
+  }
+
+  .status-list {
+    gap: 18px;
+  }
+
+  .recent-header {
+    align-items: flex-start;
   }
 
   .view-all-btn {
-
     width: 100%;
-
   }
 
   .recent-table thead th,
   .recent-table tbody td {
-
     padding: 14px;
-
     font-size: 13px;
+  }
+}
 
+@media (max-width: 576px) {
+
+  .dashboard-action-header {
+    flex-direction: column;
+    align-items: stretch;
   }
 
+  .dashboard-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .dashboard-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
 }

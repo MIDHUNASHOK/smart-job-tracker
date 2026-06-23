@@ -4,6 +4,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ChromeExtensionPopupComponent } from '../../../shared/modals/chrome-extension-popup/chrome-extension-popup.component';
+
 import {
   ChangeDetectorRef
 } from '@angular/core';
@@ -159,7 +161,8 @@ export class HomeComponent {
 
 
   ngOnInit(): void {
-
+   
+     this.openChromePopup();
     this.getDashboardStats();
 
   }
@@ -903,6 +906,34 @@ export class HomeComponent {
     this.router.navigate(
       ['/jobs/jobslist']
     );
+
+  }
+
+
+    openChromePopup() {
+    // const alreadyShown =
+    //   localStorage.getItem('chromeExtensionPopupShown');
+
+    // if (alreadyShown) {
+    //   return;
+    // }
+
+    const modalRef =
+      this.modalService.open(
+        ChromeExtensionPopupComponent,
+        {
+          centered: true,
+          size: 'lg',
+          backdrop: 'static'
+        }
+      );
+
+    modalRef.result.finally(() => {
+      localStorage.setItem(
+        'chromeExtensionPopupShown',
+        'true'
+      );
+    });
 
   }
 
