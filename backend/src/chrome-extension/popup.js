@@ -46,7 +46,7 @@ function checkLoginStatus() {
 
         showJobSection(result.nextzielUser);
 
-        extractLinkedInJobDetails();
+        extractJobDetailsFromCurrentPage();
 
       } else {
 
@@ -82,7 +82,7 @@ function showJobSection(user) {
     .classList.remove('hidden');
 
   document.getElementById('userInfo').innerText =
-    `Logged in as ${user?.fullName || 'NextZiel User'}`;
+    `Welcome back ${user?.fullName || 'NextZiel User'}`;
 
 }
 
@@ -151,7 +151,7 @@ async function loginUser() {
 
         showJobSection(result.user);
 
-        extractLinkedInJobDetails();
+        extractJobDetailsFromCurrentPage();
 
       }
     );
@@ -169,7 +169,7 @@ async function loginUser() {
 
 }
 
-async function extractLinkedInJobDetails() {
+async function extractJobDetailsFromCurrentPage() {
 
   const [tab] =
     await chrome.tabs.query({
@@ -382,25 +382,21 @@ function logoutUser() {
   );
 
 }
-
 async function checkAlreadySaved() {
-
   chrome.storage.local.get(
     ['nextzielToken'],
     async (result) => {
+      try {
+        const token = result.nextzielToken;
 
-      const token =
-        result.nextzielToken;
+        const jobUrl =
+          document.getElementById('jobUrl').value.trim();
 
-      const jobUrl =
-        document.getElementById('jobUrl').value.trim();
+        if (!token || !jobUrl) {
+          return;
+        }
 
-      if (!token || !jobUrl) {
-        return;
-      }
-
-      const response =
-        await fetch(
+        const response = await fetch(
           `${API_BASE_URL}/jobs/check?jobUrl=${encodeURIComponent(jobUrl)}`,
           {
             method: 'GET',
@@ -410,30 +406,27 @@ async function checkAlreadySaved() {
           }
         );
 
-      const data =
-        await response.json();
+        const data = await response.json();
 
-      const saveBtn =
-        document.getElementById('saveJob');
+        const saveBtn =
+          document.getElementById('saveJob');
 
-      if (data.saved) {
+        if (data.saved) {
+          saveBtn.disabled = true;
+          saveBtn.innerText = 'Already Saved';
 
-        saveBtn.disabled = true;
-        saveBtn.innerText = 'Already Saved';
+          showMessage(
+            'This job is already saved in NextZiel',
+            'warning'
+          );
+        } else {
+          saveBtn.disabled = false;
+          saveBtn.innerText = 'Save Job';
+        }
 
-        showMessage(
-          'This job is already saved in NextZiel',
-          'warning'
-        );
-
-      } else {
-
-        saveBtn.disabled = false;
-        saveBtn.innerText = 'Save Job';
-
+      } catch (error) {
+        console.log(error);
       }
-
     }
   );
-
 }

@@ -4,79 +4,128 @@
   <title>NextZiel Job Saver</title>
 
   <style>
-    body {
-      width: 360px;
-      font-family: Arial, sans-serif;
-      padding: 16px;
-      background: #f8fafc;
+    * {
+      box-sizing: border-box;
     }
 
-    h3 {
-      margin-top: 0;
+    body {
+      width: 380px;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f8fafc;
       color: #0f172a;
     }
 
+    .popup-wrapper {
+      padding: 18px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+    }
+
+    .title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .subtitle {
+      margin: 3px 0 0;
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+    }
+
     label {
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 700;
       color: #334155;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
       display: block;
     }
 
     input {
       width: 100%;
-      padding: 9px;
-      margin-bottom: 10px;
-      box-sizing: border-box;
+      padding: 10px 11px;
+      margin-bottom: 12px;
       border: 1px solid #cbd5e1;
-      border-radius: 6px;
+      border-radius: 9px;
+      font-size: 13px;
+      outline: none;
+      background: #ffffff;
+    }
+
+    input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
     }
 
     button {
       width: 100%;
       padding: 11px;
       border: none;
-      border-radius: 7px;
+      border-radius: 9px;
       cursor: pointer;
-      font-weight: 600;
+      font-weight: 700;
+      font-size: 13px;
       margin-top: 6px;
     }
 
+    button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
     .primary-btn {
-      background: #198754;
-      color: white;
+      background: #22c55e;
+      color: #ffffff;
     }
 
     .blue-btn {
-      background: #0d6efd;
-      color: white;
+      background: #2563eb;
+      color: #ffffff;
     }
 
     .danger-btn {
-      background: #dc3545;
-      color: white;
+      background: #fee2e2;
+      color: #b91c1c;
+      margin-top: 10px;
     }
 
     .message {
-      margin-top: 10px;
+      min-height: 18px;
+      margin: 12px 0 0;
       font-size: 13px;
-      font-weight: 600;
-    }
-
-    .divider {
-      height: 1px;
-      background: #e2e8f0;
-      margin: 14px 0;
+      font-weight: 700;
+      text-align: center;
     }
 
     .user-box {
       background: #ecfdf5;
       color: #047857;
-      padding: 10px;
-      border-radius: 8px;
+      padding: 10px 12px;
+      border-radius: 10px;
       font-size: 13px;
-      margin-bottom: 12px;
+      font-weight: 700;
+      margin-bottom: 14px;
     }
 
     .hidden {
@@ -86,73 +135,78 @@
 </head>
 
 <body>
+  <div class="popup-wrapper">
 
-  <h3>NextZiel Job Saver</h3>
+    <div class="header">
+      <img
+        src="icons/icon48.png"
+        alt="NextZiel"
+        class="logo">
 
-  <!-- LOGIN SECTION -->
-
-  <div id="loginSection">
-
-    <label>Email</label>
-
-    <input
-      id="email"
-      type="email"
-      placeholder="Enter NextZiel email">
-
-    <label>Password</label>
-
-    <input
-      id="password"
-      type="password"
-      placeholder="Enter password">
-
-    <button
-      id="loginBtn"
-      class="blue-btn">
-      Login
-    </button>
-
-  </div>
-
-  <!-- JOB SECTION -->
-
-  <div id="jobSection" class="hidden">
-
-    <div
-      id="userInfo"
-      class="user-box">
+      <div>
+        <h3 class="title">NextZiel</h3>
+        <p class="subtitle">Save jobs in one click</p>
+      </div>
     </div>
 
-    <label>Job Title</label>
-    <input id="jobTitle" placeholder="Job Title">
+    <div class="card">
 
-    <label>Company Name</label>
-    <input id="companyName" placeholder="Company Name">
+      <div id="loginSection">
+        <label>Email</label>
+        <input
+          id="email"
+          type="email"
+          placeholder="Enter NextZiel email">
 
-    <label>Location</label>
-    <input id="location" placeholder="Location">
+        <label>Password</label>
+        <input
+          id="password"
+          type="password"
+          placeholder="Enter password">
 
-    <label>Job URL</label>
-    <input id="jobUrl" placeholder="Job URL">
+        <button
+          id="loginBtn"
+          class="blue-btn">
+          Login to NextZiel
+        </button>
+      </div>
 
-    <button
-      id="saveJob"
-      class="primary-btn">
-      Save Job
-    </button>
+      <div id="jobSection" class="hidden">
+        <div
+          id="userInfo"
+          class="user-box">
+        </div>
 
-    <button
-      id="logoutBtn"
-      class="danger-btn">
-      Logout
-    </button>
+        <label>Job Title</label>
+        <input id="jobTitle" placeholder="Job Title">
 
+        <label>Company Name</label>
+        <input id="companyName" placeholder="Company Name">
+
+        <label>Location</label>
+        <input id="location" placeholder="Location">
+
+        <label>Job URL</label>
+        <input id="jobUrl" placeholder="Job URL" readonly>
+
+        <button
+          id="saveJob"
+          class="primary-btn">
+          Save to NextZiel
+        </button>
+
+        <button
+          id="logoutBtn"
+          class="danger-btn">
+          Logout
+        </button>
+      </div>
+
+      <p id="message" class="message"></p>
+
+    </div>
   </div>
 
-  <p id="message" class="message"></p>
-
   <script src="popup.js"></script>
-
 </body>
 </html>
