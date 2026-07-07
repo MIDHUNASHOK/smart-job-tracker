@@ -11,4 +11,13 @@ export class SidebarComponent {
 
   @Input()
   mobileOpen = false;
+
+
+  openDocumentation() {
+  window.open(
+    'https://midhunashok.github.io/nextziel-docs/',
+    '_blank',
+    'noopener,noreferrer'
+  );
+}
 }

@@ -35,6 +35,8 @@ import { JobService } from '../../../core/services/job.service';
 
 
 export class HomeComponent {
+   chromeStoreUrl =
+    'https://chromewebstore.google.com/detail/jgegomlhmdddpphokmaekelefgjblmhn';
 
   @ViewChild('pieChart')
   doughnutChart?: BaseChartDirective;
@@ -43,6 +45,18 @@ export class HomeComponent {
   lineChart?: BaseChartDirective;
 
   recentJobs: any[] = [];
+
+
+
+  installExtension() {
+  window.open(
+    this.chromeStoreUrl,
+    '_blank',
+    'noopener,noreferrer'
+  );
+}
+
+  
 
 
 
@@ -162,10 +176,18 @@ export class HomeComponent {
 
   ngOnInit(): void {
    
-     this.openChromePopup();
-    this.getDashboardStats();
+   const popupShown =
+    localStorage.getItem('chromeExtensionPopupShown');
+
+  if (!popupShown) {
+    this.openChromePopup();
+  }
+
+  this.getDashboardStats();
 
   }
+
+  
   onRangeChange(chartType: string) {
 
     if (chartType === 'line') {
@@ -910,31 +932,30 @@ export class HomeComponent {
   }
 
 
-    openChromePopup() {
-    // const alreadyShown =
-    //   localStorage.getItem('chromeExtensionPopupShown');
+openChromePopup() {
+  const alreadyShown =
+    localStorage.getItem('chromeExtensionPopupShown');
 
-    // if (alreadyShown) {
-    //   return;
-    // }
-
-    const modalRef =
-      this.modalService.open(
-        ChromeExtensionPopupComponent,
-        {
-          centered: true,
-          size: 'lg',
-          backdrop: 'static'
-        }
-      );
-
-    modalRef.result.finally(() => {
-      localStorage.setItem(
-        'chromeExtensionPopupShown',
-        'true'
-      );
-    });
-
+  if (alreadyShown) {
+    return;
   }
+
+  const modalRef =
+    this.modalService.open(
+      ChromeExtensionPopupComponent,
+      {
+        centered: true,
+        size: 'lg',
+        backdrop: 'static'
+      }
+    );
+
+  modalRef.result.finally(() => {
+    localStorage.setItem(
+      'chromeExtensionPopupShown',
+      'true'
+    );
+  });
+}
 
 }

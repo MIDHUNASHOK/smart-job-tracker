@@ -217,3 +217,56 @@
   }
 
 }
+
+/* ===========================
+   HELP SECTION
+=========================== */
+
+.help-section {
+
+  margin-top: 24px;
+  padding-top: 20px;
+
+  border-top: 1px solid #e5e7eb;
+
+  text-align: center;
+
+}
+
+.help-text {
+
+  margin-bottom: 8px;
+
+  color: #6b7280;
+
+  font-size: 14px;
+
+}
+
+.help-link {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 6px;
+
+  text-decoration: none;
+
+  color: #2563eb;
+
+  font-weight: 600;
+
+  transition: color .2s ease;
+
+}
+
+.help-link:hover {
+
+  color: #1d4ed8;
+
+  text-decoration: underline;
+
+}

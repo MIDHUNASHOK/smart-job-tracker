@@ -1,29 +1,105 @@
-# 🚀 Smart Job Tracker
+# 🚀 NextZiel – AI-Powered Job Application Tracker
 
-Enterprise-level Job Application Tracking Platform built with Angular, NgRx, Node.js, and PostgreSQL.
+NextZiel is a modern full-stack Job Application Tracking System that helps job seekers organize, monitor, and optimize their job search with an intuitive dashboard and a Chrome Extension for one-click job saving.
+
+---
+
+# 🌐 Project Links
+
+- 🌍 **Live Application:** *(Coming Soon)*
+- 📖 **Documentation:** https://midhunashok.github.io/nextziel-docs/
+- 🧩 **Chrome Extension:** https://chromewebstore.google.com/detail/jgegomlhmdddpphokmaekelefgjblmhn
+- 💻 **GitHub Repository:** https://github.com/MIDHUNASHOK/smart-job-tracker
 
 ---
 
 # 📌 Overview
 
-Smart Job Tracker is a modern full-stack web application designed to help users efficiently manage and track job applications in a centralized dashboard.
+NextZiel is designed to simplify the entire job application process by providing a centralized platform to:
 
-The project focuses on:
+- Track job applications
+- Monitor application progress
+- Analyze application statistics
+- Save jobs directly from LinkedIn using the Chrome Extension
+- Build a professional profile
+- Prepare for future AI-powered career tools
 
-- Enterprise Angular architecture
-- Scalable frontend structure
-- State management using NgRx
-- REST API integration
-- Dashboard analytics
-- Modular architecture
-- Responsive UI design
+The project is being developed as a production-ready portfolio application following enterprise software development practices.
 
-This project is being developed as a professional portfolio application to demonstrate real-world frontend engineering practices.
+---
+
+# ✨ Key Features
+
+## 🔐 Authentication
+
+- JWT Authentication
+- Secure Login & Registration
+- Protected Routes
+- Token-based Authorization
+
+---
+
+## 📊 Dashboard
+
+- Application Statistics
+- Monthly Analytics
+- Status Distribution Charts
+- Recent Applications
+- Interactive Charts
+- Responsive Dashboard
+
+---
+
+## 💼 Job Management
+
+- Add New Job
+- Edit Job
+- Delete Job
+- Search Jobs
+- Filter Applications
+- Track Job Status
+- Store Job URLs
+- Notes Support
+
+---
+
+## 👤 Profile Management
+
+- User Profile
+- Contact Information
+- Skills
+- Resume Information
+- Career Summary
+
+---
+
+## 🧩 Chrome Extension
+
+Published on the Chrome Web Store.
+
+Features include:
+
+- Save LinkedIn jobs in one click
+- Automatically capture:
+  - Job Title
+  - Company
+  - Location
+  - Job URL
+- Direct integration with NextZiel
+- No manual copy-pasting
+
+---
+
+## 📈 Analytics
+
+- Application Trends
+- Status Breakdown
+- Monthly Growth
+- Interactive Charts
 
 ---
 
 # 🏗️ Architecture
-
 ## Frontend Architecture
 
 - Angular Modular Architecture
@@ -37,123 +113,97 @@ This project is being developed as a professional portfolio application to demon
 - NgRx State Management
 
 ---
-
-# 🛠️ Tech Stack
-
 ## Frontend
 
-- Angular
+- Angular 17
 - TypeScript
+- Bootstrap 5
 - RxJS
-- NgRx
-- Angular Material
-- SCSS
+- Chart.js
+- ng2-charts
+- Angular Reactive Forms
+
+---
 
 ## Backend
 
 - Node.js
 - Express.js
+- JWT Authentication
+- REST APIs
+
+---
 
 ## Database
 
 - PostgreSQL
+- Prisma ORM
 
-## Tools & Workflow
+---
+
+## Development Tools
 
 - Git
 - GitHub
-- VS Code
+- Visual Studio Code
 - Postman
+- Chrome Extension (Manifest V3)
 
 ---
 
 # 📂 Project Structure
 
-```plaintext
+```text
 src/app
 │
 ├── core
 │   ├── guards
 │   ├── interceptors
 │   ├── services
-│   └── core.module.ts
+│   └── models
 │
 ├── shared
-│   ├── main-layout
 │   ├── navbar
 │   ├── sidebar
-│   └── shared.module.ts
+│   ├── layouts
+│   ├── modals
+│   └── reusable components
 │
 ├── features
 │   ├── auth
 │   ├── dashboard
 │   ├── jobs
-│   └── analytics
+│   ├── profile
+│   ├── analytics
+│   └── smart-apply
 │
-├── store
-│   ├── actions
-│   ├── reducers
-│   ├── effects
-│   ├── selectors
-│   └── app.state.ts
-│
-├── app-routing.module.ts
-└── app.module.ts
+└── app-routing.module.ts
 ```
 
 ---
 
-# ✨ Features
+# 🚀 Technology Stack
 
-## Authentication
-
-- JWT Authentication
-- Route Protection
-- Login / Register
-
-## Dashboard
-
-- Analytics Overview
-- Application Statistics
-- Status Tracking
-- Recent Activities
-
-## Job Management
-
-- Add Job Applications
-- Edit Applications
-- Track Application Status
-- Search & Filter Jobs
-
-## Analytics
-
-- Job Status Charts
-- Application Insights
-- Activity Reports
+| Category | Technology |
+|----------|------------|
+| Frontend | Angular 17 |
+| Language | TypeScript |
+| Styling | Bootstrap 5, SCSS |
+| Charts | Chart.js, ng2-charts |
+| Backend | Node.js, Express.js |
+| Database | PostgreSQL |
+| ORM | Prisma |
+| Authentication | JWT |
+| Version Control | Git & GitHub |
+| Browser Extension | Chrome Extension (Manifest V3) |
 
 ---
 
-# 📊 Planned Features
+# 📷 Screenshots
 
-- Dark Mode
-- Email Notifications
-- Resume Upload
-- Interview Scheduling
-- AI-based Resume Suggestions
-- Export Reports
+The latest screenshots are available in the project documentation.
 
----
-
-# 🎯 Development Goals
-
-This project is focused on improving skills in:
-
-- Enterprise Angular Architecture
-- Frontend Scalability
-- State Management
-- REST API Integration
-- Full Stack Development
-- Clean Code Practices
+📖 https://midhunashok.github.io/nextziel-docs/
 
 ---
 
@@ -165,17 +215,13 @@ This project is focused on improving skills in:
 git clone https://github.com/MIDHUNASHOK/smart-job-tracker.git
 ```
 
----
-
 ## Install Dependencies
 
 ```bash
 npm install
 ```
 
----
-
-## Run Angular Application
+## Run Frontend
 
 ```bash
 ng serve
@@ -183,50 +229,111 @@ ng serve
 
 Application runs at:
 
-```plaintext
+```text
 http://localhost:4200
+```
+
+## Run Backend
+
+```bash
+npm start
 ```
 
 ---
 
-# 📌 Current Development Status
+# 📋 Current Status
 
-✅ Angular project setup completed  
-✅ Enterprise folder architecture initialized  
-✅ GitHub repository configured  
-✅ Shared/Core modules configured  
-🚧 Dashboard UI development in progress  
-🚧 Authentication module in progress  
-🚧 Backend API development pending  
+## ✅ Completed
+
+- Angular Application
+- Responsive UI
+- Dashboard
+- JWT Authentication
+- User Profile
+- Job CRUD
+- Charts & Analytics
+- PostgreSQL Integration
+- Prisma ORM
+- Chrome Extension
+- Chrome Web Store Publishing
+- Project Documentation
+- GitHub Pages Documentation
 
 ---
 
-# 📷 Screenshots
+## 🚧 In Progress
 
-Screenshots will be added during development.
+- Smart Apply
+- Resume Builder
+- AI Cover Letter Generator
+- AI Resume Generator
+- Interview Preparation
+- Email Notifications
+
+---
+
+## 🔮 Future Roadmap
+
+- AI Job Match Score
+- Resume ATS Analysis
+- Multi-Job Portal Support
+- Smart Resume Builder
+- AI Interview Assistant
+- Calendar Integration
+- Mobile Application
+- Browser Synchronization
+
+---
+
+# 📖 Documentation
+
+Complete project documentation is available here:
+
+👉 https://midhunashok.github.io/nextziel-docs/
+
+It includes:
+
+- Project Overview
+- Installation Guide
+- Chrome Extension Setup
+- Architecture
+- API Documentation
+- User Guide
+- Future Roadmap
 
 ---
 
 # 🤝 Contribution
 
-This project is currently under active development as a portfolio application.
+Contributions, feature suggestions, and feedback are always welcome.
+
+Feel free to fork the repository and submit a pull request.
 
 ---
 
-# 🌍 Author
+# 👨‍💻 Author
 
-### Midhun Ashok K
+**Midhun Ashok Kalluvettu Kuzhikkal**
 
-Frontend Developer specializing in Angular applications and scalable frontend architecture.
+Full Stack Developer
+
+**Core Skills**
 
 - Angular
 - TypeScript
-- RxJS
-- NgRx
 - Node.js
+- Express.js
+- PostgreSQL
+- Prisma ORM
+- REST APIs
+- Bootstrap
+- Chrome Extension Development
+
+GitHub:
+https://github.com/MIDHUNASHOK
 
 ---
 
 # 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the **MIT License**.
