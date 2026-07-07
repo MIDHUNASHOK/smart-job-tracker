@@ -48,12 +48,21 @@
           Password
         </label>
 
-        <input
-          type="password"
-          class="form-control custom-input"
-          formControlName="password"
-          placeholder="Enter your password"
-        >
+     <div class="password-wrapper">
+
+  <input
+    [type]="showPassword ? 'text' : 'password'"
+    class="form-control custom-input"
+    formControlName="password"
+    placeholder="Enter your password">
+
+  <i
+    class="bi"
+    [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"
+    (click)="togglePasswordVisibility()">
+  </i>
+
+</div>
 
       </div>
 

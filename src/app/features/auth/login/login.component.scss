@@ -270,3 +270,26 @@
   text-decoration: underline;
 
 }
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  padding-right: 45px;
+}
+
+.password-wrapper i {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+  color: #6b7280;
+  transition: color 0.2s ease;
+}
+
+.password-wrapper i:hover {
+  color: #2563eb;
+}

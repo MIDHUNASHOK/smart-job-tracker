@@ -10,12 +10,22 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent {
   isLoading = false;
+showPassword = false;
 
+showConfirmPassword = false;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
   ) {}
+
+  togglePasswordVisibility() {
+  this.showPassword = !this.showPassword;
+}
+
+toggleConfirmPasswordVisibility() {
+  this.showConfirmPassword = !this.showConfirmPassword;
+}
 
   registerForm = this.fb.group({
 

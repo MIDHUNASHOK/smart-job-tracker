@@ -33,6 +33,9 @@ import { ToastService } from '../../../core/services/toast.service';
 export class LoginComponent {
 
   isLoading = false;
+
+  showPassword = false;
+
  
 
   constructor(
@@ -41,6 +44,11 @@ export class LoginComponent {
     private router: Router,
     private toastService: ToastService
   ) {}
+
+  
+togglePasswordVisibility() {
+  this.showPassword = !this.showPassword;
+}
 
   loginForm = this.fb.group({
 
