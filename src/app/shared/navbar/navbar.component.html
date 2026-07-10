@@ -1,158 +1,308 @@
-<nav class="navbar navbar-expand bg-white border-bottom px-4 navbar-custom">
+<nav class="navbar navbar-custom">
 
-  <!-- LEFT -->
+  <!-- ==================================================
+       LEFT SIDE
+  =================================================== -->
 
-  <div class="d-flex align-items-center gap-3">
-
-    <!-- MENU BUTTON -->
+  <div class="navbar-left">
 
     <button
-      class="btn btn-light rounded-3 menu-btn"
+      type="button"
+      class="navbar-icon-btn menu-btn"
+      aria-label="Toggle sidebar"
+      title="Toggle sidebar"
       (click)="toggleSidebar.emit()"
     >
 
-      <i class="bi bi-list fs-4"></i>
+      <i class="bi bi-list"></i>
 
     </button>
 
   </div>
 
+  <!-- ==================================================
+       RIGHT SIDE
+  =================================================== -->
 
+  <div class="navbar-right">
 
-  <!-- RIGHT -->
-
-  <div class="d-flex align-items-center gap-3 ms-auto">
-
-    <!-- NOTIFICATION -->
-
+    <!-- NOTIFICATIONS -->
     <div class="dropdown">
 
       <button
-        class="btn btn-light rounded-3 position-relative icon-btn"
         type="button"
+        class="navbar-icon-btn notification-btn"
+        aria-label="Open notifications"
         data-bs-toggle="dropdown"
+        aria-expanded="false"
       >
 
-        <i class="bi bi-bell fs-5"></i>
+        <i class="bi bi-bell"></i>
 
-        <span
-          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-        >
-
+        <span class="notification-badge">
           3
-
         </span>
 
       </button>
 
-      <!-- DROPDOWN -->
+      <div class="dropdown-menu dropdown-menu-end notification-menu">
 
-      <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-4 p-2">
+        <div class="dropdown-title-row">
 
-        <li>
+          <div>
 
-          <h6 class="dropdown-header">
+            <h6>
+              Notifications
+            </h6>
 
-            Notifications
+            <p>
+              Your latest updates
+            </p>
 
-          </h6>
+          </div>
 
-        </li>
-
-        <li>
-
-          <a class="dropdown-item rounded-3">
-
-            Interview scheduled
-
-          </a>
-
-        </li>
-
-      </ul>
-
-    </div>
-
-
-
-    <!-- PROFILE -->
-
-    <div class="dropdown">
-
-      <button
-        class="btn d-flex align-items-center gap-2 border-0 bg-transparent p-0"
-        type="button"
-        data-bs-toggle="dropdown"
-      >
-
-        <!-- AVATAR -->
-
-        <div class="avatar">
-
-          {{ userInitial }}
+          <span class="notification-count">
+            3 new
+          </span>
 
         </div>
 
+        <div class="dropdown-divider"></div>
 
-        <span class="d-none d-md-inline fw-medium text-dark">
+        <button
+          type="button"
+          class="notification-item"
+        >
 
-          {{userName}}
-        
-        </span>
+          <div class="notification-icon interview-icon">
 
-        <i class="bi bi-chevron-down"></i>
+            <i class="bi bi-calendar-check"></i>
+
+          </div>
+
+          <div class="notification-content">
+
+            <strong>
+              Interview scheduled
+            </strong>
+
+            <span>
+              Your upcoming interview has been added.
+            </span>
+
+            <small>
+              Just now
+            </small>
+
+          </div>
+
+        </button>
+
+        <button
+          type="button"
+          class="notification-item"
+        >
+
+          <div class="notification-icon application-icon">
+
+            <i class="bi bi-briefcase"></i>
+
+          </div>
+
+          <div class="notification-content">
+
+            <strong>
+              Application updated
+            </strong>
+
+            <span>
+              One of your job statuses has changed.
+            </span>
+
+            <small>
+              1 hour ago
+            </small>
+
+          </div>
+
+        </button>
+
+        <button
+          type="button"
+          class="notification-item"
+        >
+
+          <div class="notification-icon profile-icon">
+
+            <i class="bi bi-person-check"></i>
+
+          </div>
+
+          <div class="notification-content">
+
+            <strong>
+              Complete your profile
+            </strong>
+
+            <span>
+              Add more details to improve your profile.
+            </span>
+
+            <small>
+              Today
+            </small>
+
+          </div>
+
+        </button>
+
+        <div class="dropdown-divider"></div>
+
+        <button
+          type="button"
+          class="view-notifications-btn"
+        >
+          View all notifications
+          <i class="bi bi-arrow-right"></i>
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- PROFILE -->
+    <div class="dropdown">
+
+      <button
+        type="button"
+        class="profile-trigger"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+
+        <div class="avatar">
+          {{ userInitial }}
+        </div>
+
+        <div class="profile-summary d-none d-md-flex">
+
+          <span class="profile-name">
+            {{ userName }}
+          </span>
+
+          <span class="profile-role">
+            NextZiel account
+          </span>
+
+        </div>
+
+        <i class="bi bi-chevron-down profile-chevron"></i>
 
       </button>
 
+      <div class="dropdown-menu dropdown-menu-end profile-menu">
 
+        <div class="profile-menu-header">
 
-      <!-- DROPDOWN -->
+          <div class="avatar menu-avatar">
+            {{ userInitial }}
+          </div>
 
-      <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-4 p-2">
+          <div>
 
-        <li>
+            <strong>
+              {{ userName }}
+            </strong>
 
-          <a class="dropdown-item rounded-3 d-flex align-items-center gap-2 pointer">
+            <span>
+              Manage your account
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="dropdown-divider"></div>
+
+        <a
+          routerLink="/profile"
+          class="profile-menu-item"
+        >
+
+          <span class="profile-menu-icon">
 
             <i class="bi bi-person"></i>
 
-            Profile
+          </span>
 
-          </a>
+          <div>
 
-        </li>
+            <strong>
+              Profile
+            </strong>
 
-        <li>
+            <small>
+              Update your personal information
+            </small>
 
-          <a class="dropdown-item rounded-3 d-flex align-items-center gap-2 pointer">
+          </div>
+
+        </a>
+
+        <a
+          routerLink="/settings"
+          class="profile-menu-item"
+        >
+
+          <span class="profile-menu-icon">
 
             <i class="bi bi-gear"></i>
 
-            Settings
+          </span>
 
-          </a>
+          <div>
 
-        </li>
+            <strong>
+              Settings
+            </strong>
 
-        <li>
-          <hr class="dropdown-divider">
-        </li>
+            <small>
+              Manage preferences and security
+            </small>
 
-        <li (click)="logout()">
+          </div>
 
-          <a
-            class="dropdown-item rounded-3 text-danger d-flex align-items-center gap-2 pointer"
-          >
+        </a>
+
+        <div class="dropdown-divider"></div>
+
+        <button
+          type="button"
+          class="profile-menu-item logout-item"
+          (click)="logout()"
+        >
+
+          <span class="profile-menu-icon">
 
             <i class="bi bi-box-arrow-right"></i>
 
-            Logout
+          </span>
 
-          </a>
+          <div>
 
-        </li>
+            <strong>
+              Logout
+            </strong>
 
-      </ul>
+            <small>
+              Sign out of your account
+            </small>
+
+          </div>
+
+        </button>
+
+      </div>
 
     </div>
 

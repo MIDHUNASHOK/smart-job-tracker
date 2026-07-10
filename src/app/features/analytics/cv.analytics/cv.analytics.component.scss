@@ -1,8 +1,583 @@
-.container {
+// ════════════════════════════════════════════════════════
+// NEXTZIEL CV ANALYTICS VARIABLES
+// ════════════════════════════════════════════════════════
 
-    min-height: calc(100vh - 100px);
-  
-    display: flex;
+$primary: #16a34a;
+$primary-dark: #12883b;
+$primary-light: #74c91a;
+
+$text-dark: #102a1d;
+$text-main: #24372c;
+$text-muted: #718079;
+
+$surface: #ffffff;
+$surface-soft: #f8fbf8;
+
+$border-color: #e1e9e2;
+$border-hover: #cdddcf;
+
+$blue: #2563eb;
+$purple: #7c3aed;
+$amber: #d97706;
+
+$radius-lg: 24px;
+$radius-md: 14px;
+
+// ════════════════════════════════════════════════════════
+// PAGE
+// ════════════════════════════════════════════════════════
+
+.analytics-page {
+  width: 100%;
+  max-width: 1180px;
+
+  margin: 0 auto;
+  padding: 30px 24px 45px;
+
+  color: $text-main;
+}
+
+// ════════════════════════════════════════════════════════
+// PAGE HEADER
+// ════════════════════════════════════════════════════════
+
+.analytics-header {
+  margin-bottom: 24px;
+
+  .page-badge {
+    width: fit-content;
+
+    display: inline-flex;
     align-items: center;
-  
+    gap: 7px;
+
+    margin-bottom: 11px;
+    padding: 7px 12px;
+
+    border: 1px solid rgba(22, 163, 74, 0.14);
+    border-radius: 999px;
+
+    background: rgba(22, 163, 74, 0.07);
+    color: $primary-dark;
+
+    font-size: 12px;
+    font-weight: 700;
   }
+
+  h2 {
+    margin: 0 0 6px;
+
+    color: $text-dark;
+
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.7px;
+  }
+
+  p {
+    max-width: 660px;
+
+    margin: 0;
+
+    color: $text-muted;
+
+    font-size: 14px;
+    line-height: 1.65;
+  }
+}
+
+// ════════════════════════════════════════════════════════
+// DEVELOPMENT CARD
+// ════════════════════════════════════════════════════════
+
+.development-card {
+  position: relative;
+
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(132, 204, 22, 0.12),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(22, 163, 74, 0.07),
+      transparent 28%
+    ),
+    linear-gradient(
+      145deg,
+      #ffffff 0%,
+      #f8fcf7 100%
+    );
+
+  box-shadow:
+    0 18px 55px rgba(15, 23, 42, 0.08);
+
+  overflow: hidden;
+}
+
+.card-decoration {
+  position: absolute;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+}
+
+.decoration-one {
+  top: -120px;
+  right: -100px;
+
+  width: 280px;
+  height: 280px;
+
+  border: 55px solid rgba(132, 204, 22, 0.07);
+}
+
+.decoration-two {
+  bottom: -90px;
+  left: -75px;
+
+  width: 220px;
+  height: 220px;
+
+  background: rgba(22, 163, 74, 0.045);
+}
+
+.development-content {
+  position: relative;
+  z-index: 2;
+
+  max-width: 900px;
+
+  margin: 0 auto;
+  padding: 48px 52px;
+
+  text-align: center;
+}
+
+// ════════════════════════════════════════════════════════
+// MAIN ICON
+// ════════════════════════════════════════════════════════
+
+.main-icon {
+  width: 78px;
+  height: 78px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 18px;
+
+  border: 1px solid rgba(22, 163, 74, 0.14);
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #e8f8e9,
+      #d8f1d7
+    );
+
+  color: $primary;
+
+  font-size: 34px;
+
+  box-shadow:
+    0 15px 32px rgba(22, 101, 52, 0.12);
+}
+
+// ════════════════════════════════════════════════════════
+// DEVELOPMENT BADGE
+// ════════════════════════════════════════════════════════
+
+.development-badge {
+  width: fit-content;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 18px;
+  padding: 8px 13px;
+
+  border: 1px solid rgba(22, 163, 74, 0.14);
+  border-radius: 999px;
+
+  background: rgba(22, 163, 74, 0.07);
+  color: $primary-dark;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: $primary;
+
+  box-shadow:
+    0 0 0 5px rgba(22, 163, 74, 0.1);
+
+  animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+
+  0% {
+    box-shadow:
+      0 0 0 0 rgba(22, 163, 74, 0.28);
+  }
+
+  70% {
+    box-shadow:
+      0 0 0 8px rgba(22, 163, 74, 0);
+  }
+
+  100% {
+    box-shadow:
+      0 0 0 0 rgba(22, 163, 74, 0);
+  }
+
+}
+
+// ════════════════════════════════════════════════════════
+// MAIN TEXT
+// ════════════════════════════════════════════════════════
+
+.development-content h1 {
+  max-width: 650px;
+
+  margin: 0 auto 14px;
+
+  color: $text-dark;
+
+  font-size: clamp(30px, 4vw, 42px);
+  font-weight: 800;
+  line-height: 1.18;
+  letter-spacing: -1.2px;
+}
+
+.development-description {
+  max-width: 700px;
+
+  margin: 0 auto 35px;
+
+  color: $text-muted;
+
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+// ════════════════════════════════════════════════════════
+// FEATURE GRID
+// ════════════════════════════════════════════════════════
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+
+  margin-bottom: 34px;
+
+  text-align: left;
+}
+
+.feature-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+
+  padding: 18px;
+
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+
+  background: rgba(255, 255, 255, 0.84);
+
+  box-shadow:
+    0 6px 20px rgba(15, 23, 42, 0.035);
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    border-color: $border-hover;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+      0 12px 28px rgba(15, 23, 42, 0.065);
+  }
+}
+
+.feature-icon {
+  width: 44px;
+  height: 44px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  font-size: 18px;
+}
+
+.upload-icon {
+  background: rgba(37, 99, 235, 0.1);
+  color: $blue;
+}
+
+.score-icon {
+  background: rgba(124, 58, 237, 0.1);
+  color: $purple;
+}
+
+.skills-icon {
+  background: rgba(245, 158, 11, 0.13);
+  color: $amber;
+}
+
+.ai-icon {
+  background: rgba(22, 163, 74, 0.1);
+  color: $primary;
+}
+
+.feature-content {
+  h5 {
+    margin: 0 0 5px;
+
+    color: $text-dark;
+
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  p {
+    margin: 0;
+
+    color: $text-muted;
+
+    font-size: 11px;
+    line-height: 1.55;
+  }
+}
+
+// ════════════════════════════════════════════════════════
+// PROGRESS SECTION
+// ════════════════════════════════════════════════════════
+
+.progress-section {
+  margin-bottom: 28px;
+  padding: 18px;
+
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+
+  background: rgba(255, 255, 255, 0.75);
+
+  text-align: left;
+}
+
+.progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+
+  margin-bottom: 12px;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  strong {
+    color: $text-dark;
+
+    font-size: 13px;
+    font-weight: 700;
+  }
+}
+
+.progress-label {
+  color: $text-muted;
+
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.progress-value {
+  color: $primary-dark;
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.progress-track {
+  width: 100%;
+  height: 9px;
+
+  border-radius: 999px;
+
+  background: #eaf1eb;
+
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 40%;
+  height: 100%;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      $primary-dark,
+      $primary,
+      $primary-light
+    );
+
+  box-shadow:
+    0 4px 10px rgba(22, 163, 74, 0.16);
+}
+
+// ════════════════════════════════════════════════════════
+// DEVELOPMENT NOTE
+// ════════════════════════════════════════════════════════
+
+.development-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  padding: 15px 16px;
+
+  border: 1px solid #e4e9dc;
+  border-radius: 13px;
+
+  background: #fcfdf7;
+
+  text-align: left;
+}
+
+.note-icon {
+  width: 36px;
+  height: 36px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: #edf8ef;
+  color: $primary;
+
+  font-size: 16px;
+}
+
+.development-note strong {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: $text-dark;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.development-note p {
+  margin: 0;
+
+  color: $text-muted;
+
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+// ════════════════════════════════════════════════════════
+// RESPONSIVE
+// ════════════════════════════════════════════════════════
+
+@media (max-width: 767.98px) {
+
+  .analytics-page {
+    padding: 24px 16px 35px;
+  }
+
+  .analytics-header h2 {
+    font-size: 27px;
+  }
+
+  .development-content {
+    padding: 38px 26px;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+@media (max-width: 575.98px) {
+
+  .analytics-page {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .analytics-header h2 {
+    font-size: 25px;
+  }
+
+  .development-content {
+    padding: 30px 18px;
+  }
+
+  .main-icon {
+    width: 66px;
+    height: 66px;
+
+    font-size: 29px;
+  }
+
+  .development-content h1 {
+    font-size: 29px;
+  }
+
+  .development-description {
+    font-size: 13px;
+  }
+
+  .feature-card {
+    padding: 15px;
+  }
+
+  .progress-header {
+    align-items: flex-start;
+  }
+
+  .development-note {
+    padding: 13px;
+  }
+
+}
