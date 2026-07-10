@@ -1,8 +1,1239 @@
-<div class="analytics-page">
+<div class="cv-analytics-page">
 
   <!-- ==================================================
        PAGE HEADER
   =================================================== -->
+
+  <div class="page-header">
+
+    <div class="page-header-content">
+
+      <div class="page-badge">
+        <i class="bi bi-stars"></i>
+        AI-powered resume intelligence
+      </div>
+
+      <h2 class="page-title">
+        CV Analytics
+      </h2>
+
+      <p class="page-description">
+        Upload your resume, check ATS compatibility, identify missing
+        keywords and receive actionable recommendations.
+      </p>
+
+    </div>
+
+    <button
+      type="button"
+      class="btn history-btn"
+    >
+      <i class="bi bi-clock-history"></i>
+      Analysis History
+    </button>
+
+  </div>
+
+  <!-- ==================================================
+       UPLOAD AND ATS OVERVIEW
+  =================================================== -->
+
+  <section class="analytics-section">
+
+    <div class="row g-4">
+
+      <!-- ================================================
+           RESUME UPLOAD
+      ================================================= -->
+
+      <div class="col-xl-7">
+
+        <div class="analytics-card upload-card">
+
+          <div class="card-heading">
+
+            <div class="heading-icon">
+              <i class="bi bi-cloud-arrow-up"></i>
+            </div>
+
+            <div>
+
+              <h5>
+                Upload your resume
+              </h5>
+
+              <p>
+                Upload a PDF or DOCX resume to begin the analysis.
+              </p>
+
+            </div>
+
+          </div>
+
+          <!-- FILE UPLOAD AREA -->
+
+          <label
+            for="resumeUpload"
+            class="resume-upload-area"
+          >
+
+            <input
+              id="resumeUpload"
+              type="file"
+              accept=".pdf,.doc,.docx"
+            >
+
+            <div class="upload-main-icon">
+              <i class="bi bi-file-earmark-arrow-up"></i>
+            </div>
+
+            <div class="upload-text">
+
+              <h6>
+                Drag and drop your resume here
+              </h6>
+
+              <p>
+                or click to browse your files
+              </p>
+
+            </div>
+
+            <span class="browse-btn">
+              Browse file
+            </span>
+
+            <small>
+              Supported formats: PDF, DOC and DOCX · Maximum size: 5 MB
+            </small>
+
+          </label>
+
+          <!-- SELECTED FILE PREVIEW -->
+
+          <div class="selected-file">
+
+            <div class="file-icon">
+              <i class="bi bi-file-earmark-pdf"></i>
+            </div>
+
+            <div class="file-information">
+
+              <strong>
+                Midhun_Ashok_Resume.pdf
+              </strong>
+
+              <span>
+                PDF document · 1.4 MB
+              </span>
+
+            </div>
+
+            <div class="file-status">
+              <i class="bi bi-check-circle-fill"></i>
+              Ready
+            </div>
+
+            <button
+              type="button"
+              class="remove-file-btn"
+              aria-label="Remove uploaded resume"
+            >
+              <i class="bi bi-x-lg"></i>
+            </button>
+
+          </div>
+
+          <!-- OPTIONAL JOB DESCRIPTION -->
+
+          <div class="job-description-section">
+
+            <div class="field-header">
+
+              <div>
+
+                <label for="jobDescription">
+                  Target job description
+                </label>
+
+                <span class="optional-badge">
+                  Optional
+                </span>
+
+              </div>
+
+              <span class="field-helper">
+                Improves match accuracy
+              </span>
+
+            </div>
+
+            <textarea
+              id="jobDescription"
+              rows="5"
+              class="form-control job-description-input"
+              placeholder="Paste the target job description here to compare it with your resume..."
+            ></textarea>
+
+          </div>
+
+          <!-- ACTION BUTTON -->
+
+          <button
+            type="button"
+            class="btn analyze-btn"
+          >
+
+            <i class="bi bi-stars"></i>
+
+            Analyze Resume
+
+            <i class="bi bi-arrow-right"></i>
+
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- ================================================
+           ATS SCORE
+      ================================================= -->
+
+      <div class="col-xl-5">
+
+        <div class="analytics-card ats-overview-card">
+
+          <div class="ats-card-header">
+
+            <div>
+
+              <span class="card-eyebrow">
+                Current resume score
+              </span>
+
+              <h5>
+                ATS Compatibility
+              </h5>
+
+            </div>
+
+            <span class="analysis-status">
+              <span class="status-dot"></span>
+              Analyzed
+            </span>
+
+          </div>
+
+          <!-- SCORE CIRCLE -->
+
+          <div class="score-area">
+
+            <div class="score-circle">
+
+              <div class="score-inner">
+
+                <strong>
+                  78
+                </strong>
+
+                <span>
+                  out of 100
+                </span>
+
+              </div>
+
+            </div>
+
+            <div class="score-summary">
+
+              <span class="score-rating">
+                Good
+              </span>
+
+              <h6>
+                Your resume is ATS-friendly
+              </h6>
+
+              <p>
+                A few targeted improvements could increase your score
+                and job-match performance.
+              </p>
+
+            </div>
+
+          </div>
+
+          <!-- SCORE BREAKDOWN -->
+
+          <div class="score-breakdown">
+
+            <div class="score-row">
+
+              <div class="score-label">
+
+                <span class="score-icon green-icon">
+                  <i class="bi bi-file-text"></i>
+                </span>
+
+                <span>
+                  Content quality
+                </span>
+
+              </div>
+
+              <div class="score-progress">
+
+                <div class="progress-track">
+                  <div
+                    class="progress-value excellent-progress"
+                    style="width: 88%"
+                  ></div>
+                </div>
+
+                <strong>
+                  88%
+                </strong>
+
+              </div>
+
+            </div>
+
+            <div class="score-row">
+
+              <div class="score-label">
+
+                <span class="score-icon blue-icon">
+                  <i class="bi bi-layout-text-window"></i>
+                </span>
+
+                <span>
+                  Formatting
+                </span>
+
+              </div>
+
+              <div class="score-progress">
+
+                <div class="progress-track">
+                  <div
+                    class="progress-value good-progress"
+                    style="width: 82%"
+                  ></div>
+                </div>
+
+                <strong>
+                  82%
+                </strong>
+
+              </div>
+
+            </div>
+
+            <div class="score-row">
+
+              <div class="score-label">
+
+                <span class="score-icon purple-icon">
+                  <i class="bi bi-key"></i>
+                </span>
+
+                <span>
+                  Keywords
+                </span>
+
+              </div>
+
+              <div class="score-progress">
+
+                <div class="progress-track">
+                  <div
+                    class="progress-value medium-progress"
+                    style="width: 68%"
+                  ></div>
+                </div>
+
+                <strong>
+                  68%
+                </strong>
+
+              </div>
+
+            </div>
+
+            <div class="score-row">
+
+              <div class="score-label">
+
+                <span class="score-icon amber-icon">
+                  <i class="bi bi-bullseye"></i>
+                </span>
+
+                <span>
+                  Job relevance
+                </span>
+
+              </div>
+
+              <div class="score-progress">
+
+                <div class="progress-track">
+                  <div
+                    class="progress-value relevance-progress"
+                    style="width: 74%"
+                  ></div>
+                </div>
+
+                <strong>
+                  74%
+                </strong>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="last-analyzed">
+
+            <i class="bi bi-clock"></i>
+
+            Last analyzed on July 11, 2026
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ==================================================
+       SUMMARY STATISTICS
+  =================================================== -->
+
+  <section class="analytics-section">
+
+    <div class="summary-grid">
+
+      <div class="summary-card">
+
+        <div class="summary-icon match-summary">
+          <i class="bi bi-bullseye"></i>
+        </div>
+
+        <div>
+
+          <span>
+            Job match
+          </span>
+
+          <strong>
+            74%
+          </strong>
+
+          <small class="positive-change">
+            <i class="bi bi-arrow-up-right"></i>
+            Strong match
+          </small>
+
+        </div>
+
+      </div>
+
+      <div class="summary-card">
+
+        <div class="summary-icon skill-summary">
+          <i class="bi bi-lightning-charge"></i>
+        </div>
+
+        <div>
+
+          <span>
+            Skills detected
+          </span>
+
+          <strong>
+            18
+          </strong>
+
+          <small>
+            12 technical · 6 soft
+          </small>
+
+        </div>
+
+      </div>
+
+      <div class="summary-card">
+
+        <div class="summary-icon keyword-summary">
+          <i class="bi bi-key"></i>
+        </div>
+
+        <div>
+
+          <span>
+            Keywords matched
+          </span>
+
+          <strong>
+            23
+          </strong>
+
+          <small class="warning-change">
+            7 important keywords missing
+          </small>
+
+        </div>
+
+      </div>
+
+      <div class="summary-card">
+
+        <div class="summary-icon issue-summary">
+          <i class="bi bi-exclamation-triangle"></i>
+        </div>
+
+        <div>
+
+          <span>
+            Improvements
+          </span>
+
+          <strong>
+            6
+          </strong>
+
+          <small class="danger-change">
+            2 high-priority issues
+          </small>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ==================================================
+       SKILLS AND KEYWORD ANALYSIS
+  =================================================== -->
+
+  <section class="analytics-section">
+
+    <div class="row g-4">
+
+      <!-- DETECTED SKILLS -->
+
+      <div class="col-xl-6">
+
+        <div class="analytics-card analysis-detail-card">
+
+          <div class="detail-card-header">
+
+            <div class="card-heading no-margin">
+
+              <div class="heading-icon">
+                <i class="bi bi-lightning-charge"></i>
+              </div>
+
+              <div>
+
+                <h5>
+                  Skills Analysis
+                </h5>
+
+                <p>
+                  Skills identified from your resume.
+                </p>
+
+              </div>
+
+            </div>
+
+            <span class="count-badge">
+              18 detected
+            </span>
+
+          </div>
+
+          <div class="skill-section">
+
+            <h6>
+              Technical skills
+            </h6>
+
+            <div class="skill-list">
+
+              <span class="skill-tag matched-skill">
+                Angular
+                <i class="bi bi-check-circle-fill"></i>
+              </span>
+
+              <span class="skill-tag matched-skill">
+                TypeScript
+                <i class="bi bi-check-circle-fill"></i>
+              </span>
+
+              <span class="skill-tag matched-skill">
+                JavaScript
+                <i class="bi bi-check-circle-fill"></i>
+              </span>
+
+              <span class="skill-tag matched-skill">
+                RxJS
+                <i class="bi bi-check-circle-fill"></i>
+              </span>
+
+              <span class="skill-tag matched-skill">
+                Node.js
+                <i class="bi bi-check-circle-fill"></i>
+              </span>
+
+              <span class="skill-tag matched-skill">
+                PostgreSQL
+                <i class="bi bi-check-circle-fill"></i>
+              </span>
+
+              <span class="skill-tag matched-skill">
+                Git
+                <i class="bi bi-check-circle-fill"></i>
+              </span>
+
+              <span class="skill-tag matched-skill">
+                REST API
+                <i class="bi bi-check-circle-fill"></i>
+              </span>
+
+            </div>
+
+          </div>
+
+          <div class="skill-section">
+
+            <h6>
+              Soft skills
+            </h6>
+
+            <div class="skill-list">
+
+              <span class="skill-tag soft-skill">
+                Team leadership
+              </span>
+
+              <span class="skill-tag soft-skill">
+                Problem solving
+              </span>
+
+              <span class="skill-tag soft-skill">
+                Communication
+              </span>
+
+              <span class="skill-tag soft-skill">
+                Agile development
+              </span>
+
+            </div>
+
+          </div>
+
+          <div class="skill-strength">
+
+            <div class="strength-header">
+
+              <span>
+                Overall skill strength
+              </span>
+
+              <strong>
+                Strong
+              </strong>
+
+            </div>
+
+            <div class="strength-track">
+
+              <div
+                class="strength-fill"
+                style="width: 84%"
+              ></div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- MISSING KEYWORDS -->
+
+      <div class="col-xl-6">
+
+        <div class="analytics-card analysis-detail-card">
+
+          <div class="detail-card-header">
+
+            <div class="card-heading no-margin">
+
+              <div class="heading-icon warning-heading-icon">
+                <i class="bi bi-key"></i>
+              </div>
+
+              <div>
+
+                <h5>
+                  Missing Keywords
+                </h5>
+
+                <p>
+                  Important terms found in the job description.
+                </p>
+
+              </div>
+
+            </div>
+
+            <span class="count-badge warning-count">
+              7 missing
+            </span>
+
+          </div>
+
+          <div class="keyword-list">
+
+            <div class="keyword-item">
+
+              <div>
+
+                <strong>
+                  NgRx
+                </strong>
+
+                <span>
+                  State management
+                </span>
+
+              </div>
+
+              <span class="keyword-priority high-priority">
+                High priority
+              </span>
+
+            </div>
+
+            <div class="keyword-item">
+
+              <div>
+
+                <strong>
+                  Unit Testing
+                </strong>
+
+                <span>
+                  Testing experience
+                </span>
+
+              </div>
+
+              <span class="keyword-priority high-priority">
+                High priority
+              </span>
+
+            </div>
+
+            <div class="keyword-item">
+
+              <div>
+
+                <strong>
+                  CI/CD
+                </strong>
+
+                <span>
+                  Deployment workflow
+                </span>
+
+              </div>
+
+              <span class="keyword-priority medium-priority">
+                Medium
+              </span>
+
+            </div>
+
+            <div class="keyword-item">
+
+              <div>
+
+                <strong>
+                  Docker
+                </strong>
+
+                <span>
+                  Containerization
+                </span>
+
+              </div>
+
+              <span class="keyword-priority medium-priority">
+                Medium
+              </span>
+
+            </div>
+
+            <div class="keyword-item">
+
+              <div>
+
+                <strong>
+                  AWS
+                </strong>
+
+                <span>
+                  Cloud platform
+                </span>
+
+              </div>
+
+              <span class="keyword-priority low-priority">
+                Optional
+              </span>
+
+            </div>
+
+          </div>
+
+          <div class="keyword-tip">
+
+            <i class="bi bi-lightbulb"></i>
+
+            <p>
+              Add relevant missing keywords naturally within your experience
+              and skills sections. Avoid keyword stuffing.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ==================================================
+       RESUME SECTION ANALYSIS
+  =================================================== -->
+
+  <section class="analytics-section">
+
+    <div class="analytics-card">
+
+      <div class="detail-card-header section-analysis-header">
+
+        <div class="card-heading no-margin">
+
+          <div class="heading-icon">
+            <i class="bi bi-layout-text-window-reverse"></i>
+          </div>
+
+          <div>
+
+            <h5>
+              Resume Section Analysis
+            </h5>
+
+            <p>
+              Quality and completeness of each resume section.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="section-score-grid">
+
+        <div class="section-score-card">
+
+          <div class="section-score-top">
+
+            <span class="section-score-icon">
+              <i class="bi bi-person-vcard"></i>
+            </span>
+
+            <span class="section-status complete-status">
+              Complete
+            </span>
+
+          </div>
+
+          <h6>
+            Contact Information
+          </h6>
+
+          <div class="section-score-value">
+            100%
+          </div>
+
+          <div class="mini-progress-track">
+            <div
+              class="mini-progress-fill excellent-fill"
+              style="width: 100%"
+            ></div>
+          </div>
+
+          <p>
+            All essential contact details are included.
+          </p>
+
+        </div>
+
+        <div class="section-score-card">
+
+          <div class="section-score-top">
+
+            <span class="section-score-icon">
+              <i class="bi bi-card-text"></i>
+            </span>
+
+            <span class="section-status good-status">
+              Good
+            </span>
+
+          </div>
+
+          <h6>
+            Professional Summary
+          </h6>
+
+          <div class="section-score-value">
+            82%
+          </div>
+
+          <div class="mini-progress-track">
+            <div
+              class="mini-progress-fill good-fill"
+              style="width: 82%"
+            ></div>
+          </div>
+
+          <p>
+            Add more job-specific keywords to the summary.
+          </p>
+
+        </div>
+
+        <div class="section-score-card">
+
+          <div class="section-score-top">
+
+            <span class="section-score-icon">
+              <i class="bi bi-briefcase"></i>
+            </span>
+
+            <span class="section-status good-status">
+              Strong
+            </span>
+
+          </div>
+
+          <h6>
+            Work Experience
+          </h6>
+
+          <div class="section-score-value">
+            88%
+          </div>
+
+          <div class="mini-progress-track">
+            <div
+              class="mini-progress-fill excellent-fill"
+              style="width: 88%"
+            ></div>
+          </div>
+
+          <p>
+            Include more measurable achievements and results.
+          </p>
+
+        </div>
+
+        <div class="section-score-card">
+
+          <div class="section-score-top">
+
+            <span class="section-score-icon">
+              <i class="bi bi-mortarboard"></i>
+            </span>
+
+            <span class="section-status complete-status">
+              Complete
+            </span>
+
+          </div>
+
+          <h6>
+            Education
+          </h6>
+
+          <div class="section-score-value">
+            95%
+          </div>
+
+          <div class="mini-progress-track">
+            <div
+              class="mini-progress-fill excellent-fill"
+              style="width: 95%"
+            ></div>
+          </div>
+
+          <p>
+            Education details are clear and properly formatted.
+          </p>
+
+        </div>
+
+        <div class="section-score-card">
+
+          <div class="section-score-top">
+
+            <span class="section-score-icon">
+              <i class="bi bi-tools"></i>
+            </span>
+
+            <span class="section-status warning-status">
+              Improve
+            </span>
+
+          </div>
+
+          <h6>
+            Skills
+          </h6>
+
+          <div class="section-score-value">
+            68%
+          </div>
+
+          <div class="mini-progress-track">
+            <div
+              class="mini-progress-fill warning-fill"
+              style="width: 68%"
+            ></div>
+          </div>
+
+          <p>
+            Several job-specific technical skills are missing.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ==================================================
+       RECOMMENDATIONS
+  =================================================== -->
+
+  <section class="analytics-section">
+
+    <div class="analytics-card recommendations-card">
+
+      <div class="detail-card-header">
+
+        <div class="card-heading no-margin">
+
+          <div class="heading-icon recommendation-heading-icon">
+            <i class="bi bi-lightbulb"></i>
+          </div>
+
+          <div>
+
+            <h5>
+              Improvement Recommendations
+            </h5>
+
+            <p>
+              Prioritized actions that can improve your ATS score.
+            </p>
+
+          </div>
+
+        </div>
+
+        <span class="count-badge">
+          6 recommendations
+        </span>
+
+      </div>
+
+      <div class="recommendation-list">
+
+        <div class="recommendation-item high-recommendation">
+
+          <div class="recommendation-number">
+            1
+          </div>
+
+          <div class="recommendation-content">
+
+            <div class="recommendation-title-row">
+
+              <h6>
+                Add measurable achievements
+              </h6>
+
+              <span class="recommendation-priority">
+                High impact
+              </span>
+
+            </div>
+
+            <p>
+              Replace general responsibilities with quantified achievements.
+              For example, describe performance improvements, delivery time
+              reductions or team results.
+            </p>
+
+            <div class="recommendation-example">
+
+              <span>
+                Example
+              </span>
+
+              <p>
+                “Improved application performance by 30% through Angular
+                component optimization and lazy loading.”
+              </p>
+
+            </div>
+
+          </div>
+
+          <button
+            type="button"
+            class="recommendation-action"
+            aria-label="View recommendation"
+          >
+            <i class="bi bi-chevron-right"></i>
+          </button>
+
+        </div>
+
+        <div class="recommendation-item medium-recommendation">
+
+          <div class="recommendation-number">
+            2
+          </div>
+
+          <div class="recommendation-content">
+
+            <div class="recommendation-title-row">
+
+              <h6>
+                Include missing technical keywords
+              </h6>
+
+              <span class="recommendation-priority medium-impact">
+                Medium impact
+              </span>
+
+            </div>
+
+            <p>
+              Add relevant technologies such as NgRx, unit testing and CI/CD
+              where they truthfully match your experience.
+            </p>
+
+          </div>
+
+          <button
+            type="button"
+            class="recommendation-action"
+            aria-label="View recommendation"
+          >
+            <i class="bi bi-chevron-right"></i>
+          </button>
+
+        </div>
+
+        <div class="recommendation-item low-recommendation">
+
+          <div class="recommendation-number">
+            3
+          </div>
+
+          <div class="recommendation-content">
+
+            <div class="recommendation-title-row">
+
+              <h6>
+                Shorten the professional summary
+              </h6>
+
+              <span class="recommendation-priority low-impact">
+                Quick improvement
+              </span>
+
+            </div>
+
+            <p>
+              Keep the summary between three and five lines and focus on your
+              strongest role-specific experience.
+            </p>
+
+          </div>
+
+          <button
+            type="button"
+            class="recommendation-action"
+            aria-label="View recommendation"
+          >
+            <i class="bi bi-chevron-right"></i>
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+
+
+
+
+
+<div class="analytics-page">
 
   <div class="analytics-header">
 
@@ -26,9 +1257,7 @@
 
   </div>
 
-  <!-- ==================================================
-       MAIN DEVELOPMENT CARD
-  =================================================== -->
+
 
   <section class="development-card">
 
@@ -37,14 +1266,14 @@
 
     <div class="development-content">
 
-      <!-- ICON -->
+  
       <div class="main-icon">
 
         <i class="bi bi-file-earmark-bar-graph"></i>
 
       </div>
 
-      <!-- STATUS BADGE -->
+   
       <div class="development-badge">
 
         <span class="pulse-dot"></span>
@@ -53,25 +1282,23 @@
 
       </div>
 
-      <!-- TITLE -->
+   
       <h1>
         Smarter resume insights are coming
       </h1>
 
-      <!-- DESCRIPTION -->
+    
       <p class="development-description">
         NextZiel CV Analytics will help you upload your resume,
         measure ATS compatibility, identify missing skills, and receive
         personalized recommendations for each job application.
       </p>
 
-      <!-- ==================================================
-           FEATURE CARDS
-      =================================================== -->
+   
 
       <div class="feature-grid">
 
-        <!-- RESUME UPLOAD -->
+       
         <div class="feature-card">
 
           <div class="feature-icon upload-icon">
@@ -92,7 +1319,7 @@
 
         </div>
 
-        <!-- ATS SCORE -->
+      
         <div class="feature-card">
 
           <div class="feature-icon score-icon">
@@ -113,7 +1340,7 @@
 
         </div>
 
-        <!-- SKILL EXTRACTION -->
+      
         <div class="feature-card">
 
           <div class="feature-icon skills-icon">
@@ -134,7 +1361,7 @@
 
         </div>
 
-        <!-- AI SUGGESTIONS -->
+       
         <div class="feature-card">
 
           <div class="feature-icon ai-icon">
@@ -157,9 +1384,7 @@
 
       </div>
 
-      <!-- ==================================================
-           DEVELOPMENT PROGRESS
-      =================================================== -->
+     
 
       <div class="progress-section">
 
@@ -191,9 +1416,6 @@
 
       </div>
 
-      <!-- ==================================================
-           FOOTER NOTE
-      =================================================== -->
 
       <div class="development-note">
 
@@ -220,4 +1442,4 @@
 
   </section>
 
-</div>
+</div> -->
