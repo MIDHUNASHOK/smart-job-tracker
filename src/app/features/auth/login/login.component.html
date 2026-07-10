@@ -1,132 +1,244 @@
-<div class="login-container">
+<div class="login-page">
 
-  <div class="login-card">
+  <!-- LEFT PANEL -->
+  <section class="login-left">
 
-    <!-- LOGO -->
+    <div class="decorative-circle circle-one"></div>
+    <div class="decorative-circle circle-two"></div>
 
-   <div class="logo">
-  <img
-    src="assets/global logo/nextlogo.png"
-    alt="NextZiel Logo"
-    class="logo-img"
-  >
-</div>
+    <div class="login-left-content">
 
-    <p class="subtitle">
-      Track your applications professionally
-    </p>
+      <div class="left-badge">
+        <i class="bi bi-stars"></i>
+        Smarter job application tracking
+      </div>
 
-    <!-- FORM -->
+      <h1>
+        Land your next role,
+        <span>one step at a time.</span>
+      </h1>
 
-    <form
-      [formGroup]="loginForm"
-      (ngSubmit)="onLogin()"
-    >
+      <p class="left-description">
+        Track applications, organize interviews, and stay on top
+        of every important follow-up.
+      </p>
 
-      <!-- EMAIL -->
+      <div class="illustration-wrapper">
 
-      <div class="form-group">
-
-        <label>
-          Email Address
-        </label>
-
-        <input
-          type="email"
-          class="form-control custom-input"
-          formControlName="email"
-          placeholder="Enter your email"
+        <img
+          src="assets/img/login_img1.png"
+          alt="NextZiel job tracking illustration"
+          class="login-illustration"
         >
 
       </div>
 
-      <!-- PASSWORD -->
+      <div class="feature-list">
 
-      <div class="form-group">
+        <div class="feature-item">
+          <i class="bi bi-check-circle-fill"></i>
+          Track applications
+        </div>
 
-        <label>
-          Password
-        </label>
+        <div class="feature-item">
+          <i class="bi bi-check-circle-fill"></i>
+          Manage interviews
+        </div>
 
-     <div class="password-wrapper">
-
-  <input
-    [type]="showPassword ? 'text' : 'password'"
-    class="form-control custom-input"
-    formControlName="password"
-    placeholder="Enter your password">
-
-  <i
-    class="bi"
-    [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"
-    (click)="togglePasswordVisibility()">
-  </i>
-
-</div>
+        <div class="feature-item">
+          <i class="bi bi-check-circle-fill"></i>
+          Save jobs instantly
+        </div>
 
       </div>
 
-      <!-- OPTIONS -->
+    </div>
 
-      <div class="login-options">
+  </section>
 
-        <a routerLink="/forgot-password">
-  Forgot Password?
-</a>
+  <!-- RIGHT PANEL -->
+  <section class="login-right">
 
+    <div class="login-card">
+
+      <div class="logo">
+        <img
+          src="assets/global logo/nextlogo.png"
+          alt="NextZiel Logo"
+          class="logo-img"
+        >
       </div>
 
-      <!-- BUTTON -->
+      <div class="form-header">
+        <h2>Welcome back</h2>
 
-      <button
-        type="submit"
-        class="btn login-btn"
+        <p class="subtitle">
+          Sign in to continue managing your job applications.
+        </p>
+      </div>
+
+      <form
+        [formGroup]="loginForm"
+        (ngSubmit)="onLogin()"
       >
 
-        {{ isLoading ? 'Loading...' : 'Login' }}
+        <!-- EMAIL -->
+        <div class="form-group">
 
-      </button>
+          <label for="email">
+            Email address
+          </label>
 
-    </form>
+          <div class="input-wrapper">
 
-  
+            <i class="bi bi-envelope input-icon"></i>
 
- <!-- REGISTER -->
+            <input
+              id="email"
+              type="email"
+              class="form-control custom-input"
+              formControlName="email"
+              placeholder="Enter your email address"
+              autocomplete="email"
+            >
 
-<div class="register-link">
+          </div>
 
-  Don't have an account?
+          <small
+            class="validation-message"
+            *ngIf="
+              loginForm.get('email')?.touched &&
+              loginForm.get('email')?.invalid
+            "
+          >
+            Please enter a valid email address.
+          </small>
 
-  <a routerLink="/register">
-    Register
-  </a>
+        </div>
 
-</div>
+        <!-- PASSWORD -->
+        <div class="form-group">
 
-<!-- HELP -->
+          <div class="label-row">
 
-<div class="help-section">
+            <label for="password">
+              Password
+            </label>
 
-  <p class="help-text">
-    Need help getting started?
-  </p>
+            <a
+              routerLink="/forgot-password"
+              class="forgot-password"
+            >
+              Forgot password?
+            </a>
 
-  <a
-    href="https://midhunashok.github.io/nextziel-docs/"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="help-link">
+          </div>
 
-    <i class="bi bi-journal-bookmark me-2"></i>
+          <div class="input-wrapper password-wrapper">
 
-    Read the Documentation
+            <i class="bi bi-lock input-icon"></i>
 
-    <i class="bi bi-box-arrow-up-right ms-1"></i>
+            <input
+              id="password"
+              [type]="showPassword ? 'text' : 'password'"
+              class="form-control custom-input"
+              formControlName="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+            >
 
-  </a>
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePasswordVisibility()"
+              [attr.aria-label]="
+                showPassword ? 'Hide password' : 'Show password'
+              "
+            >
 
-</div>
+              <i
+                class="bi"
+                [ngClass]="
+                  showPassword
+                    ? 'bi-eye-slash'
+                    : 'bi-eye'
+                "
+              ></i>
 
-  </div>
+            </button>
+
+          </div>
+
+          <small
+            class="validation-message"
+            *ngIf="
+              loginForm.get('password')?.touched &&
+              loginForm.get('password')?.invalid
+            "
+          >
+            Password is required.
+          </small>
+
+        </div>
+
+        <!-- LOGIN BUTTON -->
+        <button
+          type="submit"
+          class="btn login-btn"
+          [disabled]="isLoading"
+        >
+
+          <span *ngIf="!isLoading">
+            Login
+            <i class="bi bi-arrow-right"></i>
+          </span>
+
+          <span
+            *ngIf="isLoading"
+            class="loading-content"
+          >
+            <span class="spinner-border spinner-border-sm"></span>
+            Signing in...
+          </span>
+
+        </button>
+
+      </form>
+
+      <div class="register-link">
+        <span>Don't have an account?</span>
+
+        <a routerLink="/register">
+          Create an account
+        </a>
+      </div>
+
+      <div class="divider">
+        <span>Need assistance?</span>
+      </div>
+
+      <a
+        href="https://midhunashok.github.io/nextziel-docs/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="help-link"
+      >
+
+        <div class="help-icon">
+          <i class="bi bi-journal-bookmark"></i>
+        </div>
+
+        <div class="help-content">
+          <strong>Read the documentation</strong>
+          <span>Learn how to use NextZiel</span>
+        </div>
+
+        <i class="bi bi-arrow-up-right help-arrow"></i>
+
+      </a>
+
+    </div>
+
+  </section>
 
 </div>

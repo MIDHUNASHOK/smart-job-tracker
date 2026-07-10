@@ -31,7 +31,8 @@ toggleConfirmPasswordVisibility() {
 
     fullName: [
       '',
-      Validators.required
+      Validators.required,
+      Validators.minLength(2)
     ],
 
     email: [
@@ -46,7 +47,7 @@ toggleConfirmPasswordVisibility() {
       '',
       [
         Validators.required,
-        Validators.minLength(6)
+        Validators.minLength(8)
       ]
     ],
 

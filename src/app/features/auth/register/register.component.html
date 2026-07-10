@@ -1,128 +1,333 @@
-<div class="register-container">
+<div class="register-page">
 
-  <div class="register-card">
+  <!-- ==================================================
+       LEFT PANEL
+  =================================================== -->
+  <section class="register-left">
 
-    <!-- LOGO SECTION -->
+    <div class="decorative-circle circle-one"></div>
+    <div class="decorative-circle circle-two"></div>
 
-    <div class="logo-section">
+    <div class="register-left-content">
 
-     <img
-    src="assets/global logo/nextlogo.png"
-    alt="NextZiel Logo"
-    class="logo-img"
-  >
+      <div class="left-badge">
+        <i class="bi bi-stars"></i>
+        Start your job search journey
+      </div>
 
-      <p class="subtitle">
-        Start tracking your job applications professionally
-      </p>
+      <div class="illustration-wrapper">
+
+        <img
+          src="assets/img/reg_page.png"
+          alt="Create your NextZiel account and manage your career journey"
+          class="register-illustration"
+        >
+
+      </div>
+
+      <div class="left-caption">
+
+        <i class="bi bi-check-circle-fill"></i>
+
+        <span>
+          Build your profile, organize applications and track your progress.
+        </span>
+
+      </div>
 
     </div>
 
-    <!-- FORM -->
+  </section>
 
-    <form
-      [formGroup]="registerForm"
-      (ngSubmit)="onRegister()"
-    >
+  <!-- ==================================================
+       RIGHT PANEL
+  =================================================== -->
+  <section class="register-right">
 
-      <!-- FULL NAME -->
+    <div class="register-card">
 
-      <div class="form-group">
+      <!-- LOGO -->
+      <div class="logo-section">
 
-        <label>Full Name</label>
-
-        <input
-          type="text"
-          class="form-control custom-input"
-          formControlName="fullName"
-          placeholder="Enter your full name"
+        <img
+          src="assets/global logo/nextlogo.png"
+          alt="NextZiel Logo"
+          class="logo-img"
         >
 
       </div>
 
-      <!-- EMAIL -->
+      <!-- FORM HEADER -->
+      <div class="form-header">
 
-      <div class="form-group">
+        <h2>Create your account</h2>
 
-        <label>Email Address</label>
-
-        <input
-          type="email"
-          class="form-control custom-input"
-          formControlName="email"
-          placeholder="Enter your email address"
-        >
+        <p class="subtitle">
+          Start managing your job applications professionally.
+        </p>
 
       </div>
 
-      <!-- PASSWORD -->
-
-      <div class="form-group">
-
-        <label>Password</label>
-
-   <div class="password-wrapper">
-
-  <input
-    [type]="showPassword ? 'text' : 'password'"
-    class="form-control custom-input"
-    formControlName="password"
-    placeholder="Create a password">
-
-  <i
-    class="bi"
-    [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"
-    (click)="togglePasswordVisibility()">
-  </i>
-
-</div>
-
-      </div>
-
-      <!-- CONFIRM PASSWORD -->
-
-      <div class="form-group">
-
-        <label>Confirm Password</label>
-
-      <div class="password-wrapper">
-
-  <input
-    [type]="showConfirmPassword ? 'text' : 'password'"
-    class="form-control custom-input"
-    formControlName="confirmPassword"
-    placeholder="Confirm your password">
-
-  <i
-    class="bi"
-    [ngClass]="showConfirmPassword ? 'bi-eye-slash' : 'bi-eye'"
-    (click)="toggleConfirmPasswordVisibility()">
-  </i>
-
-</div>
-
-      </div>
-
-      <!-- BUTTON -->
-
-      <button
-        type="submit"
-        class="btn register-btn"
+      <!-- REGISTER FORM -->
+      <form
+        [formGroup]="registerForm"
+        (ngSubmit)="onRegister()"
       >
 
-        {{
-          isLoading
-            ? 'Creating Account...'
-            : 'Create Account'
-        }}
+        <!-- FULL NAME -->
+        <div class="form-group">
 
-      </button>
+          <label for="fullName">
+            Full name
+          </label>
+
+          <div class="input-wrapper">
+
+            <i class="bi bi-person input-icon"></i>
+
+            <input
+              id="fullName"
+              type="text"
+              class="form-control custom-input"
+              formControlName="fullName"
+              placeholder="Enter your full name"
+              autocomplete="name"
+            >
+
+          </div>
+
+          <small
+            class="validation-message"
+            *ngIf="
+              registerForm.get('fullName')?.touched &&
+              registerForm.get('fullName')?.hasError('required')
+            "
+          >
+            Full name is required.
+          </small>
+
+          <small
+            class="validation-message"
+            *ngIf="
+              registerForm.get('fullName')?.touched &&
+              registerForm.get('fullName')?.hasError('minlength')
+            "
+          >
+            Full name must contain at least 2 characters.
+          </small>
+
+        </div>
+
+        <!-- EMAIL -->
+        <div class="form-group">
+
+          <label for="email">
+            Email address
+          </label>
+
+          <div class="input-wrapper">
+
+            <i class="bi bi-envelope input-icon"></i>
+
+            <input
+              id="email"
+              type="email"
+              class="form-control custom-input"
+              formControlName="email"
+              placeholder="Enter your email address"
+              autocomplete="email"
+            >
+
+          </div>
+
+          <small
+            class="validation-message"
+            *ngIf="
+              registerForm.get('email')?.touched &&
+              registerForm.get('email')?.hasError('required')
+            "
+          >
+            Email address is required.
+          </small>
+
+          <small
+            class="validation-message"
+            *ngIf="
+              registerForm.get('email')?.touched &&
+              registerForm.get('email')?.hasError('email')
+            "
+          >
+            Please enter a valid email address.
+          </small>
+
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="form-group">
+
+          <label for="password">
+            Password
+          </label>
+
+          <div class="input-wrapper password-wrapper">
+
+            <i class="bi bi-lock input-icon"></i>
+
+            <input
+              id="password"
+              [type]="showPassword ? 'text' : 'password'"
+              class="form-control custom-input"
+              formControlName="password"
+              placeholder="Create a secure password"
+              autocomplete="new-password"
+            >
+
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePasswordVisibility()"
+              [attr.aria-label]="
+                showPassword
+                  ? 'Hide password'
+                  : 'Show password'
+              "
+            >
+
+              <i
+                class="bi"
+                [ngClass]="
+                  showPassword
+                    ? 'bi-eye-slash'
+                    : 'bi-eye'
+                "
+              ></i>
+
+            </button>
+
+          </div>
+
+          <small class="password-hint">
+            Use at least 8 characters.
+          </small>
+
+          <small
+            class="validation-message"
+            *ngIf="
+              registerForm.get('password')?.touched &&
+              registerForm.get('password')?.hasError('required')
+            "
+          >
+            Password is required.
+          </small>
+
+          <small
+            class="validation-message"
+            *ngIf="
+              registerForm.get('password')?.touched &&
+              registerForm.get('password')?.hasError('minlength')
+            "
+          >
+            Password must contain at least 8 characters.
+          </small>
+
+        </div>
+
+        <!-- CONFIRM PASSWORD -->
+        <div class="form-group">
+
+          <label for="confirmPassword">
+            Confirm password
+          </label>
+
+          <div class="input-wrapper password-wrapper">
+
+            <i class="bi bi-shield-lock input-icon"></i>
+
+            <input
+              id="confirmPassword"
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              class="form-control custom-input"
+              formControlName="confirmPassword"
+              placeholder="Enter your password again"
+              autocomplete="new-password"
+            >
+
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="toggleConfirmPasswordVisibility()"
+              [attr.aria-label]="
+                showConfirmPassword
+                  ? 'Hide confirm password'
+                  : 'Show confirm password'
+              "
+            >
+
+              <i
+                class="bi"
+                [ngClass]="
+                  showConfirmPassword
+                    ? 'bi-eye-slash'
+                    : 'bi-eye'
+                "
+              ></i>
+
+            </button>
+
+          </div>
+
+          <small
+            class="validation-message"
+            *ngIf="
+              registerForm.get('confirmPassword')?.touched &&
+              registerForm.get('confirmPassword')?.hasError('required')
+            "
+          >
+            Please confirm your password.
+          </small>
+
+          <small
+            class="validation-message"
+            *ngIf="
+              registerForm.get('confirmPassword')?.touched &&
+              registerForm.hasError('passwordMismatch')
+            "
+          >
+            Passwords do not match.
+          </small>
+
+        </div>
+
+        <!-- SUBMIT BUTTON -->
+        <button
+          type="submit"
+          class="btn register-btn"
+          [disabled]="isLoading || registerForm.invalid"
+        >
+
+          <span *ngIf="!isLoading">
+            Create account
+            <i class="bi bi-arrow-right"></i>
+          </span>
+
+          <span
+            *ngIf="isLoading"
+            class="loading-content"
+          >
+            <span class="spinner-border spinner-border-sm"></span>
+            Creating account...
+          </span>
+
+        </button>
+
+      </form>
 
       <!-- LOGIN LINK -->
-
       <div class="login-link">
 
-        Already have an account?
+        <span>
+          Already have an account?
+        </span>
 
         <a routerLink="/login">
           Login
@@ -130,8 +335,8 @@
 
       </div>
 
-    </form>
+    </div>
 
-  </div>
+  </section>
 
 </div>
