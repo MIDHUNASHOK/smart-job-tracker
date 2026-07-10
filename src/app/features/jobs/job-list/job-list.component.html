@@ -1,92 +1,126 @@
-<div class="container py-1">
+<div class="container py-3 jobs-page">
 
-  <!-- Top Header -->
-  <div class="d-flex justify-content-between align-items-center mb-0">
+  <!-- PAGE HEADER -->
+  <div class="page-header mb-4">
 
     <div>
-      <h2 class="fw-bold dashboard-title mb-1">
+
+      <div class="page-badge">
+        <i class="bi bi-briefcase"></i>
+        Application management
+      </div>
+
+      <h2 class="dashboard-title">
         Job Applications
       </h2>
 
-      <p class="text-muted mb-0">
-        Track and manage your applications
+      <p class="page-subtitle">
+        Track, filter and manage all your job applications.
       </p>
-    </div>
 
-    <!-- <button
-        class="btn add-job-btn"
-        data-bs-toggle="modal"
-        data-bs-target="#addJobModal"
-      >
-        + Add Job
-      </button> -->
+    </div>
 
   </div>
 
-  <!-- Filters -->
-  <div class="card custom-card border-0 mb-4">
+  <!-- FILTER CARD -->
+  <div class="card custom-card filter-card mb-4">
 
     <div class="card-body p-4">
 
-      <div class="row g-3">
+      <div class="row g-3 align-items-center">
 
-        <!-- Search -->
+        <!-- SEARCH -->
         <div class="col-lg-4">
+
+          <label
+            for="jobSearch"
+            class="filter-label"
+          >
+            Search applications
+          </label>
 
           <div class="search-box">
 
             <i class="bi bi-search search-icon"></i>
 
-            <input type="text" class="form-control custom-input ps-5" placeholder="Search jobs..."
-              [(ngModel)]="searchText" (input)="applyFilters()" />
+            <input
+              id="jobSearch"
+              type="text"
+              class="form-control custom-input search-input"
+              placeholder="Search by company or role"
+              [(ngModel)]="searchText"
+              (input)="applyFilters()"
+            >
 
           </div>
 
         </div>
 
-        <!-- Status Filter -->
+        <!-- STATUS FILTER -->
         <div class="col-lg-4">
-          <select class="form-select custom-input" [(ngModel)]="selectedStatus" (change)="filterByStatus()">
 
-            <option value="">
-              All Status
-            </option>
+          <label
+            for="statusFilter"
+            class="filter-label"
+          >
+            Application status
+          </label>
 
-            <option value="Applied">
-              Applied
-            </option>
+          <div class="select-wrapper">
 
-            <option value="Interview Scheduled">
-              Interview
-            </option>
+            <i class="bi bi-funnel select-icon"></i>
 
-            <option value="Rejected">
-              Rejected
-            </option>
+            <select
+              id="statusFilter"
+              class="form-select custom-input status-select"
+              [(ngModel)]="selectedStatus"
+              (change)="filterByStatus()"
+            >
 
-            <option value="Offer Received">
-              Offer Received
-            </option>
+              <option value="">
+                All statuses
+              </option>
 
-          </select>
+              <option value="Applied">
+                Applied
+              </option>
+
+              <option value="Interview Scheduled">
+                Interview scheduled
+              </option>
+
+              <option value="Rejected">
+                Rejected
+              </option>
+
+              <option value="Offer Received">
+                Offer received
+              </option>
+
+            </select>
+
+          </div>
 
         </div>
 
+        <!-- DOWNLOAD BUTTON -->
         <div class="col-lg-4">
-          <div class="d-flex justify-content-end align-items-center mb-4">
-          
+
+          <div class="filter-action">
+
             <button
-              class="btn btn-danger"
+              type="button"
+              class="btn download-btn"
               (click)="downloadPdf()"
             >
-          
-              <i class="bi bi-file-earmark-pdf me-2"></i>
-          
+
+              <i class="bi bi-file-earmark-pdf"></i>
               Download PDF
-          
+
             </button>
-          
+
           </div>
+
         </div>
 
       </div>
@@ -95,8 +129,8 @@
 
   </div>
 
-  <!-- Job Table -->
-  <div class="card custom-card border-0">
+  <!-- JOB TABLE CARD -->
+  <div class="card custom-card table-card">
 
     <div class="table-responsive">
 
@@ -108,112 +142,136 @@
             <th>Company</th>
             <th>Role</th>
             <th>Status</th>
-            <th>Applied Date</th>
-            <th class="text-center">Action</th>
+            <th>Applied date</th>
+            <th class="text-center">Actions</th>
           </tr>
 
         </thead>
 
         <tbody>
 
-          <!-- NO DATA -->
-
+          <!-- EMPTY STATE -->
           <tr *ngIf="jobs.length === 0">
 
-            <td colspan="5" class="text-center py-5 text-muted">
+            <td
+              colspan="5"
+              class="empty-cell"
+            >
 
-              No jobs found
+              <div class="empty-state">
+
+                <div class="empty-icon">
+                  <i class="bi bi-briefcase"></i>
+                </div>
+
+                <h6>No applications found</h6>
+
+                <p>
+                  Try changing the search text or selected status.
+                </p>
+
+              </div>
 
             </td>
 
           </tr>
 
-
-
-          <!-- DYNAMIC ROW -->
-
-          <tr *ngFor="let job of paginatedJobs | search:searchText:[
-            'company_Name',
-            'job_Title'
-            ]">
+          <!-- JOB ROWS -->
+          <tr
+            *ngFor="
+              let job of paginatedJobs
+                | search: searchText : [
+                    'company_Name',
+                    'job_Title'
+                  ]
+            "
+          >
 
             <!-- COMPANY -->
+            <td>
 
-            <td class="fw-semibold">
+              <div class="company-cell">
 
-              {{ job.company_Name }}
+                <div class="company-avatar">
+
+                  {{
+                    job.company_Name
+                      ? job.company_Name.charAt(0).toUpperCase()
+                      : '?'
+                  }}
+
+                </div>
+
+                <span class="company-name">
+                  {{ job.company_Name }}
+                </span>
+
+              </div>
 
             </td>
-
-
 
             <!-- ROLE -->
-
-            <td>
-
+            <td class="role-cell">
               {{ job.job_Title }}
-
             </td>
 
-
-
             <!-- STATUS -->
-
             <td>
 
-              <span class="status-badge" [ngClass]="{
-          
-                    'applied-badge':
-                      job.status === 'Applied',
-          
-                    'interview-badge':
-                      job.status === 'Interview Scheduled',
-          
-                    'rejected-badge':
-                      job.status === 'Rejected',
-          
-                    'offer-badge':
-                      job.status === 'Offer Received'
-          
-                  }">
+              <span
+                class="status-badge"
+                [ngClass]="{
+                  'applied-badge':
+                    job.status === 'Applied',
 
+                  'interview-badge':
+                    job.status === 'Interview Scheduled',
+
+                  'rejected-badge':
+                    job.status === 'Rejected',
+
+                  'offer-badge':
+                    job.status === 'Offer Received'
+                }"
+              >
                 {{ job.status }}
-
               </span>
 
             </td>
 
-
-
             <!-- DATE -->
+            <td class="date-cell">
 
-            <td>
+              <i class="bi bi-calendar3"></i>
 
               {{ job.applied_Date | date:'MMM dd, yyyy' }}
 
             </td>
 
-
-
             <!-- ACTIONS -->
-
             <td>
 
-              <div class="d-flex justify-content-center gap-3">
+              <div class="table-actions">
 
-                <!-- EDIT -->
-
-                <button class="action-btn edit-btn" (click)="openEditModal(job)">
+                <button
+                  type="button"
+                  class="action-btn edit-btn"
+                  (click)="openEditModal(job)"
+                  aria-label="Edit application"
+                  title="Edit application"
+                >
 
                   <i class="bi bi-pencil"></i>
 
                 </button>
 
-
-
-                <!-- DELETE -->
-
-                <button class="action-btn delete-btn" (click)="openDeleteModal(job)">
+                <button
+                  type="button"
+                  class="action-btn delete-btn"
+                  (click)="openDeleteModal(job)"
+                  aria-label="Delete application"
+                  title="Delete application"
+                >
 
                   <i class="bi bi-trash"></i>
 
@@ -226,26 +284,44 @@
           </tr>
 
         </tbody>
+
       </table>
 
     </div>
 
-    <!-- Pagination -->
-    <div class="d-flex justify-content-center align-items-center p-4 gap-2">
+    <!-- PAGINATION -->
+    <div
+      class="pagination-wrapper"
+      *ngIf="pages.length > 0"
+    >
 
-      <button class="pagination-btn" (click)="previousPage()">
+      <button
+        type="button"
+        class="pagination-btn pagination-arrow"
+        (click)="previousPage()"
+        [disabled]="currentPage === 1"
+        aria-label="Previous page"
+      >
         <i class="bi bi-chevron-left"></i>
       </button>
 
-      <button *ngFor="let page of pages" class="pagination-btn" [class.active-page]="
-          page === currentPage
-        " (click)="changePage(page)">
-
+      <button
+        type="button"
+        *ngFor="let page of pages"
+        class="pagination-btn"
+        [class.active-page]="page === currentPage"
+        (click)="changePage(page)"
+      >
         {{ page }}
-
       </button>
 
-      <button class="pagination-btn" (click)="nextPage()">
+      <button
+        type="button"
+        class="pagination-btn pagination-arrow"
+        (click)="nextPage()"
+        [disabled]="currentPage === pages.length"
+        aria-label="Next page"
+      >
         <i class="bi bi-chevron-right"></i>
       </button>
 

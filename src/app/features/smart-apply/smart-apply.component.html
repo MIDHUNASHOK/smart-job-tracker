@@ -1,17 +1,24 @@
 <div class="container-fluid smart-apply-page py-4">
 
-  <!-- HEADER -->
-
+  <!-- ==================================================
+       PAGE HEADER
+  =================================================== -->
   <div class="page-header mb-4">
 
     <div>
 
-      <h3 class="fw-bold mb-1">
+      <div class="page-badge">
+        <i class="bi bi-stars"></i>
+        AI-assisted application workflow
+      </div>
+
+      <h3 class="page-title">
         Smart Apply
       </h3>
 
-      <p class="text-muted mb-0">
-        Prepare and send professional job applications with your resume
+      <p class="page-subtitle">
+        Prepare, personalize and send professional job applications
+        with your resume.
       </p>
 
     </div>
@@ -20,17 +27,31 @@
 
   <div class="row g-4">
 
-    <!-- LEFT SIDE -->
-
+    <!-- ==================================================
+         LEFT SIDE — APPLICATION FORM
+    =================================================== -->
     <div class="col-lg-7">
 
-      <div class="card border-0 shadow-sm smart-card">
+      <div class="card smart-card application-card">
 
-        <div class="card-header bg-white border-0">
+        <div class="card-header">
 
-          <h5 class="mb-0 fw-bold">
-            Application Details
-          </h5>
+          <div class="section-title">
+
+            <div class="section-icon">
+              <i class="bi bi-send-check"></i>
+            </div>
+
+            <div>
+              <h5>Application details</h5>
+
+              <p>
+                Enter the job and recruiter information before generating
+                your application email.
+              </p>
+            </div>
+
+          </div>
 
         </div>
 
@@ -41,195 +62,310 @@
             (ngSubmit)="sendApplication()"
           >
 
-            <div class="row">
+            <div class="row g-3">
 
               <!-- COMPANY NAME -->
+              <div class="col-md-6">
 
-              <div class="col-md-6 mb-3">
-
-                <label class="form-label">
-                  Company Name
+                <label
+                  for="companyName"
+                  class="form-label"
+                >
+                  Company name
                 </label>
 
-                <input
-                  type="text"
-                  class="form-control custom-input"
-                  formControlName="companyName"
-                  placeholder="Amazon"
-                >
+                <div class="input-wrapper">
+
+                  <i class="bi bi-building input-icon"></i>
+
+                  <input
+                    id="companyName"
+                    type="text"
+                    class="form-control custom-input"
+                    formControlName="companyName"
+                    placeholder="Example: Amazon"
+                    autocomplete="organization"
+                  >
+
+                </div>
 
                 <small
-                  class="text-danger"
+                  class="validation-message"
                   *ngIf="
                     smartApplyForm.get('companyName')?.touched &&
-                    smartApplyForm.get('companyName')?.invalid
+                    smartApplyForm.get('companyName')?.hasError('required')
                   "
                 >
-                  Company name is required
+                  Company name is required.
                 </small>
 
               </div>
 
               <!-- RECRUITER EMAIL -->
+              <div class="col-md-6">
 
-              <div class="col-md-6 mb-3">
-
-                <label class="form-label">
-                  Recruiter Email
+                <label
+                  for="recruiterEmail"
+                  class="form-label"
+                >
+                  Recruiter email
                 </label>
 
-                <input
-                  type="email"
-                  class="form-control custom-input"
-                  formControlName="recruiterEmail"
-                  placeholder="hr@company.com"
-                >
+                <div class="input-wrapper">
+
+                  <i class="bi bi-envelope input-icon"></i>
+
+                  <input
+                    id="recruiterEmail"
+                    type="email"
+                    class="form-control custom-input"
+                    formControlName="recruiterEmail"
+                    placeholder="hr@company.com"
+                    autocomplete="email"
+                  >
+
+                </div>
 
                 <small
-                  class="text-danger"
+                  class="validation-message"
                   *ngIf="
                     smartApplyForm.get('recruiterEmail')?.touched &&
-                    smartApplyForm.get('recruiterEmail')?.invalid
+                    smartApplyForm.get('recruiterEmail')?.hasError('required')
                   "
                 >
-                  Valid email is required
+                  Recruiter email is required.
+                </small>
+
+                <small
+                  class="validation-message"
+                  *ngIf="
+                    smartApplyForm.get('recruiterEmail')?.touched &&
+                    smartApplyForm.get('recruiterEmail')?.hasError('email')
+                  "
+                >
+                  Please enter a valid email address.
                 </small>
 
               </div>
 
               <!-- JOB TITLE -->
+              <div class="col-md-6">
 
-              <div class="col-md-6 mb-3">
-
-                <label class="form-label">
-                  Job Title
+                <label
+                  for="jobTitle"
+                  class="form-label"
+                >
+                  Job title
                 </label>
 
-                <input
-                  type="text"
-                  class="form-control custom-input"
-                  formControlName="jobTitle"
-                  placeholder="Angular Developer"
-                >
+                <div class="input-wrapper">
+
+                  <i class="bi bi-briefcase input-icon"></i>
+
+                  <input
+                    id="jobTitle"
+                    type="text"
+                    class="form-control custom-input"
+                    formControlName="jobTitle"
+                    placeholder="Example: Angular Developer"
+                  >
+
+                </div>
 
                 <small
-                  class="text-danger"
+                  class="validation-message"
                   *ngIf="
                     smartApplyForm.get('jobTitle')?.touched &&
-                    smartApplyForm.get('jobTitle')?.invalid
+                    smartApplyForm.get('jobTitle')?.hasError('required')
                   "
                 >
-                  Job title is required
+                  Job title is required.
                 </small>
 
               </div>
 
               <!-- LOCATION -->
+              <div class="col-md-6">
 
-              <div class="col-md-6 mb-3">
-
-                <label class="form-label">
+                <label
+                  for="location"
+                  class="form-label"
+                >
                   Location
                 </label>
 
-                <input
-                  type="text"
-                  class="form-control custom-input"
-                  formControlName="location"
-                  placeholder="Berlin, Germany"
-                >
+                <div class="input-wrapper">
+
+                  <i class="bi bi-geo-alt input-icon"></i>
+
+                  <input
+                    id="location"
+                    type="text"
+                    class="form-control custom-input"
+                    formControlName="location"
+                    placeholder="Example: Berlin, Germany"
+                  >
+
+                </div>
 
               </div>
 
               <!-- SUBJECT -->
+              <div class="col-12">
 
-              <div class="col-12 mb-3">
-
-                <label class="form-label">
-                  Email Subject
+                <label
+                  for="subject"
+                  class="form-label"
+                >
+                  Email subject
                 </label>
 
-                <input
-                  type="text"
-                  class="form-control custom-input"
-                  formControlName="subject"
-                  placeholder="Application for Angular Developer Position"
-                >
+                <div class="input-wrapper">
+
+                  <i class="bi bi-type input-icon"></i>
+
+                  <input
+                    id="subject"
+                    type="text"
+                    class="form-control custom-input"
+                    formControlName="subject"
+                    placeholder="Application for Angular Developer position"
+                  >
+
+                </div>
 
               </div>
 
-              <!-- COVER LETTER -->
+              <!-- COVER EMAIL -->
+              <div class="col-12">
 
-              <div class="col-12 mb-3">
+                <div class="label-row">
 
-                <label class="form-label">
-                  Cover Email
-                </label>
+                  <label
+                    for="coverEmail"
+                    class="form-label"
+                  >
+                    Cover email
+                  </label>
+
+                  <span class="field-hint">
+                    Personalize before sending
+                  </span>
+
+                </div>
 
                 <textarea
+                  id="coverEmail"
                   rows="10"
-                  class="form-control custom-input"
+                  class="form-control custom-input cover-email-input"
                   formControlName="coverEmail"
-                  placeholder="Write your application email here..."
+                  placeholder="Write or generate your professional application email here..."
                 ></textarea>
 
               </div>
 
               <!-- RESUME -->
-
-              <div class="col-12 mb-4">
+              <div class="col-12">
 
                 <label class="form-label">
-                  Upload Resume
+                  Upload resume
                 </label>
 
-                <input
-                  type="file"
-                  class="form-control custom-input"
-                  accept=".pdf,.doc,.docx"
-                  (change)="onResumeSelected($event)"
+                <label
+                  for="resumeUpload"
+                  class="upload-area"
+                  [class.has-file]="selectedResume"
                 >
 
-                <small
-                  *ngIf="selectedResume"
-                  class="text-success mt-2 d-block"
-                >
-                  Selected: {{ selectedResume.name }}
-                </small>
+                  <input
+                    id="resumeUpload"
+                    type="file"
+                    accept=".pdf,.doc,.docx"
+                    (change)="onResumeSelected($event)"
+                  >
+
+                  <div class="upload-icon">
+
+                    <i
+                      class="bi"
+                      [ngClass]="
+                        selectedResume
+                          ? 'bi-file-earmark-check'
+                          : 'bi-cloud-arrow-up'
+                      "
+                    ></i>
+
+                  </div>
+
+                  <div class="upload-content">
+
+                    <strong>
+                      {{
+                        selectedResume
+                          ? selectedResume.name
+                          : 'Upload your resume'
+                      }}
+                    </strong>
+
+                    <span>
+                      {{
+                        selectedResume
+                          ? 'Your resume is ready to attach'
+                          : 'PDF, DOC or DOCX — click to browse'
+                      }}
+                    </span>
+
+                  </div>
+
+                  <div
+                    class="upload-status"
+                    *ngIf="selectedResume"
+                  >
+                    <i class="bi bi-check-circle-fill"></i>
+                  </div>
+
+                </label>
 
               </div>
 
             </div>
 
             <!-- ACTION BUTTONS -->
-
-            <div class="d-flex flex-wrap gap-2">
+            <div class="action-buttons">
 
               <button
                 type="button"
-                class="btn btn-outline-primary"
+                class="btn generate-btn"
                 (click)="generateEmail()"
               >
 
-                <i class="bi bi-magic me-2"></i>
-
-                Generate Email
+                <i class="bi bi-stars"></i>
+                Generate email
 
               </button>
 
               <button
                 type="submit"
-                class="btn btn-success"
-                [disabled]="isSending"
+                class="btn send-btn"
+                [disabled]="isSending || smartApplyForm.invalid"
               >
 
-                <i class="bi bi-send-fill me-2"></i>
+                <span *ngIf="!isSending">
 
-                {{
-                  isSending
-                    ? 'Sending...'
-                    : 'Send Application'
-                }}
+                  <i class="bi bi-send-fill"></i>
+                  Send application
+
+                </span>
+
+                <span
+                  *ngIf="isSending"
+                  class="loading-content"
+                >
+
+                  <span class="spinner-border spinner-border-sm"></span>
+                  Sending...
+
+                </span>
 
               </button>
 
@@ -243,107 +379,214 @@
 
     </div>
 
-    <!-- RIGHT SIDE -->
-
+    <!-- ==================================================
+         RIGHT SIDE
+    =================================================== -->
     <div class="col-lg-5">
 
       <!-- SMART APPLY ASSISTANT -->
+      <div class="card smart-card assistant-card mb-4">
 
-      <div class="card border-0 shadow-sm smart-card mb-4">
+        <div class="assistant-decoration"></div>
 
-        <div class="card-body text-center">
+        <div class="card-body">
 
-          <div class="smart-icon mb-3">
+          <div class="assistant-top">
 
-            <i class="bi bi-robot"></i>
+            <div class="smart-icon">
+              <i class="bi bi-robot"></i>
+            </div>
+
+            <div class="assistant-badge">
+              Smart Assistant
+            </div>
 
           </div>
 
-          <h5 class="fw-bold">
-            Smart Apply Assistant
+          <h5>
+            Apply smarter, not harder
           </h5>
 
-          <p class="text-muted">
-
-            Generate professional application emails,
-            upload your resume and track applications
-            automatically.
-
+          <p>
+            Generate professional application emails, attach your resume,
+            and keep every application organized in NextZiel.
           </p>
+
+          <div class="assistant-features">
+
+            <div class="assistant-feature">
+
+              <i class="bi bi-check-circle-fill"></i>
+              Professional email generation
+
+            </div>
+
+            <div class="assistant-feature">
+
+              <i class="bi bi-check-circle-fill"></i>
+              Resume attachment support
+
+            </div>
+
+            <div class="assistant-feature">
+
+              <i class="bi bi-check-circle-fill"></i>
+              Automatic application tracking
+
+            </div>
+
+          </div>
 
         </div>
 
       </div>
 
       <!-- WORKFLOW -->
+      <div class="card smart-card workflow-card">
 
-      <div class="card border-0 shadow-sm smart-card">
+        <div class="card-header">
 
-        <div class="card-header bg-white border-0">
+          <div class="section-title">
 
-          <h5 class="mb-0 fw-bold">
-            Application Workflow
-          </h5>
+            <div class="section-icon small">
+              <i class="bi bi-diagram-3"></i>
+            </div>
+
+            <div>
+              <h5>Application workflow</h5>
+
+              <p>
+                Complete these steps before sending.
+              </p>
+            </div>
+
+          </div>
 
         </div>
 
         <div class="card-body">
 
-          <div class="workflow-item">
+          <div class="workflow-list">
 
-            <span>1</span>
+            <div class="workflow-item">
 
-            <p>
-              Enter company details
-            </p>
+              <div class="workflow-number">
+                1
+              </div>
+
+              <div class="workflow-content">
+
+                <strong>
+                  Enter company details
+                </strong>
+
+                <span>
+                  Add the company, position and recruiter information.
+                </span>
+
+              </div>
+
+            </div>
+
+            <div class="workflow-item">
+
+              <div class="workflow-number">
+                2
+              </div>
+
+              <div class="workflow-content">
+
+                <strong>
+                  Generate your email
+                </strong>
+
+                <span>
+                  Create a professional and personalized application email.
+                </span>
+
+              </div>
+
+            </div>
+
+            <div class="workflow-item">
+
+              <div class="workflow-number">
+                3
+              </div>
+
+              <div class="workflow-content">
+
+                <strong>
+                  Attach your resume
+                </strong>
+
+                <span>
+                  Upload an ATS-friendly PDF, DOC or DOCX resume.
+                </span>
+
+              </div>
+
+            </div>
+
+            <div class="workflow-item">
+
+              <div class="workflow-number">
+                4
+              </div>
+
+              <div class="workflow-content">
+
+                <strong>
+                  Review and send
+                </strong>
+
+                <span>
+                  Confirm the email content and application details.
+                </span>
+
+              </div>
+
+            </div>
+
+            <div class="workflow-item">
+
+              <div class="workflow-number">
+                5
+              </div>
+
+              <div class="workflow-content">
+
+                <strong>
+                  Track automatically
+                </strong>
+
+                <span>
+                  Save the application directly to your NextZiel tracker.
+                </span>
+
+              </div>
+
+            </div>
 
           </div>
 
-          <div class="workflow-item">
+          <div class="integration-note">
 
-            <span>2</span>
+            <div class="note-icon">
+              <i class="bi bi-info-circle"></i>
+            </div>
 
-            <p>
-              Generate professional email
-            </p>
+            <div>
 
-          </div>
+              <strong>
+                Email integration coming soon
+              </strong>
 
-          <div class="workflow-item">
+              <p>
+                Direct backend email delivery will be enabled in the next phase.
+              </p>
 
-            <span>3</span>
-
-            <p>
-              Upload ATS-friendly resume
-            </p>
-
-          </div>
-
-          <div class="workflow-item">
-
-            <span>4</span>
-
-            <p>
-              Review and send application
-            </p>
-
-          </div>
-
-          <div class="workflow-item">
-
-            <span>5</span>
-
-            <p>
-              Track application status automatically
-            </p>
-
-          </div>
-
-          <div class="alert alert-warning mt-4 mb-0">
-
-            <i class="bi bi-info-circle me-2"></i>
-
-            Backend email integration will be added in the next phase.
+            </div>
 
           </div>
 

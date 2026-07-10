@@ -1,211 +1,555 @@
-<div class="modal-header">
+<div class="job-modal">
 
-    <h5 class="modal-title fw-bold">
-      Add New Job
-    </h5>
-  
+  <!-- ==================================================
+       MODAL HEADER
+  =================================================== -->
+  <div class="modal-header job-modal-header">
+
+    <div class="modal-heading">
+
+      <div class="modal-icon">
+
+        <i
+          class="bi"
+          [ngClass]="
+            modalType === 'edit'
+              ? 'bi-pencil-square'
+              : 'bi-briefcase'
+          "
+        ></i>
+
+      </div>
+
+      <div>
+
+        <h5 class="modal-title">
+
+          {{
+            modalType === 'edit'
+              ? 'Edit Job Application'
+              : 'Add New Job'
+          }}
+
+        </h5>
+
+        <p class="modal-subtitle">
+
+          {{
+            modalType === 'edit'
+              ? 'Update the information for this job application.'
+              : 'Add a job and keep your application progress organized.'
+          }}
+
+        </p>
+
+      </div>
+
+    </div>
+
     <button
       type="button"
-      class="btn-close"
+      class="modal-close-btn"
       aria-label="Close"
       (click)="activeModal.close()"
-    ></button>
-  
+    >
+
+      <i class="bi bi-x-lg"></i>
+
+    </button>
+
   </div>
-  
-  <!-- Modal Body -->
-  <div class="modal-body">
-  
-    <form [formGroup]="addJobForm"
-    (ngSubmit)="submitJob()">
-  
-      <!-- Job Title -->
-      <div class="mb-3">
-  
-        <label class="form-label">
-          Job Title *
-        </label>
-  
-        <input
-          type="text"
-          class="form-control" formControlName="job_Title"
-          placeholder="Frontend Developer"
-        />
-  
-      </div>
-  
-      <!-- Company Name -->
-      <div class="mb-3">
-  
-        <label class="form-label">
-          Company Name *
-        </label>
-  
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Company Name" formControlName="company_Name"
-        />
-  
-      </div>
-  
-      <!-- Location -->
-      <div class="mb-3">
-  
-        <label class="form-label">
-          Location *
-        </label>
-  
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Berlin, Germany" formControlName="location"
-        />
-  
-      </div>
-  
-      <!-- Job Type & Work Mode -->
-      <div class="row">
-  
-        <div class="col-md-6 mb-3">
-  
-          <label class="form-label">
-            Job Type *
-          </label>
-  
-          <select class="form-select" formControlName="job_Type">
-  
-            <option value="" disabled>
-              Select Job Type
-            </option>
-  
-            <option>Full-time</option>
-            <option>Part-time</option>
-            <option>Internship</option>
-            <option>Werkstudent</option>
-            <option>Contract</option>
-  
-          </select>
-  
+
+  <!-- ==================================================
+       MODAL BODY
+  =================================================== -->
+  <div class="modal-body job-modal-body">
+
+    <form
+      [formGroup]="addJobForm"
+      (ngSubmit)="submitJob()"
+    >
+
+      <!-- ==================================================
+           BASIC INFORMATION
+      =================================================== -->
+      <div class="form-section">
+
+        <div class="section-header">
+
+          <div class="section-icon">
+            <i class="bi bi-building"></i>
+          </div>
+
+          <div>
+
+            <h6>Job Information</h6>
+
+            <p>
+              Enter the company and position details.
+            </p>
+
+          </div>
+
         </div>
-  
-        <div class="col-md-6 mb-3">
-  
-          <label class="form-label">
-            Work Mode *
-          </label>
-  
-          <select class="form-select" formControlName="work_mode">
-  
-            <option value="" disabled>
-              Select Work Mode
-            </option>
-  
-            <option>Remote</option>
-            <option>Hybrid</option>
-            <option>Onsite</option>
-  
-          </select>
-  
+
+        <div class="row g-3">
+
+          <!-- JOB TITLE -->
+          <div class="col-md-6">
+
+            <label
+              for="jobTitle"
+              class="form-label"
+            >
+              Job title
+              <span class="required-mark">*</span>
+            </label>
+
+            <div class="input-wrapper">
+
+              <i class="bi bi-briefcase input-icon"></i>
+
+              <input
+                id="jobTitle"
+                type="text"
+                class="form-control custom-input"
+                formControlName="job_Title"
+                placeholder="Frontend Developer"
+              >
+
+            </div>
+
+            <small
+              class="validation-message"
+              *ngIf="
+                addJobForm.get('job_Title')?.touched &&
+                addJobForm.get('job_Title')?.hasError('required')
+              "
+            >
+              Job title is required.
+            </small>
+
+          </div>
+
+          <!-- COMPANY NAME -->
+          <div class="col-md-6">
+
+            <label
+              for="companyName"
+              class="form-label"
+            >
+              Company name
+              <span class="required-mark">*</span>
+            </label>
+
+            <div class="input-wrapper">
+
+              <i class="bi bi-buildings input-icon"></i>
+
+              <input
+                id="companyName"
+                type="text"
+                class="form-control custom-input"
+                formControlName="company_Name"
+                placeholder="Company name"
+              >
+
+            </div>
+
+            <small
+              class="validation-message"
+              *ngIf="
+                addJobForm.get('company_Name')?.touched &&
+                addJobForm.get('company_Name')?.hasError('required')
+              "
+            >
+              Company name is required.
+            </small>
+
+          </div>
+
+          <!-- LOCATION -->
+          <div class="col-12">
+
+            <label
+              for="location"
+              class="form-label"
+            >
+              Location
+              <span class="required-mark">*</span>
+            </label>
+
+            <div class="input-wrapper">
+
+              <i class="bi bi-geo-alt input-icon"></i>
+
+              <input
+                id="location"
+                type="text"
+                class="form-control custom-input"
+                formControlName="location"
+                placeholder="Berlin, Germany"
+              >
+
+            </div>
+
+            <small
+              class="validation-message"
+              *ngIf="
+                addJobForm.get('location')?.touched &&
+                addJobForm.get('location')?.hasError('required')
+              "
+            >
+              Location is required.
+            </small>
+
+          </div>
+
         </div>
-  
-      </div>
-  
-      <!-- Status & Applied Date -->
-      <div class="row">
-  
-        <div class="col-md-6 mb-3">
-  
-          <label class="form-label">
-            Status *
-          </label>
-  
-          <select class="form-select" formControlName="status">
-  
-            <option value="" disabled>
-              Select Status
-            </option>
-  
-            <option>Saved</option>
-            <option>Applied</option>
-            <option>Interview Scheduled</option>
-            <option>Technical Round</option>
-            <option>HR Round</option>
-            <option>Rejected</option>
-            <option>Offer Received</option>
-            <option>Accepted</option>
-  
-          </select>
-  
-        </div>
-  
-        <div class="col-md-6 mb-3">
-  
-          <label class="form-label">
-            Applied Date *
-          </label>
-  
-          <input
-            type="date"
-            class="form-control" formControlName="applied_Date"
-          />
-  
-        </div>
-  
-      </div>
-  
-      <!-- Job URL -->
-      <div class="mb-3">
-  
-        <label class="form-label">
-          Job URL
-        </label>
-  
-        <input
-          type="url"
-          class="form-control" formControlName="job_Url"
-          placeholder="https://company.com/job"
-        />
-  
-      </div>
-  
-      <!-- Notes -->
-      <div class="mb-3">
-  
-        <label class="form-label">
-          Notes
-        </label>
-  
-        <textarea
-          rows="4"
-          class="form-control" formControlName="notes"
-          placeholder="Add notes about the application..."
-        ></textarea>
-  
+
       </div>
 
+      <!-- ==================================================
+           EMPLOYMENT DETAILS
+      =================================================== -->
+      <div class="form-section">
 
-        <!-- Modal Footer -->
-  <div class="modal-footer">
-  
-    <button
-      type="button"
-      class="btn btn-outline-secondary"
-      (click)="activeModal.close()"
-    >
-      Cancel
-    </button>
-  
-    <button
-      type="submit"
-      class="btn btn-primary"
-    >
-      Save Job
-    </button>
-  
-  </div>
-  
+        <div class="section-header">
+
+          <div class="section-icon">
+            <i class="bi bi-person-workspace"></i>
+          </div>
+
+          <div>
+
+            <h6>Employment Details</h6>
+
+            <p>
+              Select the job type, work mode and current status.
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="row g-3">
+
+          <!-- JOB TYPE -->
+          <div class="col-md-6">
+
+            <label
+              for="jobType"
+              class="form-label"
+            >
+              Job type
+              <span class="required-mark">*</span>
+            </label>
+
+            <div class="select-wrapper">
+
+              <i class="bi bi-clock input-icon"></i>
+
+              <select
+                id="jobType"
+                class="form-select custom-input custom-select"
+                formControlName="job_Type"
+              >
+
+                <option
+                  value=""
+                  disabled
+                >
+                  Select job type
+                </option>
+
+                <option>Full-time</option>
+                <option>Part-time</option>
+                <option>Internship</option>
+                <option>Werkstudent</option>
+                <option>Contract</option>
+
+              </select>
+
+            </div>
+
+            <small
+              class="validation-message"
+              *ngIf="
+                addJobForm.get('job_Type')?.touched &&
+                addJobForm.get('job_Type')?.hasError('required')
+              "
+            >
+              Job type is required.
+            </small>
+
+          </div>
+
+          <!-- WORK MODE -->
+          <div class="col-md-6">
+
+            <label
+              for="workMode"
+              class="form-label"
+            >
+              Work mode
+              <span class="required-mark">*</span>
+            </label>
+
+            <div class="select-wrapper">
+
+              <i class="bi bi-laptop input-icon"></i>
+
+              <select
+                id="workMode"
+                class="form-select custom-input custom-select"
+                formControlName="work_mode"
+              >
+
+                <option
+                  value=""
+                  disabled
+                >
+                  Select work mode
+                </option>
+
+                <option>Remote</option>
+                <option>Hybrid</option>
+                <option>Onsite</option>
+
+              </select>
+
+            </div>
+
+            <small
+              class="validation-message"
+              *ngIf="
+                addJobForm.get('work_mode')?.touched &&
+                addJobForm.get('work_mode')?.hasError('required')
+              "
+            >
+              Work mode is required.
+            </small>
+
+          </div>
+
+          <!-- STATUS -->
+          <div class="col-md-6">
+
+            <label
+              for="status"
+              class="form-label"
+            >
+              Status
+              <span class="required-mark">*</span>
+            </label>
+
+            <div class="select-wrapper">
+
+              <i class="bi bi-flag input-icon"></i>
+
+              <select
+                id="status"
+                class="form-select custom-input custom-select"
+                formControlName="status"
+              >
+
+                <option
+                  value=""
+                  disabled
+                >
+                  Select status
+                </option>
+
+                <option>Saved</option>
+                <option>Applied</option>
+                <option>Interview Scheduled</option>
+                <option>Technical Round</option>
+                <option>HR Round</option>
+                <option>Rejected</option>
+                <option>Offer Received</option>
+                <option>Accepted</option>
+
+              </select>
+
+            </div>
+
+            <small
+              class="validation-message"
+              *ngIf="
+                addJobForm.get('status')?.touched &&
+                addJobForm.get('status')?.hasError('required')
+              "
+            >
+              Application status is required.
+            </small>
+
+          </div>
+
+          <!-- APPLIED DATE -->
+          <div class="col-md-6">
+
+            <label
+              for="appliedDate"
+              class="form-label"
+            >
+              Applied date
+              <span class="required-mark">*</span>
+            </label>
+
+            <div class="input-wrapper">
+
+              <i class="bi bi-calendar3 input-icon"></i>
+
+              <input
+                id="appliedDate"
+                type="date"
+                class="form-control custom-input"
+                formControlName="applied_Date"
+              >
+
+            </div>
+
+            <small
+              class="validation-message"
+              *ngIf="
+                addJobForm.get('applied_Date')?.touched &&
+                addJobForm.get('applied_Date')?.hasError('required')
+              "
+            >
+              Applied date is required.
+            </small>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ==================================================
+           ADDITIONAL INFORMATION
+      =================================================== -->
+      <div class="form-section last-section">
+
+        <div class="section-header">
+
+          <div class="section-icon">
+            <i class="bi bi-journal-text"></i>
+          </div>
+
+          <div>
+
+            <h6>Additional Information</h6>
+
+            <p>
+              Add the job link and any useful application notes.
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="row g-3">
+
+          <!-- JOB URL -->
+          <div class="col-12">
+
+            <label
+              for="jobUrl"
+              class="form-label"
+            >
+              Job URL
+              <span class="optional-label">
+                Optional
+              </span>
+            </label>
+
+            <div class="input-wrapper">
+
+              <i class="bi bi-link-45deg input-icon"></i>
+
+              <input
+                id="jobUrl"
+                type="url"
+                class="form-control custom-input"
+                formControlName="job_Url"
+                placeholder="https://company.com/job"
+              >
+
+            </div>
+
+          </div>
+
+          <!-- NOTES -->
+          <div class="col-12">
+
+            <div class="label-row">
+
+              <label
+                for="notes"
+                class="form-label"
+              >
+                Application notes
+              </label>
+
+              <span class="optional-label">
+                Optional
+              </span>
+
+            </div>
+
+            <textarea
+              id="notes"
+              rows="4"
+              class="form-control custom-input notes-input"
+              formControlName="notes"
+              placeholder="Add interview details, recruiter information, follow-up dates or other notes..."
+            ></textarea>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ==================================================
+           MODAL FOOTER
+      =================================================== -->
+      <div class="modal-footer job-modal-footer">
+
+        <button
+          type="button"
+          class="btn cancel-btn"
+          (click)="activeModal.close()"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="btn save-btn"
+        >
+
+          <i
+            class="bi"
+            [ngClass]="
+              modalType === 'edit'
+                ? 'bi-check2-circle'
+                : 'bi-plus-circle'
+            "
+          ></i>
+
+          {{
+            modalType === 'edit'
+              ? 'Update Job'
+              : 'Save Job'
+          }}
+
+        </button>
+
+      </div>
+
     </form>
-  
+
   </div>
-  
+
+</div>
