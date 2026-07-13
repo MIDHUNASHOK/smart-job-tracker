@@ -195,8 +195,10 @@
 
           <div class="chart-container">
 
+            <!-- ="base-chart" makes the ref resolve to BaseChartDirective,
+                 not the <canvas> element -->
             <canvas
-              #lineChart
+              #lineChart="base-chart"
               baseChart
               [data]="lineChartData"
               [options]="lineChartOptions"
@@ -266,7 +268,7 @@
               <div class="pie-chart-container">
 
                 <canvas
-                  #pieChart
+                  #pieChart="base-chart"
                   baseChart
                   [data]="pieChartData"
                   [options]="pieChartOptions"

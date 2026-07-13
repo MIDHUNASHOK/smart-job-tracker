@@ -10,7 +10,7 @@
 
       <div class="page-badge">
         <i class="bi bi-stars"></i>
-        AI-powered resume intelligence
+        Resume intelligence
       </div>
 
       <h2 class="page-title">
@@ -18,8 +18,8 @@
       </h2>
 
       <p class="page-description">
-        Upload your resume, check ATS compatibility, identify missing
-        keywords and receive actionable recommendations.
+        Upload your resume, compare it with a target job description,
+        identify missing keywords and receive actionable recommendations.
       </p>
 
     </div>
@@ -27,11 +27,24 @@
     <button
       type="button"
       class="btn history-btn"
+      disabled
+      title="Analysis history will be added later"
     >
       <i class="bi bi-clock-history"></i>
       Analysis History
     </button>
 
+  </div>
+
+  <!-- ERROR MESSAGE -->
+
+  <div
+    *ngIf="errorMessage"
+    class="alert alert-danger d-flex align-items-center gap-2"
+    role="alert"
+  >
+    <i class="bi bi-exclamation-circle-fill"></i>
+    <span>{{ errorMessage }}</span>
   </div>
 
   <!-- ==================================================
@@ -42,9 +55,7 @@
 
     <div class="row g-4">
 
-      <!-- ================================================
-           RESUME UPLOAD
-      ================================================= -->
+      <!-- RESUME UPLOAD -->
 
       <div class="col-xl-7">
 
@@ -57,15 +68,11 @@
             </div>
 
             <div>
-
-              <h5>
-                Upload your resume
-              </h5>
+              <h5>Upload your resume</h5>
 
               <p>
                 Upload a PDF or DOCX resume to begin the analysis.
               </p>
-
             </div>
 
           </div>
@@ -75,12 +82,18 @@
           <label
             for="resumeUpload"
             class="resume-upload-area"
+            [class.dragging]="isDragging"
+            (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave($event)"
+            (drop)="onFileDrop($event)"
           >
 
             <input
               id="resumeUpload"
               type="file"
-              accept=".pdf,.doc,.docx"
+              accept=".pdf,.docx"
+              (change)="onFileSelected($event)"
+              hidden
             >
 
             <div class="upload-main-icon">
@@ -104,27 +117,39 @@
             </span>
 
             <small>
-              Supported formats: PDF, DOC and DOCX · Maximum size: 5 MB
+              Supported formats: PDF and DOCX · Maximum size: 5 MB
             </small>
 
           </label>
 
           <!-- SELECTED FILE PREVIEW -->
 
-          <div class="selected-file">
+          <div
+            class="selected-file"
+            *ngIf="selectedFile"
+          >
 
             <div class="file-icon">
-              <i class="bi bi-file-earmark-pdf"></i>
+
+              <i
+                class="bi"
+                [ngClass]="
+                  selectedFileName.toLowerCase().endsWith('.pdf')
+                    ? 'bi-file-earmark-pdf'
+                    : 'bi-file-earmark-word'
+                "
+              ></i>
+
             </div>
 
             <div class="file-information">
 
               <strong>
-                Midhun_Ashok_Resume.pdf
+                {{ selectedFileName }}
               </strong>
 
               <span>
-                PDF document · 1.4 MB
+                {{ selectedFile.size / 1024 / 1024 | number:'1.1-2' }} MB
               </span>
 
             </div>
@@ -138,13 +163,14 @@
               type="button"
               class="remove-file-btn"
               aria-label="Remove uploaded resume"
+              (click)="removeSelectedFile(); $event.preventDefault()"
             >
               <i class="bi bi-x-lg"></i>
             </button>
 
           </div>
 
-          <!-- OPTIONAL JOB DESCRIPTION -->
+          <!-- JOB DESCRIPTION -->
 
           <div class="job-description-section">
 
@@ -157,7 +183,7 @@
                 </label>
 
                 <span class="optional-badge">
-                  Optional
+                  Required for matching
                 </span>
 
               </div>
@@ -170,35 +196,72 @@
 
             <textarea
               id="jobDescription"
-              rows="5"
+              name="jobDescription"
+              rows="7"
               class="form-control job-description-input"
-              placeholder="Paste the target job description here to compare it with your resume..."
+              [(ngModel)]="jobDescription"
+              placeholder="Paste the complete target job description here..."
             ></textarea>
+
+            <div class="d-flex justify-content-end mt-2">
+
+              <small class="text-muted">
+                {{ jobDescription.trim().length }} characters
+              </small>
+
+            </div>
 
           </div>
 
-          <!-- ACTION BUTTON -->
+          <!-- ACTION BUTTONS -->
 
-          <button
-            type="button"
-            class="btn analyze-btn"
-          >
+          <div class="d-flex flex-wrap gap-2">
 
-            <i class="bi bi-stars"></i>
+            <button
+              type="button"
+              class="btn analyze-btn flex-grow-1"
+              [disabled]="isAnalyzing || !selectedFile || !jobDescription.trim()"
+              (click)="analyzeResume()"
+            >
 
-            Analyze Resume
+              <span
+                *ngIf="isAnalyzing"
+                class="spinner-border spinner-border-sm"
+                aria-hidden="true"
+              ></span>
 
-            <i class="bi bi-arrow-right"></i>
+              <i
+                *ngIf="!isAnalyzing"
+                class="bi bi-stars"
+              ></i>
 
-          </button>
+              {{ isAnalyzing ? 'Analyzing Resume...' : 'Analyze Resume' }}
+
+              <i
+                *ngIf="!isAnalyzing"
+                class="bi bi-arrow-right"
+              ></i>
+
+            </button>
+
+            <button
+              *ngIf="selectedFile || jobDescription || showResults"
+              type="button"
+              class="btn btn-outline-secondary"
+              [disabled]="isAnalyzing"
+              (click)="clearAnalysis()"
+            >
+              <i class="bi bi-arrow-counterclockwise me-1"></i>
+              Clear
+            </button>
+
+          </div>
 
         </div>
 
       </div>
 
-      <!-- ================================================
-           ATS SCORE
-      ================================================= -->
+      <!-- ATS SCORE -->
 
       <div class="col-xl-5">
 
@@ -218,9 +281,12 @@
 
             </div>
 
-            <span class="analysis-status">
+            <span
+              class="analysis-status"
+              [class.pending-status]="!showResults"
+            >
               <span class="status-dot"></span>
-              Analyzed
+              {{ showResults ? 'Analyzed' : 'Waiting' }}
             </span>
 
           </div>
@@ -229,12 +295,16 @@
 
           <div class="score-area">
 
-            <div class="score-circle">
+            <div
+              class="score-circle"
+              [ngClass]="showResults ? getScoreClass() : 'pending'"
+              [style.--score]="showResults ? atsScore : 0"
+            >
 
               <div class="score-inner">
 
                 <strong>
-                  78
+                  {{ showResults ? atsScore : '--' }}
                 </strong>
 
                 <span>
@@ -247,116 +317,56 @@
 
             <div class="score-summary">
 
-              <span class="score-rating">
-                Good
+              <span
+                class="score-rating"
+                *ngIf="showResults"
+              >
+                {{ getScoreLabel() }}
               </span>
 
               <h6>
-                Your resume is ATS-friendly
+                {{
+                  showResults
+                    ? 'Your resume analysis is ready'
+                    : 'Upload your resume to begin'
+                }}
               </h6>
 
               <p>
-                A few targeted improvements could increase your score
-                and job-match performance.
+                {{
+                  showResults
+                    ? 'Review the matched keywords, missing terms and recommendations below.'
+                    : 'Add a resume and target job description, then start the analysis.'
+                }}
               </p>
 
             </div>
 
           </div>
 
-          <!-- SCORE BREAKDOWN -->
+          <!-- ANALYSIS OVERVIEW -->
 
-          <div class="score-breakdown">
+          <div
+            class="score-breakdown"
+            *ngIf="showResults"
+          >
 
             <div class="score-row">
 
               <div class="score-label">
 
                 <span class="score-icon green-icon">
-                  <i class="bi bi-file-text"></i>
+                  <i class="bi bi-check2-circle"></i>
                 </span>
 
                 <span>
-                  Content quality
+                  Matched keywords
                 </span>
 
               </div>
 
               <div class="score-progress">
-
-                <div class="progress-track">
-                  <div
-                    class="progress-value excellent-progress"
-                    style="width: 88%"
-                  ></div>
-                </div>
-
-                <strong>
-                  88%
-                </strong>
-
-              </div>
-
-            </div>
-
-            <div class="score-row">
-
-              <div class="score-label">
-
-                <span class="score-icon blue-icon">
-                  <i class="bi bi-layout-text-window"></i>
-                </span>
-
-                <span>
-                  Formatting
-                </span>
-
-              </div>
-
-              <div class="score-progress">
-
-                <div class="progress-track">
-                  <div
-                    class="progress-value good-progress"
-                    style="width: 82%"
-                  ></div>
-                </div>
-
-                <strong>
-                  82%
-                </strong>
-
-              </div>
-
-            </div>
-
-            <div class="score-row">
-
-              <div class="score-label">
-
-                <span class="score-icon purple-icon">
-                  <i class="bi bi-key"></i>
-                </span>
-
-                <span>
-                  Keywords
-                </span>
-
-              </div>
-
-              <div class="score-progress">
-
-                <div class="progress-track">
-                  <div
-                    class="progress-value medium-progress"
-                    style="width: 68%"
-                  ></div>
-                </div>
-
-                <strong>
-                  68%
-                </strong>
-
+                <strong>{{ matchedKeywords.length }}</strong>
               </div>
 
             </div>
@@ -366,1016 +376,548 @@
               <div class="score-label">
 
                 <span class="score-icon amber-icon">
-                  <i class="bi bi-bullseye"></i>
+                  <i class="bi bi-exclamation-circle"></i>
                 </span>
 
                 <span>
-                  Job relevance
+                  Missing keywords
                 </span>
 
               </div>
 
               <div class="score-progress">
+                <strong>{{ missingKeywords.length }}</strong>
+              </div>
 
-                <div class="progress-track">
-                  <div
-                    class="progress-value relevance-progress"
-                    style="width: 74%"
-                  ></div>
+            </div>
+
+            <div class="score-row">
+
+              <div class="score-label">
+
+                <span class="score-icon blue-icon">
+                  <i class="bi bi-file-text"></i>
+                </span>
+
+                <span>
+                  Resume words
+                </span>
+
+              </div>
+
+              <div class="score-progress">
+                <strong>{{ resumeWordCount }}</strong>
+              </div>
+
+            </div>
+
+            <div class="score-row">
+
+              <div class="score-label">
+
+                <span class="score-icon purple-icon">
+                  <i class="bi bi-card-text"></i>
+                </span>
+
+                <span>
+                  Job-description words
+                </span>
+
+              </div>
+
+              <div class="score-progress">
+                <strong>{{ jobDescriptionWordCount }}</strong>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div
+            class="last-analyzed"
+            *ngIf="showResults"
+          >
+            <i class="bi bi-check-circle"></i>
+            Analysis completed successfully
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ==================================================
+       RESULTS
+  =================================================== -->
+
+  <ng-container *ngIf="showResults">
+
+    <!-- SUMMARY STATISTICS -->
+
+    <section class="analytics-section">
+
+      <div class="summary-grid">
+
+        <div class="summary-card">
+
+          <div class="summary-icon match-summary">
+            <i class="bi bi-bullseye"></i>
+          </div>
+
+          <div>
+
+            <span>
+              ATS score
+            </span>
+
+            <strong>
+              {{ atsScore }}%
+            </strong>
+
+            <small
+              [ngClass]="atsScore >= 65 ? 'positive-change' : 'warning-change'"
+            >
+              <i
+                class="bi"
+                [ngClass]="atsScore >= 65 ? 'bi-arrow-up-right' : 'bi-exclamation-circle'"
+              ></i>
+              {{ getScoreLabel() }}
+            </small>
+
+          </div>
+
+        </div>
+
+        <div class="summary-card">
+
+          <div class="summary-icon skill-summary">
+            <i class="bi bi-check2-circle"></i>
+          </div>
+
+          <div>
+
+            <span>
+              Keywords matched
+            </span>
+
+            <strong>
+              {{ matchedKeywords.length }}
+            </strong>
+
+            <small>
+              Found in your resume
+            </small>
+
+          </div>
+
+        </div>
+
+        <div class="summary-card">
+
+          <div class="summary-icon keyword-summary">
+            <i class="bi bi-key"></i>
+          </div>
+
+          <div>
+
+            <span>
+              Keywords missing
+            </span>
+
+            <strong>
+              {{ missingKeywords.length }}
+            </strong>
+
+            <small class="warning-change">
+              Review relevant terms
+            </small>
+
+          </div>
+
+        </div>
+
+        <div class="summary-card">
+
+          <div class="summary-icon issue-summary">
+            <i class="bi bi-lightbulb"></i>
+          </div>
+
+          <div>
+
+            <span>
+              Improvements
+            </span>
+
+            <strong>
+              {{ suggestions.length }}
+            </strong>
+
+            <small class="danger-change">
+              Recommended actions
+            </small>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- KEYWORD ANALYSIS -->
+
+    <section class="analytics-section">
+
+      <div class="row g-4">
+
+        <!-- MATCHED KEYWORDS -->
+
+        <div class="col-xl-6">
+
+          <div class="analytics-card analysis-detail-card h-100">
+
+            <div class="detail-card-header">
+
+              <div class="card-heading no-margin">
+
+                <div class="heading-icon">
+                  <i class="bi bi-check2-circle"></i>
                 </div>
 
-                <strong>
-                  74%
-                </strong>
+                <div>
+
+                  <h5>
+                    Matched Keywords
+                  </h5>
+
+                  <p>
+                    Relevant terms found in both your resume and the job description.
+                  </p>
+
+                </div>
 
               </div>
+
+              <span class="count-badge">
+                {{ matchedKeywords.length }} matched
+              </span>
 
             </div>
 
-          </div>
+            <div
+              class="skill-list"
+              *ngIf="matchedKeywords.length > 0; else noMatchedKeywords"
+            >
 
-          <div class="last-analyzed">
+              <span
+                class="skill-tag matched-skill"
+                *ngFor="let keyword of matchedKeywords"
+              >
+                {{ keyword }}
+                <i class="bi bi-check-circle-fill"></i>
+              </span>
 
-            <i class="bi bi-clock"></i>
+            </div>
 
-            Last analyzed on July 11, 2026
+            <ng-template #noMatchedKeywords>
 
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- ==================================================
-       SUMMARY STATISTICS
-  =================================================== -->
-
-  <section class="analytics-section">
-
-    <div class="summary-grid">
-
-      <div class="summary-card">
-
-        <div class="summary-icon match-summary">
-          <i class="bi bi-bullseye"></i>
-        </div>
-
-        <div>
-
-          <span>
-            Job match
-          </span>
-
-          <strong>
-            74%
-          </strong>
-
-          <small class="positive-change">
-            <i class="bi bi-arrow-up-right"></i>
-            Strong match
-          </small>
-
-        </div>
-
-      </div>
-
-      <div class="summary-card">
-
-        <div class="summary-icon skill-summary">
-          <i class="bi bi-lightning-charge"></i>
-        </div>
-
-        <div>
-
-          <span>
-            Skills detected
-          </span>
-
-          <strong>
-            18
-          </strong>
-
-          <small>
-            12 technical · 6 soft
-          </small>
-
-        </div>
-
-      </div>
-
-      <div class="summary-card">
-
-        <div class="summary-icon keyword-summary">
-          <i class="bi bi-key"></i>
-        </div>
-
-        <div>
-
-          <span>
-            Keywords matched
-          </span>
-
-          <strong>
-            23
-          </strong>
-
-          <small class="warning-change">
-            7 important keywords missing
-          </small>
-
-        </div>
-
-      </div>
-
-      <div class="summary-card">
-
-        <div class="summary-icon issue-summary">
-          <i class="bi bi-exclamation-triangle"></i>
-        </div>
-
-        <div>
-
-          <span>
-            Improvements
-          </span>
-
-          <strong>
-            6
-          </strong>
-
-          <small class="danger-change">
-            2 high-priority issues
-          </small>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- ==================================================
-       SKILLS AND KEYWORD ANALYSIS
-  =================================================== -->
-
-  <section class="analytics-section">
-
-    <div class="row g-4">
-
-      <!-- DETECTED SKILLS -->
-
-      <div class="col-xl-6">
-
-        <div class="analytics-card analysis-detail-card">
-
-          <div class="detail-card-header">
-
-            <div class="card-heading no-margin">
-
-              <div class="heading-icon">
-                <i class="bi bi-lightning-charge"></i>
-              </div>
-
-              <div>
-
-                <h5>
-                  Skills Analysis
-                </h5>
+              <div class="keyword-tip">
+                <i class="bi bi-info-circle"></i>
 
                 <p>
-                  Skills identified from your resume.
+                  No strong keyword matches were detected. Review the target job
+                  description and add only the skills you genuinely possess.
                 </p>
+              </div>
+
+            </ng-template>
+
+          </div>
+
+        </div>
+
+        <!-- MISSING KEYWORDS -->
+
+        <div class="col-xl-6">
+
+          <div class="analytics-card analysis-detail-card h-100">
+
+            <div class="detail-card-header">
+
+              <div class="card-heading no-margin">
+
+                <div class="heading-icon warning-heading-icon">
+                  <i class="bi bi-key"></i>
+                </div>
+
+                <div>
+
+                  <h5>
+                    Missing Keywords
+                  </h5>
+
+                  <p>
+                    Important terms found in the job description but not in your resume.
+                  </p>
+
+                </div>
 
               </div>
 
-            </div>
-
-            <span class="count-badge">
-              18 detected
-            </span>
-
-          </div>
-
-          <div class="skill-section">
-
-            <h6>
-              Technical skills
-            </h6>
-
-            <div class="skill-list">
-
-              <span class="skill-tag matched-skill">
-                Angular
-                <i class="bi bi-check-circle-fill"></i>
-              </span>
-
-              <span class="skill-tag matched-skill">
-                TypeScript
-                <i class="bi bi-check-circle-fill"></i>
-              </span>
-
-              <span class="skill-tag matched-skill">
-                JavaScript
-                <i class="bi bi-check-circle-fill"></i>
-              </span>
-
-              <span class="skill-tag matched-skill">
-                RxJS
-                <i class="bi bi-check-circle-fill"></i>
-              </span>
-
-              <span class="skill-tag matched-skill">
-                Node.js
-                <i class="bi bi-check-circle-fill"></i>
-              </span>
-
-              <span class="skill-tag matched-skill">
-                PostgreSQL
-                <i class="bi bi-check-circle-fill"></i>
-              </span>
-
-              <span class="skill-tag matched-skill">
-                Git
-                <i class="bi bi-check-circle-fill"></i>
-              </span>
-
-              <span class="skill-tag matched-skill">
-                REST API
-                <i class="bi bi-check-circle-fill"></i>
+              <span class="count-badge warning-count">
+                {{ missingKeywords.length }} missing
               </span>
 
             </div>
 
-          </div>
-
-          <div class="skill-section">
-
-            <h6>
-              Soft skills
-            </h6>
-
-            <div class="skill-list">
-
-              <span class="skill-tag soft-skill">
-                Team leadership
-              </span>
-
-              <span class="skill-tag soft-skill">
-                Problem solving
-              </span>
-
-              <span class="skill-tag soft-skill">
-                Communication
-              </span>
-
-              <span class="skill-tag soft-skill">
-                Agile development
-              </span>
-
-            </div>
-
-          </div>
-
-          <div class="skill-strength">
-
-            <div class="strength-header">
-
-              <span>
-                Overall skill strength
-              </span>
-
-              <strong>
-                Strong
-              </strong>
-
-            </div>
-
-            <div class="strength-track">
+            <div
+              class="keyword-list"
+              *ngIf="missingKeywords.length > 0; else noMissingKeywords"
+            >
 
               <div
-                class="strength-fill"
-                style="width: 84%"
-              ></div>
+                class="keyword-item"
+                *ngFor="let keyword of missingKeywords; let i = index"
+              >
+
+                <div>
+
+                  <strong>
+                    {{ keyword }}
+                  </strong>
+
+                  <span>
+                    Job-description keyword
+                  </span>
+
+                </div>
+
+                <span
+                  class="keyword-priority"
+                  [ngClass]="{
+                    'high-priority': i < 3,
+                    'medium-priority': i >= 3 && i < 7,
+                    'low-priority': i >= 7
+                  }"
+                >
+                  {{
+                    i < 3
+                      ? 'High priority'
+                      : i < 7
+                        ? 'Medium'
+                        : 'Review'
+                  }}
+                </span>
+
+              </div>
 
             </div>
 
-          </div>
+            <ng-template #noMissingKeywords>
 
-        </div>
-
-      </div>
-
-      <!-- MISSING KEYWORDS -->
-
-      <div class="col-xl-6">
-
-        <div class="analytics-card analysis-detail-card">
-
-          <div class="detail-card-header">
-
-            <div class="card-heading no-margin">
-
-              <div class="heading-icon warning-heading-icon">
-                <i class="bi bi-key"></i>
-              </div>
-
-              <div>
-
-                <h5>
-                  Missing Keywords
-                </h5>
+              <div class="keyword-tip">
+                <i class="bi bi-check-circle"></i>
 
                 <p>
-                  Important terms found in the job description.
+                  Excellent. No important missing keywords were detected from
+                  the current comparison.
                 </p>
-
               </div>
 
-            </div>
+            </ng-template>
 
-            <span class="count-badge warning-count">
-              7 missing
-            </span>
-
-          </div>
-
-          <div class="keyword-list">
-
-            <div class="keyword-item">
-
-              <div>
-
-                <strong>
-                  NgRx
-                </strong>
-
-                <span>
-                  State management
-                </span>
-
-              </div>
-
-              <span class="keyword-priority high-priority">
-                High priority
-              </span>
-
-            </div>
-
-            <div class="keyword-item">
-
-              <div>
-
-                <strong>
-                  Unit Testing
-                </strong>
-
-                <span>
-                  Testing experience
-                </span>
-
-              </div>
-
-              <span class="keyword-priority high-priority">
-                High priority
-              </span>
-
-            </div>
-
-            <div class="keyword-item">
-
-              <div>
-
-                <strong>
-                  CI/CD
-                </strong>
-
-                <span>
-                  Deployment workflow
-                </span>
-
-              </div>
-
-              <span class="keyword-priority medium-priority">
-                Medium
-              </span>
-
-            </div>
-
-            <div class="keyword-item">
-
-              <div>
-
-                <strong>
-                  Docker
-                </strong>
-
-                <span>
-                  Containerization
-                </span>
-
-              </div>
-
-              <span class="keyword-priority medium-priority">
-                Medium
-              </span>
-
-            </div>
-
-            <div class="keyword-item">
-
-              <div>
-
-                <strong>
-                  AWS
-                </strong>
-
-                <span>
-                  Cloud platform
-                </span>
-
-              </div>
-
-              <span class="keyword-priority low-priority">
-                Optional
-              </span>
-
-            </div>
-
-          </div>
-
-          <div class="keyword-tip">
-
-            <i class="bi bi-lightbulb"></i>
-
-            <p>
-              Add relevant missing keywords naturally within your experience
-              and skills sections. Avoid keyword stuffing.
-            </p>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- ==================================================
-       RESUME SECTION ANALYSIS
-  =================================================== -->
-
-  <section class="analytics-section">
-
-    <div class="analytics-card">
-
-      <div class="detail-card-header section-analysis-header">
-
-        <div class="card-heading no-margin">
-
-          <div class="heading-icon">
-            <i class="bi bi-layout-text-window-reverse"></i>
-          </div>
-
-          <div>
-
-            <h5>
-              Resume Section Analysis
-            </h5>
-
-            <p>
-              Quality and completeness of each resume section.
-            </p>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div class="section-score-grid">
-
-        <div class="section-score-card">
-
-          <div class="section-score-top">
-
-            <span class="section-score-icon">
-              <i class="bi bi-person-vcard"></i>
-            </span>
-
-            <span class="section-status complete-status">
-              Complete
-            </span>
-
-          </div>
-
-          <h6>
-            Contact Information
-          </h6>
-
-          <div class="section-score-value">
-            100%
-          </div>
-
-          <div class="mini-progress-track">
             <div
-              class="mini-progress-fill excellent-fill"
-              style="width: 100%"
-            ></div>
-          </div>
-
-          <p>
-            All essential contact details are included.
-          </p>
-
-        </div>
-
-        <div class="section-score-card">
-
-          <div class="section-score-top">
-
-            <span class="section-score-icon">
-              <i class="bi bi-card-text"></i>
-            </span>
-
-            <span class="section-status good-status">
-              Good
-            </span>
-
-          </div>
-
-          <h6>
-            Professional Summary
-          </h6>
-
-          <div class="section-score-value">
-            82%
-          </div>
-
-          <div class="mini-progress-track">
-            <div
-              class="mini-progress-fill good-fill"
-              style="width: 82%"
-            ></div>
-          </div>
-
-          <p>
-            Add more job-specific keywords to the summary.
-          </p>
-
-        </div>
-
-        <div class="section-score-card">
-
-          <div class="section-score-top">
-
-            <span class="section-score-icon">
-              <i class="bi bi-briefcase"></i>
-            </span>
-
-            <span class="section-status good-status">
-              Strong
-            </span>
-
-          </div>
-
-          <h6>
-            Work Experience
-          </h6>
-
-          <div class="section-score-value">
-            88%
-          </div>
-
-          <div class="mini-progress-track">
-            <div
-              class="mini-progress-fill excellent-fill"
-              style="width: 88%"
-            ></div>
-          </div>
-
-          <p>
-            Include more measurable achievements and results.
-          </p>
-
-        </div>
-
-        <div class="section-score-card">
-
-          <div class="section-score-top">
-
-            <span class="section-score-icon">
-              <i class="bi bi-mortarboard"></i>
-            </span>
-
-            <span class="section-status complete-status">
-              Complete
-            </span>
-
-          </div>
-
-          <h6>
-            Education
-          </h6>
-
-          <div class="section-score-value">
-            95%
-          </div>
-
-          <div class="mini-progress-track">
-            <div
-              class="mini-progress-fill excellent-fill"
-              style="width: 95%"
-            ></div>
-          </div>
-
-          <p>
-            Education details are clear and properly formatted.
-          </p>
-
-        </div>
-
-        <div class="section-score-card">
-
-          <div class="section-score-top">
-
-            <span class="section-score-icon">
-              <i class="bi bi-tools"></i>
-            </span>
-
-            <span class="section-status warning-status">
-              Improve
-            </span>
-
-          </div>
-
-          <h6>
-            Skills
-          </h6>
-
-          <div class="section-score-value">
-            68%
-          </div>
-
-          <div class="mini-progress-track">
-            <div
-              class="mini-progress-fill warning-fill"
-              style="width: 68%"
-            ></div>
-          </div>
-
-          <p>
-            Several job-specific technical skills are missing.
-          </p>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- ==================================================
-       RECOMMENDATIONS
-  =================================================== -->
-
-  <section class="analytics-section">
-
-    <div class="analytics-card recommendations-card">
-
-      <div class="detail-card-header">
-
-        <div class="card-heading no-margin">
-
-          <div class="heading-icon recommendation-heading-icon">
-            <i class="bi bi-lightbulb"></i>
-          </div>
-
-          <div>
-
-            <h5>
-              Improvement Recommendations
-            </h5>
-
-            <p>
-              Prioritized actions that can improve your ATS score.
-            </p>
-
-          </div>
-
-        </div>
-
-        <span class="count-badge">
-          6 recommendations
-        </span>
-
-      </div>
-
-      <div class="recommendation-list">
-
-        <div class="recommendation-item high-recommendation">
-
-          <div class="recommendation-number">
-            1
-          </div>
-
-          <div class="recommendation-content">
-
-            <div class="recommendation-title-row">
-
-              <h6>
-                Add measurable achievements
-              </h6>
-
-              <span class="recommendation-priority">
-                High impact
-              </span>
-
-            </div>
-
-            <p>
-              Replace general responsibilities with quantified achievements.
-              For example, describe performance improvements, delivery time
-              reductions or team results.
-            </p>
-
-            <div class="recommendation-example">
-
-              <span>
-                Example
-              </span>
+              class="keyword-tip"
+              *ngIf="missingKeywords.length > 0"
+            >
+
+              <i class="bi bi-lightbulb"></i>
 
               <p>
-                “Improved application performance by 30% through Angular
-                component optimization and lazy loading.”
+                Add only truthful and relevant missing keywords naturally within
+                your summary, skills or experience sections. Avoid keyword stuffing.
               </p>
 
             </div>
 
           </div>
 
-          <button
-            type="button"
-            class="recommendation-action"
-            aria-label="View recommendation"
-          >
-            <i class="bi bi-chevron-right"></i>
-          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- DOCUMENT STATISTICS -->
+
+    <section class="analytics-section">
+
+      <div class="analytics-card">
+
+        <div class="detail-card-header section-analysis-header">
+
+          <div class="card-heading no-margin">
+
+            <div class="heading-icon">
+              <i class="bi bi-layout-text-window-reverse"></i>
+            </div>
+
+            <div>
+
+              <h5>
+                Document Analysis
+              </h5>
+
+              <p>
+                Basic statistics collected from the uploaded resume and job description.
+              </p>
+
+            </div>
+
+          </div>
 
         </div>
 
-        <div class="recommendation-item medium-recommendation">
+        <div class="section-score-grid">
 
-          <div class="recommendation-number">
-            2
-          </div>
+          <div class="section-score-card">
 
-          <div class="recommendation-content">
+            <div class="section-score-top">
 
-            <div class="recommendation-title-row">
+              <span class="section-score-icon">
+                <i class="bi bi-file-earmark-text"></i>
+              </span>
 
-              <h6>
-                Include missing technical keywords
-              </h6>
-
-              <span class="recommendation-priority medium-impact">
-                Medium impact
+              <span class="section-status complete-status">
+                Extracted
               </span>
 
             </div>
 
+            <h6>
+              Resume Content
+            </h6>
+
+            <div class="section-score-value">
+              {{ resumeWordCount }}
+            </div>
+
             <p>
-              Add relevant technologies such as NgRx, unit testing and CI/CD
-              where they truthfully match your experience.
+              Words successfully extracted from the uploaded resume.
             </p>
 
           </div>
 
-          <button
-            type="button"
-            class="recommendation-action"
-            aria-label="View recommendation"
-          >
-            <i class="bi bi-chevron-right"></i>
-          </button>
+          <div class="section-score-card">
 
-        </div>
+            <div class="section-score-top">
 
-        <div class="recommendation-item low-recommendation">
+              <span class="section-score-icon">
+                <i class="bi bi-card-text"></i>
+              </span>
 
-          <div class="recommendation-number">
-            3
-          </div>
-
-          <div class="recommendation-content">
-
-            <div class="recommendation-title-row">
-
-              <h6>
-                Shorten the professional summary
-              </h6>
-
-              <span class="recommendation-priority low-impact">
-                Quick improvement
+              <span class="section-status complete-status">
+                Compared
               </span>
 
             </div>
 
+            <h6>
+              Job Description
+            </h6>
+
+            <div class="section-score-value">
+              {{ jobDescriptionWordCount }}
+            </div>
+
             <p>
-              Keep the summary between three and five lines and focus on your
-              strongest role-specific experience.
+              Words used for keyword and relevance comparison.
             </p>
 
           </div>
 
-          <button
-            type="button"
-            class="recommendation-action"
-            aria-label="View recommendation"
-          >
-            <i class="bi bi-chevron-right"></i>
-          </button>
+          <div class="section-score-card">
 
-        </div>
+            <div class="section-score-top">
 
-      </div>
+              <span class="section-score-icon">
+                <i class="bi bi-check2-square"></i>
+              </span>
 
-    </div>
+              <span
+                class="section-status"
+                [ngClass]="atsScore >= 65 ? 'good-status' : 'warning-status'"
+              >
+                {{ atsScore >= 65 ? 'Good' : 'Improve' }}
+              </span>
 
-  </section>
+            </div>
 
-</div>
+            <h6>
+              Keyword Coverage
+            </h6>
 
+            <div class="section-score-value">
+              {{
+                matchedKeywords.length + missingKeywords.length > 0
+                  ? (
+                      matchedKeywords.length /
+                      (matchedKeywords.length + missingKeywords.length) *
+                      100
+                    | number:'1.0-0'
+                    )
+                  : 0
+              }}%
+            </div>
 
+            <div class="mini-progress-track">
 
+              <div
+                class="mini-progress-fill good-fill"
+                [style.width.%]="
+                  matchedKeywords.length + missingKeywords.length > 0
+                    ? matchedKeywords.length /
+                      (matchedKeywords.length + missingKeywords.length) *
+                      100
+                    : 0
+                "
+              ></div>
 
-
-
-
-
-
-
-
-
-
-
-<!-- 
-
-
-
-
-
-
-<div class="analytics-page">
-
-  <div class="analytics-header">
-
-    <div>
-
-      <div class="page-badge">
-        <i class="bi bi-bar-chart-line"></i>
-        CV intelligence
-      </div>
-
-      <h2>
-        CV Analytics
-      </h2>
-
-      <p>
-        Analyze your resume, identify strengths, and improve your chances
-        of passing ATS screening.
-      </p>
-
-    </div>
-
-  </div>
-
-
-
-  <section class="development-card">
-
-    <div class="card-decoration decoration-one"></div>
-    <div class="card-decoration decoration-two"></div>
-
-    <div class="development-content">
-
-  
-      <div class="main-icon">
-
-        <i class="bi bi-file-earmark-bar-graph"></i>
-
-      </div>
-
-   
-      <div class="development-badge">
-
-        <span class="pulse-dot"></span>
-
-        Feature in development
-
-      </div>
-
-   
-      <h1>
-        Smarter resume insights are coming
-      </h1>
-
-    
-      <p class="development-description">
-        NextZiel CV Analytics will help you upload your resume,
-        measure ATS compatibility, identify missing skills, and receive
-        personalized recommendations for each job application.
-      </p>
-
-   
-
-      <div class="feature-grid">
-
-       
-        <div class="feature-card">
-
-          <div class="feature-icon upload-icon">
-            <i class="bi bi-cloud-arrow-up"></i>
-          </div>
-
-          <div class="feature-content">
-
-            <h5>
-              Resume Upload
-            </h5>
+            </div>
 
             <p>
-              Upload PDF or DOCX files securely for detailed analysis.
+              Percentage of detected job keywords found in your resume.
             </p>
 
           </div>
 
-        </div>
+          <div class="section-score-card">
 
-      
-        <div class="feature-card">
+            <div class="section-score-top">
 
-          <div class="feature-icon score-icon">
-            <i class="bi bi-speedometer2"></i>
-          </div>
+              <span class="section-score-icon">
+                <i class="bi bi-lightbulb"></i>
+              </span>
 
-          <div class="feature-content">
+              <span class="section-status warning-status">
+                Review
+              </span>
 
-            <h5>
-              ATS Score
-            </h5>
+            </div>
 
-            <p>
-              Measure how well your resume performs against ATS systems.
-            </p>
+            <h6>
+              Recommendations
+            </h6>
 
-          </div>
-
-        </div>
-
-      
-        <div class="feature-card">
-
-          <div class="feature-icon skills-icon">
-            <i class="bi bi-lightning-charge"></i>
-          </div>
-
-          <div class="feature-content">
-
-            <h5>
-              Skill Extraction
-            </h5>
+            <div class="section-score-value">
+              {{ suggestions.length }}
+            </div>
 
             <p>
-              Detect technical, professional, and missing job-related skills.
-            </p>
-
-          </div>
-
-        </div>
-
-       
-        <div class="feature-card">
-
-          <div class="feature-icon ai-icon">
-            <i class="bi bi-stars"></i>
-          </div>
-
-          <div class="feature-content">
-
-            <h5>
-              AI Suggestions
-            </h5>
-
-            <p>
-              Receive targeted recommendations to improve resume quality.
+              Actionable improvements generated from the current analysis.
             </p>
 
           </div>
@@ -1384,62 +926,98 @@
 
       </div>
 
-     
+    </section>
 
-      <div class="progress-section">
+    <!-- RECOMMENDATIONS -->
 
-        <div class="progress-header">
+    <section class="analytics-section">
 
-          <div>
+      <div class="analytics-card recommendations-card">
 
-            <span class="progress-label">
-              Development progress
-            </span>
+        <div class="detail-card-header">
 
-            <strong>
-              Core design completed
-            </strong>
+          <div class="card-heading no-margin">
+
+            <div class="heading-icon recommendation-heading-icon">
+              <i class="bi bi-lightbulb"></i>
+            </div>
+
+            <div>
+
+              <h5>
+                Improvement Recommendations
+              </h5>
+
+              <p>
+                Prioritized actions that can improve your ATS score.
+              </p>
+
+            </div>
 
           </div>
 
-          <span class="progress-value">
-            40%
+          <span class="count-badge">
+            {{ suggestions.length }} recommendations
           </span>
 
         </div>
 
-        <div class="progress-track">
+        <div class="recommendation-list">
 
-          <div class="progress-fill"></div>
+          <div
+            class="recommendation-item"
+            *ngFor="let suggestion of suggestions; let i = index"
+            [ngClass]="{
+              'high-recommendation': i === 0,
+              'medium-recommendation': i === 1,
+              'low-recommendation': i > 1
+            }"
+          >
+
+            <div class="recommendation-number">
+              {{ i + 1 }}
+            </div>
+
+            <div class="recommendation-content">
+
+              <div class="recommendation-title-row">
+
+                <h6>
+                  Resume improvement
+                </h6>
+
+                <span
+                  class="recommendation-priority"
+                  [ngClass]="{
+                    'medium-impact': i === 1,
+                    'low-impact': i > 1
+                  }"
+                >
+                  {{
+                    i === 0
+                      ? 'High impact'
+                      : i === 1
+                        ? 'Medium impact'
+                        : 'Recommended'
+                  }}
+                </span>
+
+              </div>
+
+              <p>
+                {{ suggestion }}
+              </p>
+
+            </div>
+
+          </div>
 
         </div>
 
       </div>
 
+    </section>
 
-      <div class="development-note">
+  </ng-container>
 
-        <div class="note-icon">
-          <i class="bi bi-info-circle"></i>
-        </div>
-
-        <div>
-
-          <strong>
-            Coming in a future update
-          </strong>
-
-          <p>
-            Resume analysis will be connected to your profile and job
-            applications once the backend processing module is ready.
-          </p>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-</div> -->
+</div>
