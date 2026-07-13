@@ -124,6 +124,15 @@ export class ProfileComponent implements OnInit {
     this.loadLanguages();
   }
 
+    onYearInput(event: Event): void {
+  const input = event.target as HTMLInputElement;
+
+  // Allow only digits and limit to 4 characters
+  input.value = input.value.replace(/\D/g, '').slice(0, 4);
+
+  this.newCertification.year = input.value;
+}
+
   loadProfile(): void {
     this.loading.profile = true;
     this.profileService.getProfile().subscribe({
@@ -398,8 +407,15 @@ export class ProfileComponent implements OnInit {
       this.showToast('Please enter certification name', 'error');
       return;
     }
+     const certificationData = {
+    name: this.newCertification.name.trim(),
+    issuer: this.newCertification.issuer?.trim() || '',
+    year: this.newCertification.year
+      ? String(this.newCertification.year)
+      : ''
+  };
 
-    this.profileService.addCertification(this.newCertification).subscribe({
+    this.profileService.addCertification(certificationData).subscribe({
       next: () => {
         this.loadCertifications();
         this.closeCertificationModal();

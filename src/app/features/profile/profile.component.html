@@ -619,6 +619,21 @@
             <label class="form-label">Institution *</label>
             <input type="text" class="form-control" [(ngModel)]="newEducation.institute" placeholder="University Name">
           </div>
+
+
+
+            <div class="col-md-6">
+            <label class="form-label">Start Year *</label>
+            <input type="month" class="form-control" [(ngModel)]="newEducation.startYear">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">End Year</label>
+            <input type="month" class="form-control" [(ngModel)]="newEducation.endYear" placeholder="Leave empty if current">
+          </div>
+
+
+
+<!-- 
           <div class="col-6">
             <label class="form-label">Start Year</label>
             <input type="number" class="form-control" [(ngModel)]="newEducation.startYear" placeholder="2018" min="1950" max="2030">
@@ -626,7 +641,7 @@
           <div class="col-6">
             <label class="form-label">End Year</label>
             <input type="number" class="form-control" [(ngModel)]="newEducation.endYear" placeholder="2022" min="1950" max="2030">
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="modal-footer">
@@ -661,7 +676,8 @@
           </div>
           <div class="col-4">
             <label class="form-label">Year</label>
-            <input type="number" class="form-control" [(ngModel)]="newCertification.year" placeholder="2023" min="1990" max="2030">
+            <input type="text" class="form-control" [(ngModel)]="newCertification.year" placeholder="2023" min="1990" max="2030" inputmode="numeric" (input)="onYearInput($event)"
+  maxlength="4">
           </div>
         </div>
       </div>
