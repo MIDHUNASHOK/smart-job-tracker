@@ -80,7 +80,7 @@ togglePasswordVisibility() {
     .subscribe({
 
       next: (response: any) => {
-        console.log(response);
+        // console.log(response);
         localStorage.setItem(
           'userName',
           response.user.fullName
