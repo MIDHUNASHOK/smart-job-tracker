@@ -92,7 +92,7 @@ toggleConfirmPasswordVisibility() {
 
         next: (response: any) => {
 
-          console.log(response);
+          // console.log(response);
 
           alert('Registration Successful');
 

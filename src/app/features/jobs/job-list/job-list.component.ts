@@ -48,7 +48,7 @@ export class JobListComponent {
 
         next: (response) => {
 
-          console.log(response);
+          // console.log(response);
 
           this.jobs = response.data;
           this.filteredJobs = [...this.jobs];
