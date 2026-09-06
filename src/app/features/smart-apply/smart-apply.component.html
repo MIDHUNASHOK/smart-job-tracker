@@ -1,601 +1,126 @@
 <div class="container-fluid smart-apply-page py-4">
-
-  <!-- ==================================================
-       PAGE HEADER
-  =================================================== -->
-  <div class="page-header mb-4">
-
+  <header class="page-header">
     <div>
+      <div class="page-badge"><i class="bi bi-stars"></i> AI-assisted application workflow</div>
+      <h2>Smart Apply</h2>
+      <p>Analyze jobs, prepare tailored applications, and approve before applying.</p>
+    </div>
+    <button class="btn btn-light action-outline" type="button" (click)="resetWorkflow()">
+      <i class="bi bi-arrow-counterclockwise"></i> New application
+    </button>
+  </header>
 
-      <div class="page-badge">
-        <i class="bi bi-stars"></i>
-        AI-assisted application workflow
-      </div>
+  <nav class="workflow-stepper" aria-label="Application workflow">
+    <div *ngFor="let step of workflowSteps" class="workflow-step"
+         [class.active]="currentStep === step.number" [class.complete]="currentStep > step.number">
+      <span><i *ngIf="currentStep > step.number" class="bi bi-check-lg"></i><ng-container *ngIf="currentStep <= step.number">{{ step.number }}</ng-container></span>
+      <strong>{{ step.label }}</strong>
+    </div>
+  </nav>
 
-      <h3 class="page-title">
-        Smart Apply
-      </h3>
-
-      <p class="page-subtitle">
-        Prepare, personalize and send professional job applications
-        with your resume.
-      </p>
-
+  <section class="smart-card select-job-card">
+    <div class="section-heading">
+      <div><h5>Select a job</h5><p>Use a saved job or paste a LinkedIn/Indeed job URL.</p></div>
+      <span class="status-pill">{{ applicationStatus }}</span>
     </div>
 
+    <div class="source-row">
+      <button type="button" class="source-btn" [class.active]="f['source'].value === 'SAVED'" (click)="selectSource('SAVED')"><i class="bi bi-bookmark"></i> Saved jobs</button>
+      <button type="button" class="source-btn" [class.active]="f['source'].value === 'LINKEDIN'" (click)="selectSource('LINKEDIN')"><i class="bi bi-linkedin"></i> LinkedIn</button>
+      <button type="button" class="source-btn" [class.active]="f['source'].value === 'INDEED'" (click)="selectSource('INDEED')"><i class="bi bi-briefcase"></i> Indeed</button>
+      <button type="button" class="text-btn ms-auto" (click)="loadDemoJob()">Load example</button>
+    </div>
+
+    <form [formGroup]="smartApplyForm">
+      <div class="row g-3 mt-1">
+        <div class="col-lg-5"><label class="form-label">Job URL</label><input class="form-control" formControlName="jobUrl" placeholder="Paste LinkedIn or Indeed job URL"><small class="error" *ngIf="f['jobUrl'].touched && f['jobUrl'].invalid">Enter a valid job URL.</small></div>
+        <div class="col-lg-3"><label class="form-label">Job title</label><input class="form-control" formControlName="jobTitle" placeholder="Angular Developer"></div>
+        <div class="col-lg-2"><label class="form-label">Company</label><input class="form-control" formControlName="companyName" placeholder="Company"></div>
+        <div class="col-lg-2 d-flex align-items-end"><button class="btn primary-btn w-100" type="button" [disabled]="isAnalyzing" (click)="analyzeJob()"><span *ngIf="isAnalyzing" class="spinner-border spinner-border-sm"></span><i *ngIf="!isAnalyzing" class="bi bi-stars"></i>{{ isAnalyzing ? 'Analyzing...' : 'Analyze job' }}</button></div>
+        <div class="col-md-4"><label class="form-label">Location</label><input class="form-control" formControlName="location" placeholder="Berlin, Germany"></div>
+        <div class="col-md-3"><label class="form-label">Work preference</label><select class="form-select" formControlName="workPreference"><option value="ONSITE">On-site</option><option value="HYBRID">Hybrid</option><option value="REMOTE">Remote</option></select></div>
+        <div class="col-md-5"><label class="form-label">Job description</label><textarea class="form-control compact-textarea" formControlName="jobDescription" placeholder="Paste the complete job description"></textarea><small class="error" *ngIf="f['jobDescription'].touched && f['jobDescription'].invalid">Add at least 80 characters.</small></div>
+      </div>
+    </form>
+  </section>
+
+  <div class="row g-4 mt-0" *ngIf="analysis as result">
+    <main class="col-xl-8">
+      <section class="smart-card job-summary-card">
+        <div><div class="job-source-icon"><i class="bi" [ngClass]="f['source'].value === 'LINKEDIN' ? 'bi-linkedin' : 'bi-briefcase'"></i></div></div>
+        <div class="job-info"><h4>{{ f['jobTitle'].value }}</h4><strong>{{ f['companyName'].value }}</strong><p>{{ f['location'].value || 'Location not provided' }} · {{ f['workPreference'].value | titlecase }}</p></div>
+        <div class="score-ring" [style.--score]="result.scores.overall"><strong>{{ result.scores.overall }}%</strong><span>Match</span></div>
+      </section>
+
+      <section class="smart-card analysis-card">
+        <div class="section-heading"><div><h5>Profile match analysis</h5><p>Compared with your verified master profile.</p></div></div>
+        <div class="row g-4">
+          <div class="col-md-6 score-list">
+            <div class="score-row" *ngFor="let score of [['Skills', result.scores.skills], ['Experience', result.scores.experience], ['Location', result.scores.location], ['Work preference', result.scores.workPreference]]">
+              <span>{{ score[0] }}</span><div class="progress"><div class="progress-bar" [style.width.%]="score[1]"></div></div><strong>{{ score[1] }}%</strong>
+            </div>
+          </div>
+          <div class="col-md-6 skill-groups">
+            <label>Matched skills</label><div class="chips"><span class="chip matched" *ngFor="let skill of result.matchedSkills"><i class="bi bi-check-circle"></i>{{ skill }}</span></div>
+            <label>Missing skills</label><div class="chips"><span class="chip missing" *ngFor="let skill of result.missingSkills"><i class="bi bi-exclamation-triangle"></i>{{ skill }}</span></div>
+            <label>Missing keywords</label><div class="chips"><span class="chip keyword" *ngFor="let keyword of result.missingKeywords">{{ keyword }}</span></div>
+          </div>
+        </div>
+
+        <div class="evidence-box"><i class="bi bi-check-circle-fill"></i><div><strong>Strong experience evidence</strong><p *ngFor="let evidence of result.strongExperienceEvidence">{{ evidence }}</p></div></div>
+        <label class="form-label mt-3">Recommended professional summary</label>
+        <textarea class="form-control summary-textarea" [formControl]="$any(f['tailoredSummary'])"></textarea>
+        <div class="text-end mt-3"><button class="btn primary-btn" type="button" [disabled]="isPreparing" (click)="prepareApplication()"><span *ngIf="isPreparing" class="spinner-border spinner-border-sm"></span><i *ngIf="!isPreparing" class="bi bi-file-earmark-text"></i>{{ isPreparing ? 'Preparing...' : 'Prepare application' }}</button></div>
+      </section>
+
+      <section class="smart-card document-card" *ngIf="completedStatusIndex >= 2">
+        <div class="section-heading"><div><h5>Tailored application</h5><p>Generated for this job only. Your master CV remains unchanged.</p></div></div>
+        <div class="document-tabs">
+          <button type="button" [class.active]="activeDocumentTab === 'cv'" (click)="setDocumentTab('cv')">Tailored CV</button>
+          <button type="button" [class.active]="activeDocumentTab === 'coverLetter'" (click)="setDocumentTab('coverLetter')">Cover letter</button>
+          <button type="button" [class.active]="activeDocumentTab === 'email'" (click)="setDocumentTab('email')">Application email</button>
+        </div>
+        <textarea *ngIf="activeDocumentTab === 'cv'" class="form-control document-editor" [formControl]="$any(f['tailoredCv'])"></textarea>
+        <textarea *ngIf="activeDocumentTab === 'coverLetter'" class="form-control document-editor" [formControl]="$any(f['coverLetter'])"></textarea>
+        <div *ngIf="activeDocumentTab === 'email'">
+          <input class="form-control mb-2" [formControl]="$any(f['subject'])" placeholder="Email subject">
+          <textarea class="form-control document-editor" [formControl]="$any(f['applicationEmail'])"></textarea>
+        </div>
+        <div class="document-actions"><button class="btn action-outline" type="button" (click)="regenerateDocument()"><i class="bi bi-stars"></i> Regenerate</button><button class="btn action-outline" type="button"><i class="bi bi-eye"></i> Preview CV</button><button class="btn primary-btn" type="button"><i class="bi bi-download"></i> Download CV</button></div>
+      </section>
+    </main>
+
+    <aside class="col-xl-4">
+      <section class="smart-card side-card match-overview">
+        <h5>Match overview</h5><div class="overview-grid"><div class="score-ring large" [style.--score]="result.scores.overall"><strong>{{ result.scores.overall }}%</strong><span>Overall match</span></div><div class="mini-scores"><div *ngFor="let score of [['Skills', result.scores.skills], ['Experience', result.scores.experience], ['Location', result.scores.location], ['Work preference', result.scores.workPreference]]"><span>{{ score[0] }}</span><strong>{{ score[1] }}%</strong></div></div></div>
+      </section>
+
+      <section class="smart-card side-card"><h5><i class="bi bi-lightbulb"></i> CV improvements</h5><div class="suggestion" *ngFor="let improvement of result.cvImprovements"><i class="bi bi-arrow-right-circle"></i><span>{{ improvement }}</span></div></section>
+      <section class="smart-card side-card"><h5><i class="bi bi-person-check"></i> Interview preparation</h5><div class="suggestion" *ngFor="let suggestion of result.interviewSuggestions"><i class="bi bi-chat-left-text"></i><span>{{ suggestion }}</span></div></section>
+
+      <section class="smart-card side-card" *ngIf="completedStatusIndex >= 2">
+        <h5><i class="bi bi-send"></i> Application method</h5>
+        <div class="method-grid">
+          <label class="method-option" *ngFor="let method of applicationMethods" [class.selected]="selectedMethod === method.value">
+            <input type="radio" [value]="method.value" [formControl]="$any(f['applicationMethod'])"><i class="bi {{ method.icon }}"></i><span><strong>{{ method.label }}</strong><small>{{ method.description }}</small></span>
+          </label>
+        </div>
+        <div class="mt-3" *ngIf="selectedMethod === 'EMAIL'"><label class="form-label">Recruiter email</label><input type="email" class="form-control" [formControl]="$any(f['recruiterEmail'])" placeholder="recruiter@company.com"><small class="error" *ngIf="f['recruiterEmail'].touched && f['recruiterEmail'].invalid">A valid recruiter email is required.</small></div>
+      </section>
+
+      <section class="smart-card side-card approval-card" *ngIf="completedStatusIndex >= 2">
+        <h5><i class="bi bi-shield-check"></i> Review & approval</h5>
+        <ul><li><i class="bi bi-check-circle-fill"></i> Job selected</li><li><i class="bi bi-check-circle-fill"></i> Profile match analyzed</li><li><i class="bi bi-check-circle-fill"></i> Tailored CV ready</li><li><i class="bi bi-check-circle-fill"></i> Cover letter ready</li></ul>
+        <div class="approval-warning"><i class="bi bi-exclamation-circle"></i> Your approval is required before submission.</div>
+        <button class="btn primary-btn w-100" type="button" [disabled]="isApproving || applicationStatus !== 'PREPARED'" (click)="approveApplication()"><span *ngIf="isApproving" class="spinner-border spinner-border-sm"></span>{{ isApproving ? 'Approving...' : actionLabel }}</button>
+        <button class="btn action-outline w-100 mt-2" type="button" (click)="saveForLater()"><i class="bi bi-bookmark"></i> Save for later</button>
+        <button class="btn submitted-btn w-100 mt-2" *ngIf="applicationStatus === 'APPROVED'" type="button" (click)="confirmSubmitted()"><i class="bi bi-check2-circle"></i> I submitted this application</button>
+        <p class="platform-note">LinkedIn, Indeed and company-site applications are submitted by you on the original platform.</p>
+      </section>
+    </aside>
   </div>
 
-  <div class="row g-4">
-
-    <!-- ==================================================
-         LEFT SIDE — APPLICATION FORM
-    =================================================== -->
-    <div class="col-lg-7">
-
-      <div class="card smart-card application-card">
-
-        <div class="card-header">
-
-          <div class="section-title">
-
-            <div class="section-icon">
-              <i class="bi bi-send-check"></i>
-            </div>
-
-            <div>
-              <h5>Application details</h5>
-
-              <p>
-                Enter the job and recruiter information before generating
-                your application email.
-              </p>
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="card-body">
-
-          <form
-            [formGroup]="smartApplyForm"
-            (ngSubmit)="sendApplication()"
-          >
-
-            <div class="row g-3">
-
-              <!-- COMPANY NAME -->
-              <div class="col-md-6">
-
-                <label
-                  for="companyName"
-                  class="form-label"
-                >
-                  Company name
-                </label>
-
-                <div class="input-wrapper">
-
-                  <i class="bi bi-building input-icon"></i>
-
-                  <input
-                    id="companyName"
-                    type="text"
-                    class="form-control custom-input"
-                    formControlName="companyName"
-                    placeholder="Example: Amazon"
-                    autocomplete="organization"
-                  >
-
-                </div>
-
-                <small
-                  class="validation-message"
-                  *ngIf="
-                    smartApplyForm.get('companyName')?.touched &&
-                    smartApplyForm.get('companyName')?.hasError('required')
-                  "
-                >
-                  Company name is required.
-                </small>
-
-              </div>
-
-              <!-- RECRUITER EMAIL -->
-              <div class="col-md-6">
-
-                <label
-                  for="recruiterEmail"
-                  class="form-label"
-                >
-                  Recruiter email
-                </label>
-
-                <div class="input-wrapper">
-
-                  <i class="bi bi-envelope input-icon"></i>
-
-                  <input
-                    id="recruiterEmail"
-                    type="email"
-                    class="form-control custom-input"
-                    formControlName="recruiterEmail"
-                    placeholder="hr@company.com"
-                    autocomplete="email"
-                  >
-
-                </div>
-
-                <small
-                  class="validation-message"
-                  *ngIf="
-                    smartApplyForm.get('recruiterEmail')?.touched &&
-                    smartApplyForm.get('recruiterEmail')?.hasError('required')
-                  "
-                >
-                  Recruiter email is required.
-                </small>
-
-                <small
-                  class="validation-message"
-                  *ngIf="
-                    smartApplyForm.get('recruiterEmail')?.touched &&
-                    smartApplyForm.get('recruiterEmail')?.hasError('email')
-                  "
-                >
-                  Please enter a valid email address.
-                </small>
-
-              </div>
-
-              <!-- JOB TITLE -->
-              <div class="col-md-6">
-
-                <label
-                  for="jobTitle"
-                  class="form-label"
-                >
-                  Job title
-                </label>
-
-                <div class="input-wrapper">
-
-                  <i class="bi bi-briefcase input-icon"></i>
-
-                  <input
-                    id="jobTitle"
-                    type="text"
-                    class="form-control custom-input"
-                    formControlName="jobTitle"
-                    placeholder="Example: Angular Developer"
-                  >
-
-                </div>
-
-                <small
-                  class="validation-message"
-                  *ngIf="
-                    smartApplyForm.get('jobTitle')?.touched &&
-                    smartApplyForm.get('jobTitle')?.hasError('required')
-                  "
-                >
-                  Job title is required.
-                </small>
-
-              </div>
-
-              <!-- LOCATION -->
-              <div class="col-md-6">
-
-                <label
-                  for="location"
-                  class="form-label"
-                >
-                  Location
-                </label>
-
-                <div class="input-wrapper">
-
-                  <i class="bi bi-geo-alt input-icon"></i>
-
-                  <input
-                    id="location"
-                    type="text"
-                    class="form-control custom-input"
-                    formControlName="location"
-                    placeholder="Example: Berlin, Germany"
-                  >
-
-                </div>
-
-              </div>
-
-              <!-- SUBJECT -->
-              <div class="col-12">
-
-                <label
-                  for="subject"
-                  class="form-label"
-                >
-                  Email subject
-                </label>
-
-                <div class="input-wrapper">
-
-                  <i class="bi bi-type input-icon"></i>
-
-                  <input
-                    id="subject"
-                    type="text"
-                    class="form-control custom-input"
-                    formControlName="subject"
-                    placeholder="Application for Angular Developer position"
-                  >
-
-                </div>
-
-              </div>
-
-              <!-- COVER EMAIL -->
-              <div class="col-12">
-
-                <div class="label-row">
-
-                  <label
-                    for="coverEmail"
-                    class="form-label"
-                  >
-                    Cover email
-                  </label>
-
-                  <span class="field-hint">
-                    Personalize before sending
-                  </span>
-
-                </div>
-
-                <textarea
-                  id="coverEmail"
-                  rows="10"
-                  class="form-control custom-input cover-email-input"
-                  formControlName="coverEmail"
-                  placeholder="Write or generate your professional application email here..."
-                ></textarea>
-
-              </div>
-
-              <!-- RESUME -->
-              <div class="col-12">
-
-                <label class="form-label">
-                  Upload resume
-                </label>
-
-                <label
-                  for="resumeUpload"
-                  class="upload-area"
-                  [class.has-file]="selectedResume"
-                >
-
-                  <input
-                    id="resumeUpload"
-                    type="file"
-                    accept=".pdf,.doc,.docx"
-                    (change)="onResumeSelected($event)"
-                  >
-
-                  <div class="upload-icon">
-
-                    <i
-                      class="bi"
-                      [ngClass]="
-                        selectedResume
-                          ? 'bi-file-earmark-check'
-                          : 'bi-cloud-arrow-up'
-                      "
-                    ></i>
-
-                  </div>
-
-                  <div class="upload-content">
-
-                    <strong>
-                      {{
-                        selectedResume
-                          ? selectedResume.name
-                          : 'Upload your resume'
-                      }}
-                    </strong>
-
-                    <span>
-                      {{
-                        selectedResume
-                          ? 'Your resume is ready to attach'
-                          : 'PDF, DOC or DOCX — click to browse'
-                      }}
-                    </span>
-
-                  </div>
-
-                  <div
-                    class="upload-status"
-                    *ngIf="selectedResume"
-                  >
-                    <i class="bi bi-check-circle-fill"></i>
-                  </div>
-
-                </label>
-
-              </div>
-
-            </div>
-
-            <!-- ACTION BUTTONS -->
-            <div class="action-buttons">
-
-              <button
-                type="button"
-                class="btn generate-btn"
-                (click)="generateEmail()"
-              >
-
-                <i class="bi bi-stars"></i>
-                Generate email
-
-              </button>
-
-              <button
-                type="submit"
-                class="btn send-btn"
-                [disabled]="isSending || smartApplyForm.invalid"
-              >
-
-                <span *ngIf="!isSending">
-
-                  <i class="bi bi-send-fill"></i>
-                  Send application
-
-                </span>
-
-                <span
-                  *ngIf="isSending"
-                  class="loading-content"
-                >
-
-                  <span class="spinner-border spinner-border-sm"></span>
-                  Sending...
-
-                </span>
-
-              </button>
-
-            </div>
-
-          </form>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- ==================================================
-         RIGHT SIDE
-    =================================================== -->
-    <div class="col-lg-5">
-
-      <!-- SMART APPLY ASSISTANT -->
-      <div class="card smart-card assistant-card mb-4">
-
-        <div class="assistant-decoration"></div>
-
-        <div class="card-body">
-
-          <div class="assistant-top">
-
-            <div class="smart-icon">
-              <i class="bi bi-robot"></i>
-            </div>
-
-            <div class="assistant-badge">
-              Smart Assistant
-            </div>
-
-          </div>
-
-          <h5>
-            Apply smarter, not harder
-          </h5>
-
-          <p>
-            Generate professional application emails, attach your resume,
-            and keep every application organized in NextZiel.
-          </p>
-
-          <div class="assistant-features">
-
-            <div class="assistant-feature">
-
-              <i class="bi bi-check-circle-fill"></i>
-              Professional email generation
-
-            </div>
-
-            <div class="assistant-feature">
-
-              <i class="bi bi-check-circle-fill"></i>
-              Resume attachment support
-
-            </div>
-
-            <div class="assistant-feature">
-
-              <i class="bi bi-check-circle-fill"></i>
-              Automatic application tracking
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <!-- WORKFLOW -->
-      <div class="card smart-card workflow-card">
-
-        <div class="card-header">
-
-          <div class="section-title">
-
-            <div class="section-icon small">
-              <i class="bi bi-diagram-3"></i>
-            </div>
-
-            <div>
-              <h5>Application workflow</h5>
-
-              <p>
-                Complete these steps before sending.
-              </p>
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="card-body">
-
-          <div class="workflow-list">
-
-            <div class="workflow-item">
-
-              <div class="workflow-number">
-                1
-              </div>
-
-              <div class="workflow-content">
-
-                <strong>
-                  Enter company details
-                </strong>
-
-                <span>
-                  Add the company, position and recruiter information.
-                </span>
-
-              </div>
-
-            </div>
-
-            <div class="workflow-item">
-
-              <div class="workflow-number">
-                2
-              </div>
-
-              <div class="workflow-content">
-
-                <strong>
-                  Generate your email
-                </strong>
-
-                <span>
-                  Create a professional and personalized application email.
-                </span>
-
-              </div>
-
-            </div>
-
-            <div class="workflow-item">
-
-              <div class="workflow-number">
-                3
-              </div>
-
-              <div class="workflow-content">
-
-                <strong>
-                  Attach your resume
-                </strong>
-
-                <span>
-                  Upload an ATS-friendly PDF, DOC or DOCX resume.
-                </span>
-
-              </div>
-
-            </div>
-
-            <div class="workflow-item">
-
-              <div class="workflow-number">
-                4
-              </div>
-
-              <div class="workflow-content">
-
-                <strong>
-                  Review and send
-                </strong>
-
-                <span>
-                  Confirm the email content and application details.
-                </span>
-
-              </div>
-
-            </div>
-
-            <div class="workflow-item">
-
-              <div class="workflow-number">
-                5
-              </div>
-
-              <div class="workflow-content">
-
-                <strong>
-                  Track automatically
-                </strong>
-
-                <span>
-                  Save the application directly to your NextZiel tracker.
-                </span>
-
-              </div>
-
-            </div>
-
-          </div>
-
-          <div class="integration-note">
-
-            <div class="note-icon">
-              <i class="bi bi-info-circle"></i>
-            </div>
-
-            <div>
-
-              <strong>
-                Email integration coming soon
-              </strong>
-
-              <p>
-                Direct backend email delivery will be enabled in the next phase.
-              </p>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
+  <footer class="status-tracker" *ngIf="analysis">
+    <div *ngFor="let status of statusFlow; let index = index" [class.complete]="index <= completedStatusIndex"><i class="bi" [ngClass]="index < completedStatusIndex ? 'bi-check-circle-fill' : 'bi-circle'"></i><strong>{{ status }}</strong></div>
+  </footer>
 </div>
