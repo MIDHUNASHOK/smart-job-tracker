@@ -10,3 +10,4 @@ export const environment = {
   apiUrl:
     'https://jobpilot-api-whlc.onrender.com/api'
 };
+
