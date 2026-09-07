@@ -86,7 +86,49 @@
           <input class="form-control mb-2" [formControl]="$any(f['subject'])" placeholder="Email subject">
           <textarea class="form-control document-editor" [formControl]="$any(f['applicationEmail'])"></textarea>
         </div>
-        <div class="document-actions"><button class="btn action-outline" type="button" (click)="regenerateDocument()"><i class="bi bi-stars"></i> Regenerate</button><button class="btn action-outline" type="button"><i class="bi bi-eye"></i> Preview CV</button><button class="btn primary-btn" type="button"><i class="bi bi-download"></i> Download CV</button></div>
+       <div class="document-actions">
+  <button
+    class="btn action-outline"
+    type="button"
+    [disabled]="isPreparing"
+    (click)="regenerateDocument()"
+  >
+    <span
+      *ngIf="isPreparing"
+      class="spinner-border spinner-border-sm"
+    ></span>
+
+    <i
+      *ngIf="!isPreparing"
+      class="bi bi-stars"
+    ></i>
+
+    {{ isPreparing
+      ? 'Regenerating...'
+      : 'Regenerate'
+    }}
+  </button>
+
+  <button
+    class="btn action-outline"
+    type="button"
+    [disabled]="!f['tailoredCv'].value"
+    (click)="previewCv()"
+  >
+    <i class="bi bi-eye"></i>
+    Preview CV
+  </button>
+
+  <button
+    class="btn primary-btn"
+    type="button"
+    [disabled]="!f['tailoredCv'].value"
+    (click)="downloadCv()"
+  >
+    <i class="bi bi-download"></i>
+    Download CV
+  </button>
+</div>
       </section>
     </main>
 
