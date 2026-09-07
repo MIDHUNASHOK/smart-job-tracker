@@ -1,6 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { finalize, Subscription } from 'rxjs';
+import {
+  SmartApplyService
+} from '../../core/services/smart-apply.service';
 
 type WorkflowStep = 1 | 2 | 3 | 4;
 type ApplicationMethod = 'LINKEDIN' | 'INDEED' | 'EMAIL' | 'COMPANY_WEBSITE';
@@ -92,7 +95,10 @@ export class SmartApplyComponent implements OnDestroy {
 
   private readonly subscriptions = new Subscription();
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private smartApplyService: SmartApplyService
+  ) {
     this.updateApplicationValidators('LINKEDIN');
     this.subscriptions.add(
       this.f['applicationMethod'].valueChanges.subscribe((method: ApplicationMethod) => {
@@ -155,39 +161,42 @@ CI/CD and Docker. This is a full-time hybrid role based in Berlin.`
       return;
     }
 
+    const request = {
+      jobTitle: this.f['jobTitle'].value,
+      companyName: this.f['companyName'].value,
+      location: this.f['location'].value,
+      workPreference: this.f['workPreference'].value,
+      jobDescription: this.f['jobDescription'].value
+    };
+
     this.isAnalyzing = true;
 
-    // Replace this timeout and mock result with POST /api/smart-apply/analyze.
-    setTimeout(() => {
-      this.analysis = {
-        scores: { overall: 87, skills: 90, experience: 85, location: 100, workPreference: 75 },
-        matchedSkills: ['Angular', 'TypeScript', 'RxJS', 'Node.js', 'PostgreSQL'],
-        missingSkills: ['Docker', 'Kubernetes'],
-        missingKeywords: ['CI/CD', 'REST APIs', 'Scalability'],
-        strongExperienceEvidence: [
-          'Built Angular applications integrated with Node.js and PostgreSQL.',
-          'Led development of a production web application and worked with REST APIs.'
-        ],
-        cvImprovements: [
-          'Highlight projects where you designed or consumed REST APIs.',
-          'Add measurable performance, delivery or scalability results.',
-          'Mention CI/CD or Docker only if you have genuine practical experience.'
-        ],
-        recommendedSummary: 'Angular-focused full-stack developer with experience building responsive applications using TypeScript, RxJS, Node.js, REST APIs and PostgreSQL. Experienced in leading application development and delivering maintainable, user-centred software.',
-        interviewSuggestions: [
-          'Explain Angular change detection and component lifecycle hooks.',
-          'Prepare an example of solving an RxJS data-flow problem.',
-          'Describe how you design and secure a REST API.',
-          'Review PostgreSQL indexing and query optimisation.',
-          'Prepare a truthful answer about your current Docker experience.'
-        ]
-      };
+    const analysisSubscription = this.smartApplyService
+      .analyzeJob(request)
+      .pipe(finalize(() => {
+        this.isAnalyzing = false;
+      }))
+      .subscribe({
+        next: response => {
+          this.analysis = response.data;
+          this.f['tailoredSummary'].setValue(
+            response.data.recommendedSummary
+          );
+          this.currentStep = 2;
+          this.applicationStatus = 'ANALYZED';
+        },
+        error: error => {
+          console.error('Smart Apply analysis failed:', error);
 
-      this.f['tailoredSummary'].setValue(this.analysis.recommendedSummary);
-      this.isAnalyzing = false;
-      this.currentStep = 2;
-      this.applicationStatus = 'ANALYZED';
-    }, 800);
+          const message = error.status === 429
+            ? 'The AI service has no available API credit. Please check the backend billing account.'
+            : error.error?.message || 'Unable to analyze this job right now.';
+
+          alert(message);
+        }
+      });
+
+    this.subscriptions.add(analysisSubscription);
   }
 
   prepareApplication(): void {

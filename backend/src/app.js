@@ -15,6 +15,7 @@ const experienceRoutes =require('./routes/experience.routes');
 const educationRoutes =require('./routes/education.routes');
 const certificationRoutes =require('./routes/certification.routes');
 const languageRoutes =require('./routes/language.routes');
+const smartApplyRoutes =require('./routes/smartApply.routes');
 
 const app = express();
 
@@ -48,6 +49,7 @@ app.use('/api/profile/skills', skillRoutes);
 app.use('/api/profile/educations',educationRoutes);
 app.use('/api/profile/certifications',certificationRoutes);
 app.use('/api/profile/languages',languageRoutes);
+app.use('/api/smart-apply', smartApplyRoutes);
 
 
 // 404 Handler
