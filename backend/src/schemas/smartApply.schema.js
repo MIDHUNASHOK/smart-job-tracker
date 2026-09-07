@@ -20,6 +20,18 @@ const smartApplyAnalysisSchema = z.object({
   interviewSuggestions: z.array(z.string())
 });
 
+const smartApplyDocumentsSchema = z.object({
+  subject: z.string(),
+
+  tailoredCv: z.string(),
+
+  coverLetter: z.string(),
+
+  applicationEmail: z.string()
+});
+
+
 module.exports = {
-  smartApplyAnalysisSchema
+  smartApplyAnalysisSchema,
+  smartApplyDocumentsSchema
 };

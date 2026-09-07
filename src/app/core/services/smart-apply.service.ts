@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {
+  HttpClient
+} from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { environment } from '../../../environments/environment';
+import {
+  environment
+} from '../../../environments/environment';
 
 export interface ScoreBreakdown {
   overall: number;
@@ -23,17 +27,42 @@ export interface SmartApplyAnalysis {
   interviewSuggestions: string[];
 }
 
-interface AnalyzeResponse {
-  success: boolean;
-  data: SmartApplyAnalysis;
-}
-
 export interface AnalyzeJobRequest {
   jobTitle: string;
   companyName: string;
   location: string;
   workPreference: string;
   jobDescription: string;
+}
+
+export interface GeneratedApplication {
+  subject: string;
+  tailoredCv: string;
+  coverLetter: string;
+  applicationEmail: string;
+}
+
+export interface GenerateApplicationRequest {
+  job: {
+    jobTitle: string;
+    companyName: string;
+    location: string;
+    workPreference: string;
+    jobDescription: string;
+  };
+
+  analysis: SmartApplyAnalysis;
+  tailoredSummary: string;
+}
+
+interface AnalyzeResponse {
+  success: boolean;
+  data: SmartApplyAnalysis;
+}
+
+interface GenerateApplicationResponse {
+  success: boolean;
+  data: GeneratedApplication;
 }
 
 @Injectable({
@@ -43,13 +72,24 @@ export class SmartApplyService {
   private readonly apiUrl =
     `${environment.apiUrl}/smart-apply`;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient
+  ) {}
 
   analyzeJob(
     data: AnalyzeJobRequest
   ): Observable<AnalyzeResponse> {
     return this.http.post<AnalyzeResponse>(
       `${this.apiUrl}/analyze`,
+      data
+    );
+  }
+
+  generateApplication(
+    data: GenerateApplicationRequest
+  ): Observable<GenerateApplicationResponse> {
+    return this.http.post<GenerateApplicationResponse>(
+      `${this.apiUrl}/generate`,
       data
     );
   }
